@@ -1,114 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lexora AI</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+<title>Lexora</title>
+<meta name="theme-color" content="#0A0A0C" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<link rel="icon" href="icon-192.png" />
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #0A0A0C; height: 100%; overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
+  #root { min-height: 100dvh; display: flex; flex-direction: column; }
+</style>
 </head>
-<body class="bg-slate-900 text-white min-h-screen">
-  <div id="root">
-    <div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;color:#94a3b8;">
-      Loading Lexora...
-    </div>
+<body>
+<div id="root">
+  <div style="display:flex;align-items:center;justify-content:center;min-height:100dvh;color:#96949C;font-family:sans-serif;font-size:14px;">
+    Loading Lexora…
   </div>
+</div>
 
-  <!-- React 18 & Babel Standalone (Cloudflare CDN) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" crossorigin></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js" crossorigin></script>
+<!-- High-Speed Cloudflare / jsDelivr CDNs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" crossorigin></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js" crossorigin></script>
 
-  <script type="text/babel">
-    const { useState } = React;
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef, useMemo } = React;
 
-    const SparklesIcon = () => (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-      </svg>
-    );
+/* SVG Icons */
+function Icon({ children, size = 20, color = "currentColor", strokeWidth = 2, style }) {
+  return React.createElement("svg", {
+    width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    stroke: color, strokeWidth, strokeLinecap: "round", strokeLinejoin: "round", style,
+  }, children);
+}
+const ChevronLeft = (p) => <Icon {...p}><polyline points="15 18 9 12 15 6" /></Icon>;
+const ChevronRight = (p) => <Icon {...p}><polyline points="9 18 15 12 9 6" /></Icon>;
+const Bookmark = (p) => <Icon {...p}><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></Icon>;
+const BookmarkCheck = (p) => <Icon {...p}><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /><polyline points="9 10 11 12 15 8" /></Icon>;
+const Search = (p) => <Icon {...p}><circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></Icon>;
+const User = (p) => <Icon {...p}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></Icon>;
+const HomeIcon = (p) => <Icon {...p}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></Icon>;
+const BarChart3 = (p) => <Icon {...p}><line x1="12" y1="20" x2="12" y2="10" /><line x1="18" y1="20" x2="18" y2="4" /><line x1="6" y1="20" x2="6" y2="16" /></Icon>;
+const RotateCcw = (p) => <Icon {...p}><polyline points="1 4 1 10 7 10" /><path d="M3.51 15a9 9 0 1 0 .49-9.36L1 10" /></Icon>;
+const Volume2 = (p) => <Icon {...p}><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" /></Icon>;
+const Check = (p) => <Icon {...p}><polyline points="20 6 9 17 4 12" /></Icon>;
+const X = (p) => <Icon {...p}><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></Icon>;
 
-    const SendIcon = () => (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-      </svg>
-    );
+/* Design Tokens */
+const T = {
+  bg: "#0A0A0C",
+  surface: "#131317",
+  card: "#1B1B20",
+  cardAlt: "#201F24",
+  border: "rgba(255,255,255,0.07)",
+  borderStrong: "rgba(255,255,255,0.12)",
+  text: "#F0EEE8",
+  textDim: "#96949C",
+  textFaint: "#59575F",
+  accent: "#C6A165",
+  accentSoft: "rgba(198,161,101,0.10)",
+  accentLine: "rgba(198,161,101,0.30)",
+  good: "#7DAD8C",
+  goodSoft: "rgba(125,173,140,0.13)",
+  bad: "#C2716B",
+  badSoft: "rgba(194,113,107,0.12)",
+};
 
-    function App() {
-      const [messages, setMessages] = useState([
-        { role: 'assistant', text: 'Hello! I am Lexora, your AI companion. How can I help you today?' }
-      ]);
-      const [input, setInput] = useState('');
+/* Content Bank */
+const WORD_BANK = [
+  {
+    id: "w1", word: "Pragmatic", pos: "adjective", ipa: "/præɡˈmætɪk/",
+    difficulty: "Intermediate", category: "Business",
+    definition: "Dealing with things sensibly, based on practical considerations rather than theory or ideals.",
+    useWhen: "You want to describe an approach chosen because it works, not because it's ideal.",
+    avoidWhen: "You simply mean 'good' or 'effective' — pragmatic is about method, not quality.",
+    professionalExample: "We need a pragmatic approach to the timeline — it's slipping.",
+    conversationExample: "Let's be pragmatic about this and just pick one.",
+    commonMistake: "Don't use it as a stand-in for 'good'.",
+    synonyms: ["practical", "sensible", "realistic"],
+    fillBlank: { text: "We need a ___ approach before Friday.", answer: "pragmatic" },
+    question: { prompt: "Which sentence uses 'pragmatic' correctly?", options: [
+      "She gave a pragmatic performance that moved everyone.",
+      "He took a pragmatic view and cut the feature to hit the deadline.",
+    ], correct: 1 },
+  },
+  {
+    id: "w2", word: "Candid", pos: "adjective", ipa: "/ˈkændɪd/",
+    difficulty: "Foundation", category: "Leadership",
+    definition: "Truthful and straightforward, especially about something difficult.",
+    useWhen: "You want to signal that honest, direct feedback is coming.",
+    avoidWhen: "The moment calls for tact more than bluntness — candid can read as blunt.",
+    professionalExample: "I'll be candid with you — this draft isn't ready yet.",
+    conversationExample: "Can I be candid? I don't think that's the right call.",
+    commonMistake: "Don't confuse with 'candidate'.",
+    synonyms: ["frank", "honest", "direct"],
+    fillBlank: { text: "I'll be ___ with you — this needs more work.", answer: "candid" },
+    question: { prompt: "Which sentence uses 'candid' correctly?", options: [
+      "The report was candid about the missed targets.",
+      "She candid the meeting for 3pm.",
+    ], correct: 0 },
+  },
+  {
+    id: "w3", word: "Nuance", pos: "noun", ipa: "/ˈnjuːɑːns/",
+    difficulty: "Advanced", category: "Writing",
+    definition: "A subtle difference in meaning, tone, or feeling.",
+    useWhen: "You're pointing out a small but meaningful distinction others might miss.",
+    avoidWhen: "The difference you mean is actually large — nuance implies subtlety, not a major gap.",
+    professionalExample: "There's a nuance between 'delayed' and 'cancelled' that the email missed.",
+    conversationExample: "I think you're missing a bit of nuance there.",
+    commonMistake: "It's a noun, not a verb — avoid 'to nuance something.'",
+    synonyms: ["subtlety", "shade", "distinction"],
+    fillBlank: { text: "The translation lost some of the original's ___.", answer: "nuance" },
+    question: { prompt: "Which sentence uses 'nuance' correctly?", options: [
+      "We need to nuance the report by Friday.",
+      "The translation lost some of the original's nuance.",
+    ], correct: 1 },
+  },
+  {
+    id: "w4", word: "Articulate", pos: "adjective", ipa: "/ɑːrˈtɪkjəleɪt/",
+    difficulty: "Intermediate", category: "Public Speaking",
+    definition: "Able to express ideas clearly and effectively.",
+    useWhen: "You're describing someone who explains complex ideas in a way others can follow.",
+    avoidWhen: "You just mean someone talks a lot — articulate is about clarity, not volume.",
+    professionalExample: "She was articulate under pressure, even with the panel pushing back.",
+    conversationExample: "He's always so articulate when he explains things.",
+    commonMistake: "Don't use it to mean 'eloquent in writing only' — it applies to speech too.",
+    synonyms: ["eloquent", "clear", "coherent"],
+    fillBlank: { text: "She stayed ___ even when the panel pushed back.", answer: "articulate" },
+    question: { prompt: "Which sentence uses 'articulate' correctly?", options: [
+      "He articulated the report to his desk before leaving.",
+      "She gave an articulate answer that settled the debate.",
+    ], correct: 1 },
+  },
+  {
+    id: "w5", word: "Concise", pos: "adjective", ipa: "/kənˈsaɪs/",
+    difficulty: "Foundation", category: "Writing",
+    definition: "Giving information clearly, in few words.",
+    useWhen: "You want writing or speech that covers what matters without padding.",
+    avoidWhen: "You mean 'vague' or 'incomplete' — concise still means clear, just brief.",
+    professionalExample: "Keep the summary concise — one paragraph, no more.",
+    conversationExample: "Can you give me the concise version?",
+    commonMistake: "Concise isn't just 'short' — a concise answer still covers what matters.",
+    synonyms: ["brief", "succinct", "compact"],
+    fillBlank: { text: "Keep the summary ___ — one paragraph is enough.", answer: "concise" },
+    question: { prompt: "Which sentence uses 'concise' correctly?", options: [
+      "His concise reply left out three key details nobody needed.",
+      "She gave a concise summary that covered everything in two lines.",
+    ], correct: 1 },
+  },
+];
 
-      const handleSend = () => {
-        if (!input.trim()) return;
-        const userMsg = input;
-        setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
-        setInput('');
-        setTimeout(() => {
-          setMessages(prev => [
-            ...prev,
-            { role: 'assistant', text: `Received: "${userMsg}". Lexora prototype is active!` }
-          ]);
-        }, 600);
-      };
+function buildWeekLessons() {
+  const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  let cursor = 0;
+  return days.map((d) => {
+    const words = [];
+    for (let i = 0; i < 5 && cursor < WORD_BANK.length; i++) words.push(WORD_BANK[cursor++]);
+    while (words.length < 5) words.push(WORD_BANK[words.length % WORD_BANK.length]);
+    return { day: d, words };
+  });
+}
+const WEEK_LESSONS = buildWeekLessons();
+const TODAY_INDEX = 4;
 
-      return (
-        <div className="flex flex-col h-screen max-w-2xl mx-auto p-4">
-          <header className="flex items-center gap-3 py-4 border-b border-slate-800 mb-4">
-            <div className="p-2.5 bg-indigo-600 rounded-xl text-white shadow-lg shadow-indigo-500/30">
-              <SparklesIcon />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-white">Lexora AI</h1>
-              <p className="text-xs text-emerald-400 font-medium">● Online & Ready</p>
-            </div>
-          </header>
+function getWeekState() {
+  return WEEK_LESSONS.map((l, i) => ({
+    day: l.day,
+    status: i < TODAY_INDEX ? "done" : i === TODAY_INDEX ? "today" : "pending",
+  })).concat([{ day: "SUN", status: "review" }]);
+}
 
-          <main className="flex-1 overflow-y-auto space-y-4 pr-1">
-            {messages.map((m, idx) => (
-              <div
-                key={idx}
-                className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-                    m.role === 'user'
-                      ? 'bg-indigo-600 text-white rounded-br-none shadow-md'
-                      : 'bg-slate-800 text-slate-200 rounded-bl-none border border-slate-700/80 shadow-md'
-                  }`}
-                >
-                  {m.text}
-                </div>
-              </div>
-            ))}
-          </main>
+function getTodayLesson() {
+  return WEEK_LESSONS[TODAY_INDEX];
+}
 
-          <footer className="pt-4 border-t border-slate-800 mt-2">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && handleSend()}
-                placeholder="Ask Lexora anything..."
-                className="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-slate-500"
-              />
-              <button
-                onClick={handleSend}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white p-3 rounded-xl transition-all shadow-md active:scale-95"
-              >
-                <SendIcon />
-              </button>
-            </div>
-          </footer>
+function getWeekWordsSoFar() {
+  return WEEK_LESSONS.slice(0, TODAY_INDEX + 1).flatMap((l) => l.words);
+}
+
+function useFonts() {
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap";
+    document.head.appendChild(link);
+    return () => { if (document.head.contains(link)) document.head.removeChild(link); };
+  }, []);
+}
+
+function AppShell({ children }) {
+  return (
+    <div style={{ background: T.bg, minHeight: "100dvh", width: "100%", display: "flex", justifyContent: "center", fontFamily: "'Inter', sans-serif" }}>
+      <div style={{ width: "100%", maxWidth: 480, minHeight: "100dvh", display: "flex", flexDirection: "column", position: "relative", background: T.bg }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function TopLabel({ children }) {
+  return <div style={{ fontSize: 12.5, letterSpacing: "0.1em", color: T.textFaint, fontWeight: 600, textTransform: "uppercase" }}>{children}</div>;
+}
+
+function PrimaryButton({ children, onClick, disabled, style }) {
+  return (
+    <button onClick={onClick} disabled={disabled} style={{
+      background: disabled ? T.cardAlt : T.accent, color: disabled ? T.textFaint : "#181209",
+      border: "none", borderRadius: 16, padding: "15px", fontSize: 15, fontWeight: 600,
+      width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+      cursor: disabled ? "not-allowed" : "pointer", ...style,
+    }}>
+      {children}
+    </button>
+  );
+}
+
+function BottomNav({ active, onNav }) {
+  const items = [
+    { id: "home", icon: HomeIcon, label: "Home" },
+    { id: "learn", icon: Search, label: "Learn" },
+    { id: "review", icon: RotateCcw, label: "Review" },
+    { id: "progress", icon: BarChart3, label: "Progress" },
+    { id: "profile", icon: User, label: "Profile" },
+  ];
+  return (
+    <div style={{
+      display: "flex", justifyContent: "space-around", alignItems: "center",
+      padding: "12px 4px calc(18px + env(safe-area-inset-bottom))", borderTop: `1px solid ${T.border}`,
+      background: T.surface, flexShrink: 0,
+    }}>
+      {items.map(({ id, icon: Icon, label }) => (
+        <button key={id} onClick={() => onNav(id)} style={{ background: "none", border: "none", padding: 6, display: "flex", flexDirection: "column", alignItems: "center", gap: 3, cursor: "pointer" }}>
+          <Icon size={20} color={active === id ? T.accent : T.textFaint} strokeWidth={1.75} />
+          <span style={{ fontSize: 9.5, color: active === id ? T.accent : T.textFaint, fontWeight: 600 }}>{label}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* Home Screen */
+function HomeScreen({ onStart, onNav, weekState, streak, onOpenSundayReview }) {
+  const lesson = getTodayLesson();
+  const doneCount = weekState.filter((d) => d.status === "done").length;
+  return (
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      <div style={{ height: 22 }} />
+      <div style={{ flex: 1, overflowY: "auto", padding: "8px 24px 0" }}>
+        <TopLabel>Today &middot; Friday</TopLabel>
+        <div style={{ fontFamily: "'Fraunces', serif", fontSize: 25, color: T.text, fontWeight: 500, margin: "8px 0 2px" }}>
+          Your lesson is ready.
         </div>
-      );
-    }
 
-    const rootElement = document.getElementById("root");
-    const root = ReactDOM.createRoot(rootElement);
-    root.render(<App />);
-  </script>
-</body>
-</html>
+        <div style={{
+          marginTop: 20, borderRadius: 26, padding: 24,
+          background: T.card, border: `1px solid ${T.border}`, position: "relative",
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 16 }}>
+            <span style={{ fontSize: 14, color: T.textDim }}>5 words &middot; 10 minutes</span>
+            <span style={{ fontSize: 12.5, color: T.accent, fontWeight: 600 }}>{lesson.words[0].category}</span>
+          </div>
+          <div style={{ display: "flex", gap: 6, marginBottom: 20 }}>
+            {lesson.words.map((_, i) => (
+              <div key={i} style={{ flex: 1, height: 4, borderRadius: 2, background: T.accent }} />
+            ))}
+          </div>
+          <PrimaryButton onClick={onStart}>Start today's lesson <ChevronRight size={17} /></PrimaryButton>
+        </div>
+
+        <div style={{ margin: "24px 2px 12px" }}>
+          <span style={{ fontFamily: "'Fraunces', serif", fontSize: 20, color: T.accent, letterSpacing: "0.02em" }}>{streak} DAY STREAK</span>
+          <div style={{ fontSize: 13, color: T.textFaint, marginTop: 3 }}>Keep your rhythm.</div>
+        </div>
+
+        <TopLabel>This week</TopLabel>
+        <div style={{
+          marginTop: 12, display: "flex", justifyContent: "space-between",
+          background: T.card, border: `1px solid ${T.border}`, borderRadius: 22, padding: "16px 10px", marginBottom: 10,
+        }}>
+          {weekState.map((day) => (
+            <div
+              key={day.day}
+              onClick={day.status === "review" ? onOpenSundayReview : undefined}
+              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, cursor: day.status === "review" ? "pointer" : "default" }}
+            >
+              <div style={{ fontSize: 10, letterSpacing: "0.06em", color: T.textFaint, fontWeight: 600 }}>{day.day}</div>
+              <DayMark status={day.status} />
+            </div>
+          ))}
+        </div>
+        <div style={{ fontSize: 12.5, color: T.textFaint, margin: "0 2px 24px" }}>{doneCount} of 6 lessons complete this week &middot; tap Sunday for weekly review</div>
+      </div>
+      <BottomNav active="home" onNav={onNav} />
+    </div>
+  );
+}
+
+function DayMark({ status }) {
+  if (status === "done") return (
+    <div style={{ width: 24, height: 24, borderRadius: "50%", background: T.accentSoft, border: `1px solid ${T.accentLine}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <Check size={12} color={T.accent} strokeWidth={2.5} />
+    </div>
+  );
+  if (status === "today") return <div style={{ width: 24, height: 24, borderRadius: "50%", background: T.accent }} />;
+  if (status === "review") return <div style={{ width: 24, height: 24, borderRadius: "50%", border: `1.5px dashed ${T.textFaint}` }} />;
+  return <div style={{ width: 24, height: 24, borderRadius: "50%", border: `1px solid ${T.border}` }} />;
+}
+
+/* Word Detail Screen */
+function WordScreen({ word, index, total, onNext, onPrev, saved, onToggleSave }) {
+  const [playing, setPlaying] = useState(false);
+
+  const speak = (rate) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(word.word);
+      utterance.rate = rate;
+      setPlaying(true);
+      utterance.onend = () => setPlaying(false);
+      utterance.onerror = () => setPlaying(false);
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  return (
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      <div style={{ height: 22 }} />
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px 6px" }}>
+        <button onClick={onPrev} style={{ background: "none", border: "none", padding: 6, opacity: index === 0 ? 0.3 : 1, cursor: "pointer" }}>
+          <ChevronLeft size={20} color={T.textDim} />
+        </button>
+        <div style={{ display: "flex", gap: 6 }}>
+          {Array.from({ length: total }).map((_, i) => (
+            <div key={i} style={{ width: i === index ? 18 : 6, height: 6, borderRadius: 3, background: i === index ? T.accent : i < index ? T.textFaint : T.border, transition: "all 0.25s" }} />
+          ))}
+        </div>
+        <button onClick={() => onToggleSave(word.id)} style={{ background: "none", border: "none", padding: 6, cursor: "pointer" }}>
+          {saved ? <BookmarkCheck size={19} color={T.accent} /> : <Bookmark size={19} color={T.textDim} />}
+        </button>
+      </div>
+
+      <div style={{ flex: 1, overflowY: "auto", padding: "6px 24px 24px" }}>
+        <div style={{ borderRadius: 26, padding: "30px 24px 22px", textAlign: "center", marginBottom: 20, background: T.card, border: `1px solid ${T.border}` }}>
+          <div style={{ fontSize: 11.5, color: T.textFaint, letterSpacing: "0.1em", marginBottom: 9, textTransform: "uppercase" }}>{word.pos} &middot; {word.difficulty} &middot; {word.category}</div>
+          <div style={{ fontFamily: "'Fraunces', serif", fontSize: 40, color: T.text, fontWeight: 500, marginBottom: 8, lineHeight: 1.05 }}>{word.word}</div>
+          <div style={{ fontSize: 13.5, color: T.textDim, marginBottom: 18 }}>{word.ipa}</div>
+          <div style={{ display: "flex", justifyContent: "center", gap: 10 }}>
+            <button onClick={() => speak(1.0)} style={{ display: "flex", alignItems: "center", gap: 7, background: playing ? T.accent : T.cardAlt, border: `1px solid ${T.border}`, borderRadius: 14, padding: "9px 16px", color: playing ? "#181209" : T.text, fontSize: 13, fontWeight: 500, cursor: "pointer" }}>
+              <Volume2 size={15} /> {playing ? "Playing..." : "Listen"}
+            </button>
+            <button onClick={() => speak(0.6)} style={{ background: T.cardAlt, border: `1px solid ${T.border}`, borderRadius: 14, padding: "9px 16px", color: T.textDim, fontSize: 13, fontWeight: 500, cursor: "pointer" }}>Slow</button>
+          </div>
+        </div>
+
+        <div style={{ marginBottom: 18 }}>
+          <TopLabel>Meaning</TopLabel>
+          <p style={{ color: T.text, fontSize: 15.5, lineHeight: 1.55, margin: "8px 0 0" }}>{word.definition}</p>
+        </div>
+
+        <TopLabel>Use it when</TopLabel>
+        <p style={{ color: T.text, fontSize: 14.5, lineHeight: 1.55, margin: "8px 0 16px" }}>{word.useWhen}</p>
+        <TopLabel>Avoid it when</TopLabel>
+        <p style={{ color: T.textDim, fontSize: 14.5, lineHeight: 1.55, margin: "8px 0 20px" }}>{word.avoidWhen}</p>
+
+        <TopLabel>Professional Context</TopLabel>
+        <div style={{ borderLeft: `2px solid ${T.accentLine}`, paddingLeft: 14, margin: "10px 0 18px", color: T.textDim, fontSize: 14.5, fontStyle: "italic", lineHeight: 1.5 }}>"{word.professionalExample}"</div>
+        <TopLabel>Conversational Context</TopLabel>
+        <div style={{ borderLeft: `2px solid ${T.accentLine}`, paddingLeft: 14, margin: "10px 0 18px", color: T.textDim, fontSize: 14.5, 
