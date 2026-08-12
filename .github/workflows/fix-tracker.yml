@@ -1,0 +1,48 @@
+name: Fix Lexora weekly tracker
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix-tracker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update tracker logic
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = '''<div class="card weekCard"><div class="week">${days.map((d,i)=>{const status=i<5?'done':i===5?'today':'empty';return `<div class="day">${d}<div class="dot ${status}">${status==='done'?'✓':''}</div></div>`}).join('')}</div></div>'''
+          new = '''<div class="card weekCard"><div class="week">${days.map((d,i)=>{const status=weekStatus(i);return `<div class="day">${d}<div class="dot ${status}">${status==='done'?'✓':''}</div></div>`}).join('')}</div></div>'''
+          if old not in s:
+              raise SystemExit('Target tracker markup not found')
+          s = s.replace(old, new, 1)
+
+          old2 = '''function todayKey(){const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}'''
+          new2 = '''function lagosDateParts(){const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Africa/Lagos',year:'numeric',month:'2-digit',day:'2-digit',weekday:'short'}).formatToParts(new Date());const out={};parts.forEach(p=>{if(p.type!=='literal')out[p.type]=p.value});return out}
+function todayKey(){const p=lagosDateParts();return `${p.year}-${Number(p.month)}-${Number(p.day)}`}
+function todayIndex(){const p=lagosDateParts();return ({Mon:0,Tue:1,Wed:2,Thu:3,Fri:4,Sat:5,Sun:6})[p.weekday]}
+function weekDateKey(index){const p=lagosDateParts();const base=new Date(Date.UTC(Number(p.year),Number(p.month)-1,Number(p.day)));base.setUTCDate(base.getUTCDate()+(index-todayIndex()));return `${base.getUTCFullYear()}-${base.getUTCMonth()+1}-${base.getUTCDate()}`}
+function weekStatus(index){const key=weekDateKey(index);if(state.completed[key])return 'done';return index===todayIndex()?'today':'empty'}'''
+          if old2 not in s:
+              raise SystemExit('Target todayKey function not found')
+          s = s.replace(old2, new2, 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit tracker fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No tracker changes needed"
+            exit 0
+          fi
+          git commit -m "Fix weekly tracker current day logic"
+          git push
