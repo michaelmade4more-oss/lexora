@@ -1,0 +1,65 @@
+name: Fix Lexora weekday tracker
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  tracker:
+    if: ${{ !contains(github.event.head_commit.message, '[tracker-fix]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch weekday tracker without changing app design
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = 'LEXORA_TRACKER_DATE_FIX_V1'
+          if marker in s:
+              print('Tracker patch already present')
+              raise SystemExit(0)
+          patch = r'''<script>
+          /* LEXORA_TRACKER_DATE_FIX_V1
+             Keeps the existing visual design and completed marks.
+             Only the active weekday follows Africa/Lagos time. */
+          (function(){
+            const labels=['MON','TUE','WED','THU','FRI','SAT','SUN'];
+            function lagosDay(){
+              const name=new Intl.DateTimeFormat('en-US',{timeZone:'Africa/Lagos',weekday:'short'}).format(new Date()).toUpperCase();
+              return {MON:0,TUE:1,WED:2,THU:3,FRI:4,SAT:5,SUN:6}[name.slice(0,3)];
+            }
+            function fix(){
+              const days=document.querySelectorAll('.week .day');
+              if(days.length!==7)return;
+              const today=lagosDay();
+              days.forEach((day,i)=>{
+                const dot=day.querySelector('.dot');
+                if(!dot)return;
+                dot.classList.remove('today');
+                if(i===today && !dot.classList.contains('done')) dot.classList.add('today');
+              });
+            }
+            let last=-1;
+            function tick(){const d=lagosDay();if(d!==last){last=d;fix();}}
+            new MutationObserver(fix).observe(document.getElementById('app'),{childList:true,subtree:true});
+            setTimeout(fix,50);setTimeout(fix,300);setTimeout(fix,1000);
+            setInterval(tick,30000);
+          })();
+          </script>'''
+          if '</body>' not in s:
+              raise SystemExit('Could not find closing body tag')
+          s=s.replace('</body>', patch+'\n</body>', 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit tracker patch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Fix weekday tracker [tracker-fix]"
+          git push
