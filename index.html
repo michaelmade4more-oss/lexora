@@ -400,5 +400,33 @@ document.addEventListener('click',e=>{
 document.addEventListener('input',e=>{if(e.target.id==='wordSearch')filterWords()});
 render();
 </script>
+<script>
+/* LEXORA_TRACKER_DATE_FIX_V1
+   Keeps the existing visual design and completed marks.
+   Only the active weekday follows Africa/Lagos time. */
+(function(){
+  const labels=['MON','TUE','WED','THU','FRI','SAT','SUN'];
+  function lagosDay(){
+    const name=new Intl.DateTimeFormat('en-US',{timeZone:'Africa/Lagos',weekday:'short'}).format(new Date()).toUpperCase();
+    return {MON:0,TUE:1,WED:2,THU:3,FRI:4,SAT:5,SUN:6}[name.slice(0,3)];
+  }
+  function fix(){
+    const days=document.querySelectorAll('.week .day');
+    if(days.length!==7)return;
+    const today=lagosDay();
+    days.forEach((day,i)=>{
+      const dot=day.querySelector('.dot');
+      if(!dot)return;
+      dot.classList.remove('today');
+      if(i===today && !dot.classList.contains('done')) dot.classList.add('today');
+    });
+  }
+  let last=-1;
+  function tick(){const d=lagosDay();if(d!==last){last=d;fix();}}
+  new MutationObserver(fix).observe(document.getElementById('app'),{childList:true,subtree:true});
+  setTimeout(fix,50);setTimeout(fix,300);setTimeout(fix,1000);
+  setInterval(tick,30000);
+})();
+</script>
 </body>
 </html>
