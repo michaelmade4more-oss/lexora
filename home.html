@@ -144,7 +144,7 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
 .thoughtLeft{flex:1;min-width:0}
 .thoughtEyebrow{color:var(--faint);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
 .thoughtQuote{font-size:15.5px;line-height:1.38;font-weight:550;letter-spacing:-.005em;margin:9px 0 9px;text-wrap:pretty}
-.thoughtSub{color:var(--muted);font-size:10.5px;line-height:1.5;margin:0;text-wrap:balance}
+.thoughtSub{color:var(--muted);font-size:10.5px;line-height:1.5;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .thoughtIllustration{flex:0 0 92px;width:92px;display:flex;align-items:flex-end;justify-content:center}
 .thoughtIllustration img{width:100%;height:auto;display:block;filter:drop-shadow(0 10px 16px rgba(0,0,0,.45))}
 .thoughtIllustration img.imgFallback{height:120px;background:var(--surface2);border:1px solid var(--line);
@@ -228,7 +228,7 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
       <div class="thoughtLeft">
         <div class="thoughtEyebrow">A thought for today</div>
         <p class="thoughtQuote">Good communication is not about saying more. It is about saying what matters.</p>
-        <p class="thoughtSub">Let today's words sharpen what you mean.</p>
+        <p class="thoughtSub">Make today's five words count.</p>
       </div>
       <div class="thoughtIllustration">
         <img src="assets/illustrations/home-thought-01.png" alt="Lexora character in editorial dress, gesturing thoughtfully" onerror="this.classList.add('imgFallback');this.removeAttribute('src')">
