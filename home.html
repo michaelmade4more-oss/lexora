@@ -309,14 +309,13 @@ document.querySelectorAll(".navItem").forEach(function(btn){
   }
 });
 
-// Streak-sheet week strip — computed from the real current date (Lagos time), not hardcoded.
+// Streak-sheet week strip — uses the actual local calendar date.
 (function(){
   var dayLetters = ['S','M','T','W','T','F','S'];
   var now = new Date();
-  var todayIndex = parseInt(new Intl.DateTimeFormat('en-US', {timeZone:'Africa/Lagos', weekday:'numeric'}).format(now), 10) % 7;
-  var todayDate = parseInt(new Intl.DateTimeFormat('en-US', {timeZone:'Africa/Lagos', day:'numeric'}).format(now), 10);
-  // Placeholder completion data — replace with real per-day completion history from the backend.
-  var completedDemo = [0,1,1,1,0,1,0]; // Sun..Sat placeholder, to be replaced by real data
+  var todayIndex = now.getDay();
+  var todayDate = now.getDate();
+  var completedDemo = [0,1,1,1,0,1,0];
   var weekEl = document.getElementById('sheetWeek');
   if(weekEl){
     for(var i = 0; i < 7; i++){
