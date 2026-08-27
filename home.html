@@ -99,9 +99,9 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
   display:flex;align-items:center;justify-content:center;transition:border-color .15s}
 .trialBtn:active{border-color:var(--gold2)}
 
-.homeHeadline{font-size:26px;line-height:1.12;font-weight:700;letter-spacing:-.015em;margin:10px 0 10px;
+.homeHeadline{font-size:24px;line-height:1.15;font-weight:700;letter-spacing:-.015em;margin:9px 0 9px;
   animation:riseIn .5s cubic-bezier(.2,.7,.2,1) .07s both}
-.homeSub{color:var(--muted);font-size:13px;line-height:1.45;margin:0;text-wrap:pretty;
+.homeSub{color:var(--muted);font-size:12px;line-height:1.45;margin:0;text-wrap:pretty;
   animation:riseIn .5s cubic-bezier(.2,.7,.2,1) .1s both}
 @keyframes riseIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
@@ -132,7 +132,7 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
 .streakBannerFlame{flex:0 0 26px;width:26px;height:26px;border-radius:50%;background:rgba(201,162,76,.16);
   display:grid;place-items:center}
 .streakBannerFlame svg{width:14px;height:14px;fill:var(--gold);stroke:none}
-.streakBannerText{font-size:11px;font-weight:500;color:var(--muted)}
+.streakBannerText{font-size:10.5px;font-weight:500;color:var(--muted)}
 .streakBannerText b{color:var(--text);font-weight:650}
 
 .thoughtCard{margin-top:28px;background:var(--surface2);border:1px solid var(--line);border-radius:22px;
@@ -140,8 +140,8 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
   animation:riseIn .5s cubic-bezier(.2,.7,.2,1) .2s both}
 .thoughtLeft{flex:1;min-width:0}
 .thoughtEyebrow{color:var(--faint);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
-.thoughtQuote{font-size:17px;line-height:1.34;font-weight:550;letter-spacing:-.005em;margin:10px 0 10px;text-wrap:pretty}
-.thoughtSub{color:var(--muted);font-size:11px;line-height:1.5;margin:0;text-wrap:balance}
+.thoughtQuote{font-size:15.5px;line-height:1.38;font-weight:550;letter-spacing:-.005em;margin:9px 0 9px;text-wrap:pretty}
+.thoughtSub{color:var(--muted);font-size:10.5px;line-height:1.5;margin:0;text-wrap:balance}
 .thoughtIllustration{flex:0 0 92px;width:92px;display:flex;align-items:flex-end;justify-content:center}
 .thoughtIllustration img{width:100%;height:auto;display:block;filter:drop-shadow(0 10px 16px rgba(0,0,0,.45))}
 .thoughtIllustration img.imgFallback{height:120px;background:var(--surface2);border:1px solid var(--line);
@@ -174,8 +174,8 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
   .btn,.navItem{transition:none}
 }
 @media(max-height:740px){
-  .homeHeadline{font-size:23px}
-  .thoughtQuote{font-size:15px}
+  .homeHeadline{font-size:21px}
+  .thoughtQuote{font-size:14px}
 }
 </style>
 </head>
@@ -231,6 +231,18 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
         <img src="assets/illustrations/home-thought-01.png" alt="Lexora character in editorial dress, gesturing thoughtfully" onerror="this.classList.add('imgFallback');this.removeAttribute('src')">
       </div>
     </div>
+
+    <div class="weekLabel">This week</div>
+    <div class="weekRow">
+      <div class="dayCol"><span class="dayLabel">Mon</span><span class="dayDot missed"></span></div>
+      <div class="dayCol"><span class="dayLabel">Tue</span><span class="dayDot missed"></span></div>
+      <div class="dayCol"><span class="dayLabel">Wed</span><span class="dayDot done"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-9"/></svg></span></div>
+      <div class="dayCol"><span class="dayLabel">Thu</span><span class="dayDot done"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-9"/></svg></span></div>
+      <div class="dayCol"><span class="dayLabel">Fri</span><span class="dayDot today"></span></div>
+      <div class="dayCol"><span class="dayLabel">Sat</span><span class="dayDot upcoming"></span></div>
+      <div class="dayCol"><span class="dayLabel">Sun</span><span class="dayDot upcoming"></span></div>
+    </div>
+    <p class="weekCaption">2 of 7 lessons complete this week</p>
 
   </main>
 
