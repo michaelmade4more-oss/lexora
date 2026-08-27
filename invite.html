@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#09090b">
+<title>Lexora: Invite & Unlock</title>
+<style>
+:root{
+  --bg:#09090b;
+  --surface:#121216;
+  --surface2:#17171c;
+  --line:#25242a;
+  --text:#f1eee7;
+  --muted:#9a98a0;
+  --faint:#626067;
+  --gold:#c9a24c;
+  --gold2:#a9874e;
+  --gold-pale:#e8d9b5;
+  --green:#2e8b75;
+  --green-pale:#7fd6b8;
+  --shadow-card:0 24px 50px -28px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.03);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{min-height:100dvh;overflow-x:hidden}
+button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
+#app{min-height:100dvh;max-width:480px;margin:auto;background:var(--bg);display:flex;flex-direction:column;position:relative}
+main{flex:1}
+
+.ambient{position:absolute;top:0;left:0;right:0;height:280px;
+  background:radial-gradient(circle at 50% 0%,rgba(201,162,76,.18),transparent 62%);pointer-events:none}
+
+.topRow{position:relative;padding:18px 20px 0}
+.backLink{display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-size:14.5px;font-weight:500}
+.backLink svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.heroZone{position:relative;padding:24px 20px 0;text-align:center}
+.heroIcon{width:64px;height:64px;border-radius:50%;margin:0 auto 16px;
+  background:radial-gradient(circle at 32% 28%,var(--gold-pale),var(--gold) 45%,var(--gold2) 100%);
+  padding:5px;box-shadow:0 14px 30px -12px rgba(201,162,76,.5)}
+.heroIconInner{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 50% 40%,var(--bg),var(--surface2) 75%);
+  display:grid;place-items:center}
+.heroIconInner svg{width:28px;height:28px;stroke:var(--gold-pale);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.heroTitle{font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.heroSub{margin-top:8px;color:var(--muted);font-size:14px;line-height:1.5;max-width:320px;margin-left:auto;margin-right:auto}
+
+.linkZone{position:relative;padding:24px 20px 0}
+.linkCard{background:var(--surface2);border:1px solid var(--line);border-radius:16px;padding:14px 16px;
+  display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-card)}
+.linkText{flex:1;font-size:13.5px;color:var(--muted);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.copyBtn{flex:0 0 auto;min-height:36px;padding:0 14px;border-radius:100px;background:var(--surface);border:1px solid var(--line);
+  font-size:12.5px;font-weight:700;color:var(--muted);transition:border-color .15s,color .15s,background .15s}
+.copyBtn.copied{border-color:var(--green);color:var(--green-pale);background:rgba(46,139,117,.14)}
+
+.shareRow{display:flex;gap:10px;margin-top:12px}
+.shareBtn{flex:1;min-height:50px;border-radius:14px;background:var(--surface2);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;gap:8px;font-size:13.5px;font-weight:650;
+  transition:transform .12s,border-color .15s}
+.shareBtn:active{transform:scale(.97);border-color:var(--gold2)}
+.shareBtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.shareBtn.whatsapp{color:#7fd6b8}
+
+.tiersZone{position:relative;padding:28px 20px 4px}
+.activeGrant{background:linear-gradient(155deg,rgba(46,139,117,.16),var(--surface2) 55%);
+  border:1px solid rgba(46,139,117,.35);border-radius:18px;padding:17px 18px;margin-bottom:18px;box-shadow:var(--shadow-card)}
+.grantTop{display:flex;align-items:center;gap:11px}
+.grantIconWrap{flex:0 0 34px;width:34px;height:34px;border-radius:10px;background:rgba(46,139,117,.2);display:grid;place-items:center;color:#7fd6b8}
+.grantIconWrap svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.grantTitle{font-size:14.5px;font-weight:750;color:#a9e8d4}
+.grantSub{margin-top:1px;font-size:12px;color:var(--muted)}
+.grantDaysWrap{margin-left:auto;text-align:right}
+.grantDaysNum{font-size:19px;font-weight:700;color:#a9e8d4;letter-spacing:-.01em}
+.grantDaysLabel{font-size:10px;color:var(--faint);font-weight:650}
+
+.tierCard.locked{opacity:.62}
+.tierCard.active{border-color:var(--green)}
+.tierActiveTag{font-size:9.5px;font-weight:800;letter-spacing:.05em;padding:2.5px 8px;border-radius:100px;
+  background:var(--green);color:#eafff5;margin-left:8px}
+
+.tierLabel{color:var(--faint);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin:0 2px 12px}
+
+.tierCard{background:var(--surface2);border:1px solid var(--line);border-radius:18px;padding:18px;
+  box-shadow:var(--shadow-card);margin-bottom:12px}
+.tierCard.done{border-color:rgba(46,139,117,.35)}
+.tierTop{display:flex;align-items:center;justify-content:space-between}
+.tierName{font-size:15px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.tierBadge{width:22px;height:22px;border-radius:50%;background:rgba(201,162,76,.16);color:var(--gold);
+  display:grid;place-items:center}
+.tierCard.done .tierBadge{background:var(--green);color:#eafff5}
+.tierBadge svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.tierCount{font-size:13px;font-weight:650;color:var(--muted)}
+.tierCard.active .tierCount{color:var(--green-pale)}
+.tierCard.done .tierCount{color:var(--green-pale)}
+.tierTrack{margin-top:12px;height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.tierFill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold2),var(--gold));transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.tierCard.active .tierFill{background:linear-gradient(90deg,var(--green),var(--green-pale))}
+.tierCard.done .tierFill{background:linear-gradient(90deg,var(--green),var(--green-pale))}
+.tierSub{margin-top:9px;font-size:12px;color:var(--muted)}
+
+.friendsZone{position:relative;padding:8px 20px calc(24px + env(safe-area-inset-bottom))}
+.friendRow{display:flex;align-items:center;gap:12px;padding:12px 4px}
+.friendRow+.friendRow{border-top:1px solid var(--line)}
+.friendAvatar{width:34px;height:34px;border-radius:50%;flex:0 0 34px;display:grid;place-items:center;
+  font-size:12.5px;font-weight:700;background:var(--surface2);border:1px solid var(--line);color:var(--gold-pale)}
+.friendBody{flex:1}
+.friendName{font-size:13.5px;font-weight:650}
+.friendStatus{font-size:11.5px;margin-top:1px}
+.friendStatus.joined{color:var(--green-pale)}
+.friendStatus.pending{color:var(--faint)}
+
+.navBar{position:sticky;bottom:0;display:flex;border-top:1px solid var(--line);
+  background:rgba(9,9,11,.92);backdrop-filter:blur(14px);padding:10px 6px calc(10px + env(safe-area-inset-bottom))}
+.navItem{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--faint);
+  font-size:10.5px;font-weight:600;padding:4px 0}
+.navItem svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.navItem.active{color:var(--gold)}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ambient"></div>
+
+  <div class="topRow">
+    <button class="backLink"><svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>Back</button>
+  </div>
+
+  <div class="heroZone">
+    <div class="heroIcon"><div class="heroIconInner"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div></div>
+    <h1 class="heroTitle">Invite friends. Earn access.</h1>
+    <p class="heroSub">Reach a referral milestone and unlock more words a day for 30 days. Your highest tier always applies; rewards don't stack.</p>
+  </div>
+
+  <div class="linkZone">
+    <div class="linkCard">
+      <span class="linkText">lexora.app/invite/michael-o</span>
+      <button class="copyBtn" id="copyBtn">Copy</button>
+    </div>
+    <div class="shareRow">
+      <button class="shareBtn whatsapp">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L4 20l1.1-4.5A8.5 8.5 0 1 1 21 11.5z"/></svg>WhatsApp
+      </button>
+      <button class="shareBtn">
+        <svg viewBox="0 0 24 24"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>Share
+      </button>
+    </div>
+  </div>
+
+  <main class="tiersZone">
+    <div class="activeGrant">
+      <div class="grantTop">
+        <span class="grantIconWrap"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-9"/></svg></span>
+        <span>
+          <div class="grantTitle">10 words a day is active</div>
+          <div class="grantSub">Earned at 5 referrals &middot; replaces your base rate</div>
+        </span>
+        <span class="grantDaysWrap">
+          <div class="grantDaysNum">23</div>
+          <div class="grantDaysLabel">DAYS LEFT</div>
+        </span>
+      </div>
+    </div>
+
+    <div class="tierLabel">Referral tiers</div>
+
+    <div class="tierCard active">
+      <div class="tierTop">
+        <span class="tierName">5 referrals<span class="tierActiveTag">ACTIVE</span></span>
+        <span class="tierCount">Earned</span>
+      </div>
+      <div class="tierTrack"><div class="tierFill" style="width:100%"></div></div>
+      <p class="tierSub">10 words a day for 30 days &middot; earned</p>
+    </div>
+
+    <div class="tierCard">
+      <div class="tierTop">
+        <span class="tierName">10 referrals</span>
+        <span class="tierCount">5 / 10</span>
+      </div>
+      <div class="tierTrack"><div class="tierFill" style="width:50%"></div></div>
+      <p class="tierSub">15 words a day for 30 days &middot; 5 more to unlock</p>
+    </div>
+
+    <div class="tierCard locked">
+      <div class="tierTop">
+        <span class="tierName">15 referrals</span>
+        <span class="tierCount">5 / 15</span>
+      </div>
+      <div class="tierTrack"><div class="tierFill" style="width:33%"></div></div>
+      <p class="tierSub">20 words a day for 30 days &middot; 10 more to unlock</p>
+    </div>
+
+    <div class="tierCard locked">
+      <div class="tierTop">
+        <span class="tierName">25 referrals</span>
+        <span class="tierCount">5 / 25</span>
+      </div>
+      <div class="tierTrack"><div class="tierFill" style="width:20%"></div></div>
+      <p class="tierSub">30 words a day for 30 days &middot; 20 more to unlock</p>
+    </div>
+  </main>
+
+  <div class="friendsZone">
+    <div class="tierLabel">Friends invited</div>
+    <div class="friendRow">
+      <span class="friendAvatar">T</span>
+      <span class="friendBody"><div class="friendName">Tolu A.</div><div class="friendStatus joined">Joined &middot; counted</div></span>
+    </div>
+    <div class="friendRow">
+      <span class="friendAvatar">B</span>
+      <span class="friendBody"><div class="friendName">Bimpe O.</div><div class="friendStatus joined">Joined &middot; counted</div></span>
+    </div>
+    <div class="friendRow">
+      <span class="friendAvatar">K</span>
+      <span class="friendBody"><div class="friendName">Kunle S.</div><div class="friendStatus pending">Invited &middot; not joined yet</div></span>
+    </div>
+  </div>
+
+  <nav class="navBar">
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Home</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Learn</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12V6"/><path d="M3 12h6"/></svg>Review</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M5 20V11"/><path d="M12 20V4"/><path d="M19 20v-7"/></svg>Progress</button>
+    <button class="navItem active"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>Profile</button>
+  </nav>
+</div>
+
+<script>
+var copyBtn = document.getElementById('copyBtn');
+copyBtn.addEventListener('click', function(){
+  copyBtn.classList.add('copied');
+  copyBtn.textContent = 'Copied';
+  setTimeout(function(){
+    copyBtn.classList.remove('copied');
+    copyBtn.textContent = 'Copy';
+  }, 1800);
+});
+
+document.querySelectorAll(".navItem").forEach(function(btn){
+  var routes = {Home:"home.html", Learn:"learn.html", Review:"review.html", Progress:"progress.html", Profile:"profile.html"};
+  var label = btn.textContent.trim();
+  if(routes[label]){
+    btn.addEventListener("click", function(){ window.location.href = routes[label]; });
+  }
+});
+</script>
+</body>
+</html>

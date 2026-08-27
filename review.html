@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#09090b">
+<title>Lexora: Review</title>
+<style>
+:root{
+  --bg:#09090b;
+  --surface:#121216;
+  --surface2:#17171c;
+  --line:#25242a;
+  --text:#f1eee7;
+  --muted:#9a98a0;
+  --faint:#626067;
+  --gold:#c9a24c;
+  --gold2:#a9874e;
+  --gold-pale:#e8d9b5;
+  --green:#2e8b75;
+  --green-deep:#1f5c4e;
+  --green-pale:#7fd6b8;
+  --amber:#c99a4c;
+  --shadow-card:0 24px 50px -28px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.03);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{min-height:100dvh;overflow-x:hidden}
+button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
+#app{min-height:100dvh;max-width:480px;margin:auto;background:var(--bg);display:flex;flex-direction:column;position:relative}
+main{flex:1}
+
+.ambient{position:absolute;top:0;left:0;right:0;height:280px;
+  background:radial-gradient(circle at 30% 0%,rgba(201,162,76,.14),transparent 60%);pointer-events:none}
+
+.header{position:relative;padding:22px 20px 4px}
+.hTitle{font-size:30px;font-weight:700;letter-spacing:-.02em;margin:0}
+.hSub{margin-top:6px;color:var(--muted);font-size:14.5px;line-height:1.4}
+
+.heroCard{position:relative;margin:20px 20px 0;background:linear-gradient(150deg,rgba(201,162,76,.16),var(--surface2) 55%);
+  border:1px solid rgba(201,162,76,.3);border-radius:20px;padding:18px 18px 17px;
+  display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-card);
+  animation:riseIn .5s cubic-bezier(.2,.7,.2,1) both}
+@keyframes riseIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.heroRing{flex:0 0 50px;width:50px;height:50px;border-radius:50%;
+  background:conic-gradient(var(--gold) 0deg 252deg,var(--line) 252deg 360deg);
+  display:grid;place-items:center;padding:4px}
+.heroRingInner{width:100%;height:100%;border-radius:50%;background:var(--surface2);display:grid;place-items:center;
+  font-size:12px;font-weight:800;color:var(--gold-pale)}
+.heroBody{flex:1}
+.heroTitle{font-size:15.5px;font-weight:700;letter-spacing:-.01em}
+.heroSub{margin-top:2px;font-size:12.5px;color:var(--muted)}
+.heroGo{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:grid;place-items:center;box-shadow:0 8px 18px -8px rgba(201,162,76,.6);transition:transform .12s}
+.heroGo:active{transform:scale(.9)}
+.heroGo svg{width:16px;height:16px;stroke:#1a1408;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+
+.listZone{padding:22px 20px calc(20px + env(safe-area-inset-bottom))}
+.listLabel{color:var(--faint);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin:0 2px 12px}
+
+.wordCard{position:relative;background:var(--surface2);border:1px solid var(--line);border-radius:18px;
+  padding:16px 16px 16px 14px;display:flex;align-items:center;gap:13px;margin-bottom:12px;box-shadow:var(--shadow-card);
+  transition:border-color .15s,transform .12s;animation:cardStagger .45s cubic-bezier(.2,.7,.2,1) both}
+.wordCard:active{transform:scale(.985)}
+@keyframes cardStagger{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.ring{flex:0 0 40px;width:40px;height:40px;border-radius:50%;padding:3px;display:grid;place-items:center}
+.ringInner{width:100%;height:100%;border-radius:50%;background:var(--surface2);display:grid;place-items:center;
+  font-size:9.5px;font-weight:800}
+
+.wBody{flex:1;text-align:left;min-width:0}
+.wTop{display:flex;align-items:center;gap:7px}
+.wWord{font-size:16.5px;font-weight:700;letter-spacing:-.01em}
+.wMastery{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:100px}
+.wMeaning{margin-top:3px;font-size:12.5px;line-height:1.4;color:var(--muted);
+  overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}
+
+.listenBtn{flex:0 0 40px;width:40px;height:40px;border-radius:50%;position:relative;display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#211d16,var(--surface));border:1px solid var(--line);transition:box-shadow .3s}
+.listenBtn::before{content:'';position:absolute;inset:-5px;border-radius:50%;border:1.3px solid rgba(201,162,76,.35);
+  opacity:0;transform:scale(.85);transition:opacity .3s,transform .3s}
+.listenBtn.playing::before{opacity:1;transform:scale(1);animation:pulseRing 1.1s ease-out infinite}
+.listenBtn.playing{box-shadow:0 0 14px rgba(201,162,76,.4)}
+@keyframes pulseRing{0%{opacity:.7;transform:scale(.9)}100%{opacity:0;transform:scale(1.3)}}
+.lBars{display:flex;align-items:center;gap:2.4px;height:15px}
+.lBars span{width:2.4px;border-radius:2px;background:var(--gold);height:5px}
+.listenBtn.playing .lBars span{animation:bar .9s ease-in-out infinite}
+.listenBtn.playing .lBars span:nth-child(1){animation-delay:0s}
+.listenBtn.playing .lBars span:nth-child(2){animation-delay:.12s}
+.listenBtn.playing .lBars span:nth-child(3){animation-delay:.24s}
+.listenBtn.playing .lBars span:nth-child(4){animation-delay:.36s}
+.listenBtn.playing .lBars span:nth-child(5){animation-delay:.18s}
+@keyframes bar{0%,100%{height:5px}50%{height:14px}}
+
+.navBar{position:sticky;bottom:0;display:flex;border-top:1px solid var(--line);
+  background:rgba(9,9,11,.92);backdrop-filter:blur(14px);padding:10px 6px calc(10px + env(safe-area-inset-bottom))}
+.navItem{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--faint);
+  font-size:10.5px;font-weight:600;padding:4px 0;transition:transform .12s}
+.navItem:active{transform:scale(.92)}
+.navItem svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.navItem.active{color:var(--gold)}
+
+@media(prefers-reduced-motion:reduce){
+  .heroCard,.wordCard,.listenBtn.playing::before,.listenBtn.playing .lBars span{animation:none}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ambient"></div>
+
+  <div class="header">
+    <h1 class="hTitle">Review</h1>
+    <p class="hSub">Review saved words and practise saying them.</p>
+  </div>
+
+  <div class="heroCard">
+    <div class="heroRing"><div class="heroRingInner">70%</div></div>
+    <div class="heroBody">
+      <div class="heroTitle">Review all 5 words</div>
+      <div class="heroSub">~3 min &middot; mixed strength practice</div>
+    </div>
+    <button class="heroGo" aria-label="Start review"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
+  </div>
+
+  <main class="listZone" id="listZone">
+    <div class="listLabel">Saved words</div>
+  </main>
+
+  <nav class="navBar">
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Home</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Learn</button>
+    <button class="navItem active"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12V6"/><path d="M3 12h6"/></svg>Review</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M5 20V11"/><path d="M12 20V4"/><path d="M19 20v-7"/></svg>Progress</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>Profile</button>
+  </nav>
+</div>
+
+<script>
+var words = [
+  {word:'Relevant', meaning:'Directly connected to the subject or situation being discussed.', strength:82},
+  {word:'Transparent', meaning:'Open and clear about information, decisions or processes.', strength:64},
+  {word:'Efficient', meaning:'Achieving a result with little wasted time, effort or resources.', strength:45},
+  {word:'Effective', meaning:'Successful in producing the intended result.', strength:38},
+  {word:'Credibility', meaning:'The quality of being trusted, believable and worthy of confidence.', strength:90}
+];
+
+function tierOf(s){
+  if(s >= 75) return {name:'Strong', color:'var(--green-pale)', ring:'var(--green)', chipBg:'rgba(46,139,117,.16)'};
+  if(s >= 50) return {name:'Fair', color:'var(--gold-pale)', ring:'var(--gold)', chipBg:'rgba(201,162,76,.14)'};
+  return {name:'Weak', color:'#f0b8bc', ring:'#c9636f', chipBg:'rgba(224,107,118,.14)'};
+}
+
+var listZone = document.getElementById('listZone');
+
+words.forEach(function(w, i){
+  var t = tierOf(w.strength);
+  var deg = Math.round(w.strength / 100 * 360);
+  var card = document.createElement('div');
+  card.className = 'wordCard';
+  card.style.animationDelay = (i * 0.06) + 's';
+  card.innerHTML =
+    '<span class="ring" style="background:conic-gradient(' + t.ring + ' 0deg ' + deg + 'deg, var(--line) ' + deg + 'deg 360deg)">' +
+      '<span class="ringInner" style="color:' + t.color + '">' + w.strength + '</span>' +
+    '</span>' +
+    '<span class="wBody">' +
+      '<span class="wTop"><span class="wWord">' + w.word + '</span>' +
+        '<span class="wMastery" style="background:' + t.chipBg + ';color:' + t.color + '">' + t.name + '</span></span>' +
+      '<div class="wMeaning">' + w.meaning + '</div>' +
+    '</span>' +
+    '<button class="listenBtn" aria-label="Listen">' +
+      '<span class="lBars"><span></span><span></span><span></span><span></span><span></span></span>' +
+    '</button>';
+  listZone.appendChild(card);
+
+  card.querySelector('.listenBtn').addEventListener('click', function(e){
+    e.stopPropagation();
+    this.classList.add('playing');
+    var el = this;
+    setTimeout(function(){ el.classList.remove('playing'); }, 1300);
+  });
+});
+
+document.querySelectorAll(".navItem").forEach(function(btn){
+  var routes = {Home:"home.html", Learn:"learn.html", Review:"review.html", Progress:"progress.html", Profile:"profile.html"};
+  var label = btn.textContent.trim();
+  if(routes[label]){
+    btn.addEventListener("click", function(){ window.location.href = routes[label]; });
+  }
+});
+</script>
+</body>
+</html>

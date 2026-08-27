@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#09090b">
+<title>Lexora: Saved Words</title>
+<style>
+:root{
+  --bg:#09090b;
+  --surface:#121216;
+  --surface2:#17171c;
+  --line:#25242a;
+  --text:#f1eee7;
+  --muted:#9a98a0;
+  --faint:#626067;
+  --gold:#c9a24c;
+  --gold2:#a9874e;
+  --gold-pale:#e8d9b5;
+  --shadow-card:0 24px 50px -28px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.03);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{min-height:100dvh;overflow-x:hidden}
+button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
+#app{min-height:100dvh;max-width:480px;margin:auto;background:var(--bg);display:flex;flex-direction:column;position:relative}
+main{flex:1}
+
+.ambient{position:absolute;top:0;left:0;right:0;height:260px;
+  background:radial-gradient(circle at 25% 0%,rgba(201,162,76,.13),transparent 60%);pointer-events:none}
+
+.topRow{position:relative;padding:18px 20px 0}
+.backLink{display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-size:14.5px;font-weight:500}
+.backLink:active{opacity:.6}
+.backLink svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.header{position:relative;padding:14px 20px 4px}
+.hTitle{font-size:28px;font-weight:700;letter-spacing:-.02em;margin:0}
+.hSub{margin-top:6px;color:var(--muted);font-size:13.5px}
+.hSub b{color:var(--gold-pale);font-weight:700}
+
+.listZone{position:relative;padding:18px 20px calc(20px + env(safe-area-inset-bottom))}
+
+.wordCard{background:var(--surface2);border:1px solid var(--line);border-radius:18px;
+  padding:16px 14px 16px 18px;display:flex;align-items:center;gap:12px;margin-bottom:12px;box-shadow:var(--shadow-card);
+  animation:cardStagger .45s cubic-bezier(.2,.7,.2,1) both;transition:transform .3s,opacity .3s}
+@keyframes cardStagger{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.wordCard.removing{transform:scale(.92);opacity:0}
+
+.wBody{flex:1;text-align:left;min-width:0}
+.wTop{display:flex;align-items:baseline;gap:8px}
+.wWord{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.wPos{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.wMeaning{margin-top:3px;font-size:12.5px;line-height:1.4;color:var(--muted)}
+
+.listenBtn{flex:0 0 40px;width:40px;height:40px;border-radius:50%;position:relative;display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#211d16,var(--surface));border:1px solid var(--line);transition:box-shadow .3s}
+.listenBtn::before{content:'';position:absolute;inset:-5px;border-radius:50%;border:1.3px solid rgba(201,162,76,.35);
+  opacity:0;transform:scale(.85);transition:opacity .3s,transform .3s}
+.listenBtn.playing::before{opacity:1;transform:scale(1);animation:pulseRing 1.1s ease-out infinite}
+.listenBtn.playing{box-shadow:0 0 14px rgba(201,162,76,.4)}
+@keyframes pulseRing{0%{opacity:.7;transform:scale(.9)}100%{opacity:0;transform:scale(1.3)}}
+.lBars{display:flex;align-items:center;gap:2.4px;height:15px}
+.lBars span{width:2.4px;border-radius:2px;background:var(--gold);height:5px}
+.listenBtn.playing .lBars span{animation:bar .9s ease-in-out infinite}
+.listenBtn.playing .lBars span:nth-child(1){animation-delay:0s}
+.listenBtn.playing .lBars span:nth-child(2){animation-delay:.12s}
+.listenBtn.playing .lBars span:nth-child(3){animation-delay:.24s}
+.listenBtn.playing .lBars span:nth-child(4){animation-delay:.36s}
+.listenBtn.playing .lBars span:nth-child(5){animation-delay:.18s}
+@keyframes bar{0%,100%{height:5px}50%{height:14px}}
+
+.saveBtn{flex:0 0 38px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--gold);
+  transition:transform .15s}
+.saveBtn:active{transform:scale(.85)}
+.saveBtn svg{width:19px;height:19px;stroke:var(--gold);fill:var(--gold);stroke-width:1.6}
+
+.emptyState{display:none;text-align:center;padding:60px 30px 0}
+.emptyState.show{display:block}
+.emptyIcon{width:56px;height:56px;border-radius:50%;background:var(--surface2);border:1px solid var(--line);
+  display:grid;place-items:center;margin:0 auto 18px}
+.emptyIcon svg{width:24px;height:24px;stroke:var(--faint);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.emptyTitle{font-size:16px;font-weight:700}
+.emptySub{margin-top:6px;font-size:13.5px;color:var(--muted);line-height:1.5;max-width:260px;margin-left:auto;margin-right:auto}
+
+.navBar{position:sticky;bottom:0;display:flex;border-top:1px solid var(--line);
+  background:rgba(9,9,11,.92);backdrop-filter:blur(14px);padding:10px 6px calc(10px + env(safe-area-inset-bottom))}
+.navItem{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--faint);
+  font-size:10.5px;font-weight:600;padding:4px 0;transition:transform .12s}
+.navItem:active{transform:scale(.92)}
+.navItem svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.navItem.active{color:var(--gold)}
+
+@media(prefers-reduced-motion:reduce){
+  .wordCard,.listenBtn.playing::before,.listenBtn.playing .lBars span{animation:none}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ambient"></div>
+
+  <div class="topRow">
+    <button class="backLink"><svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>Back to Profile</button>
+  </div>
+
+  <div class="header">
+    <h1 class="hTitle">Saved Words</h1>
+    <p class="hSub" id="countLabel"><b>1</b> word saved</p>
+  </div>
+
+  <main class="listZone">
+    <div id="listZone"></div>
+    <div class="emptyState" id="emptyState">
+      <div class="emptyIcon"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></svg></div>
+      <div class="emptyTitle">No saved words yet</div>
+      <div class="emptySub">Tap the bookmark on any word to keep it here for quick review.</div>
+    </div>
+  </main>
+
+  <nav class="navBar">
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Home</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Learn</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12V6"/><path d="M3 12h6"/></svg>Review</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M5 20V11"/><path d="M12 20V4"/><path d="M19 20v-7"/></svg>Progress</button>
+    <button class="navItem active"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>Profile</button>
+  </nav>
+</div>
+
+<script>
+var words = [
+  {word:'Perspective', pos:'Noun', meaning:'A particular way of viewing or understanding a situation.'}
+];
+
+var listZone = document.getElementById('listZone');
+var countLabel = document.getElementById('countLabel');
+var emptyState = document.getElementById('emptyState');
+
+function renderCount(){
+  var n = words.length;
+  countLabel.innerHTML = '<b>' + n + '</b> word' + (n === 1 ? '' : 's') + ' saved';
+  countLabel.style.display = n === 0 ? 'none' : 'block';
+  emptyState.classList.toggle('show', n === 0);
+}
+
+function renderList(){
+  listZone.innerHTML = '';
+  words.forEach(function(w, i){
+    var card = document.createElement('div');
+    card.className = 'wordCard';
+    card.style.animationDelay = (i * 0.06) + 's';
+    card.innerHTML =
+      '<span class="wBody">' +
+        '<span class="wTop"><span class="wWord">' + w.word + '</span><span class="wPos">' + w.pos + '</span></span>' +
+        '<div class="wMeaning">' + w.meaning + '</div>' +
+      '</span>' +
+      '<button class="listenBtn" aria-label="Listen"><span class="lBars"><span></span><span></span><span></span><span></span><span></span></span></button>' +
+      '<button class="saveBtn" aria-label="Remove from saved"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></svg></button>';
+
+    card.querySelector('.listenBtn').addEventListener('click', function(e){
+      e.stopPropagation();
+      this.classList.add('playing');
+      var el = this;
+      setTimeout(function(){ el.classList.remove('playing'); }, 1300);
+    });
+
+    card.querySelector('.saveBtn').addEventListener('click', function(e){
+      e.stopPropagation();
+      card.classList.add('removing');
+      setTimeout(function(){
+        words.splice(i, 1);
+        renderList();
+        renderCount();
+      }, 260);
+    });
+
+    listZone.appendChild(card);
+  });
+}
+
+renderList();
+renderCount();
+
+document.querySelectorAll(".navItem").forEach(function(btn){
+  var routes = {Home:"home.html", Learn:"learn.html", Review:"review.html", Progress:"progress.html", Profile:"profile.html"};
+  var label = btn.textContent.trim();
+  if(routes[label]){
+    btn.addEventListener("click", function(){ window.location.href = routes[label]; });
+  }
+});
+</script>
+</body>
+</html>

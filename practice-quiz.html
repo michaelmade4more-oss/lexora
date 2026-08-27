@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#09090b">
+<title>Lexora: Practice</title>
+<style>
+:root{
+  --bg:#09090b;
+  --surface:#121216;
+  --surface2:#17171c;
+  --line:#25242a;
+  --text:#f1eee7;
+  --muted:#9a98a0;
+  --faint:#626067;
+  --gold:#c9a24c;
+  --gold2:#a9874e;
+  --gold-pale:#e8d9b5;
+  --green:#2e8b75;
+  --green-deep:#1f5c4e;
+  --green-pale:#7fd6b8;
+  --danger:#e06b76;
+  --danger-deep:#7a2b32;
+  --shadow-card:0 24px 50px -28px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.03);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{min-height:100dvh;overflow-x:hidden}
+button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
+#app{min-height:100dvh;max-width:480px;margin:auto;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden}
+
+.ambient{position:absolute;top:-160px;left:50%;transform:translateX(-50%);width:440px;height:440px;
+  background:radial-gradient(circle,rgba(201,162,76,.14),transparent 68%);pointer-events:none;transition:background 1.2s}
+.ambient.good{background:radial-gradient(circle,rgba(46,139,117,.2),transparent 68%)}
+.ambient.bad{background:radial-gradient(circle,rgba(224,107,118,.14),transparent 68%)}
+
+.topRow{position:relative;display:flex;align-items:center;justify-content:flex-start;padding:18px 20px 0}
+.closeBtn{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:var(--muted);
+  background:var(--surface2);border:1px solid var(--line);transition:border-color .15s,transform .12s}
+.closeBtn:active{transform:scale(.92);border-color:var(--gold2)}
+.closeBtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+.progressZone{position:relative;padding:14px 20px 0}
+.progressLabel{color:var(--faint);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.progressLabel b{color:var(--gold);font-weight:700}
+.progressSegments{display:flex;gap:6px;margin-top:10px}
+.seg{flex:1;height:4px;border-radius:2px;background:var(--line);overflow:hidden;position:relative}
+.seg.done{background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.seg.current::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--gold),var(--gold2));
+  animation:fillSeg .4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes fillSeg{from{transform:scaleX(0);transform-origin:left}to{transform:scaleX(1)}}
+
+.quizMain{position:relative;flex:1;padding:22px 20px 8px}
+.qTitle{font-size:27px;line-height:1.18;font-weight:750;letter-spacing:-.02em;margin:0 0 24px;
+  animation:riseIn .5s cubic-bezier(.2,.7,.2,1) both}
+@keyframes riseIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.options{display:flex;flex-direction:column;gap:12px}
+.option{width:100%;min-height:64px;border-radius:18px;background:var(--surface2);border:1.5px solid var(--line);
+  display:flex;align-items:center;gap:14px;padding:16px 18px;text-align:left;box-shadow:var(--shadow-card);
+  transition:border-color .2s,background .2s,transform .12s}
+.option:active{transform:scale(.985)}
+.optionMark{flex:0 0 24px;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);
+  display:grid;place-items:center;transition:border-color .2s,background .2s}
+.optionMark svg{width:13px;height:13px;stroke:#0c0b08;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;
+  opacity:0;transform:scale(.5);transition:opacity .2s,transform .2s}
+.optionText{font-size:15.5px;line-height:1.4;color:var(--text);flex:1}
+
+.option.correct{border-color:var(--green);background:linear-gradient(165deg,rgba(46,139,117,.16),var(--surface2))}
+.option.correct .optionMark{border-color:var(--green);background:var(--green)}
+.option.correct .optionMark svg{opacity:1;transform:scale(1)}
+
+.option.wrong{border-color:var(--danger);background:linear-gradient(165deg,rgba(224,107,118,.13),var(--surface2))}
+.option.wrong .optionMark{border-color:var(--danger);background:var(--danger)}
+.option.wrong .optionMark svg.xIcon{opacity:1;transform:scale(1)}
+
+.option.dim{opacity:.55}
+
+.feedback{margin-top:20px;border-radius:18px;padding:16px 18px;display:flex;gap:13px;align-items:flex-start;
+  max-height:0;opacity:0;overflow:hidden;transition:max-height .4s cubic-bezier(.2,.8,.2,1),opacity .3s,margin-top .3s}
+.feedback.show{max-height:200px;opacity:1}
+.feedback.good{background:linear-gradient(165deg,rgba(46,139,117,.14),rgba(46,139,117,.02));border:1px solid rgba(46,139,117,.3)}
+.feedback.bad{background:linear-gradient(165deg,rgba(201,162,76,.12),rgba(201,162,76,.02));border:1px solid rgba(201,162,76,.28)}
+.fIcon{flex:0 0 34px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center}
+.feedback.good .fIcon{background:var(--green);color:#eafff5}
+.feedback.bad .fIcon{background:rgba(201,162,76,.18);color:var(--gold-pale)}
+.fIcon svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.fIcon.spin svg{animation:spin 1.1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fTitle{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.feedback.good .fTitle{color:var(--green-pale)}
+.feedback.bad .fTitle{color:var(--gold-pale)}
+.fSub{margin-top:3px;font-size:13px;line-height:1.45;color:var(--muted)}
+
+.nextZone{margin-top:20px;max-height:0;opacity:0;overflow:hidden;transition:max-height .35s cubic-bezier(.2,.8,.2,1) .05s,opacity .3s .05s}
+.nextZone.show{max-height:100px;opacity:1}
+.nextBtn{width:100%;min-height:56px;border-radius:16px;font-size:16px;font-weight:700;letter-spacing:-.01em;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1408;
+  box-shadow:0 10px 26px -10px rgba(201,162,76,.55);transition:transform .12s,filter .12s}
+.nextBtn:active{transform:scale(.98);filter:brightness(.95)}
+.nextBtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+
+@media(prefers-reduced-motion:reduce){
+  .qTitle,.seg.current::after,.fIcon.spin svg{animation:none}
+}
+
+/* exit confirmation */
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.65);opacity:0;pointer-events:none;transition:opacity .25s;z-index:10}
+.backdrop.open{opacity:1;pointer-events:auto}
+.confirmSheet{position:fixed;left:20px;right:20px;top:50%;max-width:400px;margin:0 auto;
+  background:var(--surface2);border:1px solid var(--line);border-radius:22px;padding:24px 22px 20px;
+  box-shadow:var(--shadow-card);transform:translateY(-50%) scale(.94);opacity:0;pointer-events:none;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),opacity .2s;z-index:11}
+.confirmSheet.open{transform:translateY(-50%) scale(1);opacity:1;pointer-events:auto}
+.confirmTitle{font-size:17.5px;font-weight:700;letter-spacing:-.01em}
+.confirmSub{margin-top:7px;font-size:13.5px;line-height:1.5;color:var(--muted)}
+.confirmRow{display:flex;gap:10px;margin-top:20px}
+.confirmBtn{flex:1;min-height:50px;border-radius:14px;font-size:14.5px;font-weight:650;
+  display:flex;align-items:center;justify-content:center;transition:transform .12s}
+.confirmBtn:active{transform:scale(.97)}
+.confirmStay{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1408}
+.confirmLeave{background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ambient" id="ambient"></div>
+
+  <div class="topRow">
+    <button class="closeBtn" id="closeBtn" aria-label="Close practice">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+    </button>
+  </div>
+
+  <div class="progressZone">
+    <div class="progressLabel">Practice &middot; <b id="qNum">1</b> of <b id="qTotal">5</b></div>
+    <div class="progressSegments" id="segments"></div>
+    </div>
+  </div>
+
+  <main class="quizMain">
+    <h1 class="qTitle" id="qTitle">Which sentence uses "Relevant" correctly?</h1>
+    <div class="options" id="options"></div>
+
+    <div class="feedback" id="feedback">
+      <div class="fIcon" id="fIcon"></div>
+      <div>
+        <div class="fTitle" id="fTitle"></div>
+        <div class="fSub" id="fSub"></div>
+      </div>
+    </div>
+
+    <div class="nextZone" id="nextZone">
+      <button class="nextBtn" id="nextBtn">Next question <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </main>
+
+  <div class="backdrop" id="backdrop"></div>
+  <div class="confirmSheet" id="confirmSheet">
+    <div class="confirmTitle">Leave practice?</div>
+    <div class="confirmSub">You'll lose progress on this set. Your streak for today is still safe.</div>
+    <div class="confirmRow">
+      <button class="confirmBtn confirmLeave" id="confirmLeave">Leave</button>
+      <button class="confirmBtn confirmStay" id="confirmStay">Keep practicing</button>
+    </div>
+  </div>
+</div>
+
+<script src="lessons/day-01.js"></script>
+<script src="lessons/day-02.js"></script>
+<script src="lessons/day-03.js"></script>
+<script src="lessons/registry.js"></script>
+<script src="lessons/lesson-engine.js"></script>
+<script>
+// Quiz content comes from the lesson registry — never a separate
+// hardcoded array. Respects ?day=N (set by Learn/Home navigation);
+// falls back to today's lesson otherwise. Access level (Core/Extended/
+// Full) is applied by the engine itself, so however many words the
+// user is entitled to is exactly how many quiz questions appear.
+var urlParams = new URLSearchParams(window.location.search);
+var requestedDay = parseInt(urlParams.get('day'), 10);
+var currentLesson = requestedDay
+  ? window.LexoraLessons.getLessonByDay(requestedDay)
+  : window.LexoraLessons.getTodayLesson();
+
+var questions = (currentLesson.words || []).map(function(w){
+  return {
+    word: w.word,
+    quizQuestion: w.quiz.question,
+    explanation: w.quiz.explanation,
+    options: w.quiz.options.map(function(optText){
+      return { text: optText, correct: optText === w.quiz.correctAnswer };
+    })
+  };
+});
+var qi = 0;
+var answered = false;
+
+var qTitle = document.getElementById('qTitle');
+var optionsEl = document.getElementById('options');
+var feedback = document.getElementById('feedback');
+var fIcon = document.getElementById('fIcon');
+var fTitle = document.getElementById('fTitle');
+var fSub = document.getElementById('fSub');
+var nextZone = document.getElementById('nextZone');
+var nextBtn = document.getElementById('nextBtn');
+var ambient = document.getElementById('ambient');
+var qNum = document.getElementById('qNum');
+var qTotal = document.getElementById('qTotal');
+var segments = document.getElementById('segments');
+
+function isPlaceholder(text){
+  return !text || text.indexOf('[PLACEHOLDER') !== -1;
+}
+
+function renderSegments(){
+  segments.innerHTML = '';
+  for(var i = 0; i < questions.length; i++){
+    var s = document.createElement('span');
+    s.className = 'seg';
+    if(i < qi) s.classList.add('done');
+    if(i === qi) s.classList.add('current');
+    segments.appendChild(s);
+  }
+}
+
+function renderQuestion(){
+  answered = false;
+  var q = questions[qi];
+  qTitle.textContent = q.quizQuestion;
+  qNum.textContent = qi + 1;
+  qTotal.textContent = questions.length;
+  optionsEl.innerHTML = '';
+  ambient.className = 'ambient';
+  feedback.className = 'feedback';
+  nextZone.className = 'nextZone';
+  renderSegments();
+
+  var isLast = qi === questions.length - 1;
+  nextBtn.innerHTML = (isLast ? 'Finish' : 'Next question') +
+    ' <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>';
+
+  q.options.forEach(function(opt, idx){
+    var btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML =
+      '<span class="optionMark">' +
+        '<svg class="checkIcon" viewBox="0 0 24 24"><path d="M5 12l5 5 9-9"/></svg>' +
+        '<svg class="xIcon" viewBox="0 0 24 24" style="position:absolute"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>' +
+      '</span>' +
+      '<span class="optionText">' + opt.text + '</span>';
+    btn.addEventListener('click', function(){ selectAnswer(idx); });
+    optionsEl.appendChild(btn);
+  });
+}
+
+function selectAnswer(idx){
+  if(answered) return;
+  answered = true;
+  var q = questions[qi];
+  var buttons = optionsEl.querySelectorAll('.option');
+  var isCorrect = q.options[idx].correct;
+
+  buttons.forEach(function(btn, i){
+    if(q.options[i].correct){
+      btn.classList.add('correct');
+    } else if(i === idx){
+      btn.classList.add('wrong');
+    } else {
+      btn.classList.add('dim');
+    }
+  });
+
+  if(isCorrect){
+    ambient.className = 'ambient good';
+    feedback.className = 'feedback good show';
+    fIcon.className = 'fIcon';
+    fIcon.innerHTML = '<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-9"/></svg>';
+    fTitle.textContent = 'Correct. Good work, Michael.';
+    fSub.textContent = isPlaceholder(q.explanation) ? ('You chose the sentence where "' + q.word + '" is used correctly.') : q.explanation;
+  } else {
+    ambient.className = 'ambient bad';
+    feedback.className = 'feedback bad show';
+    fIcon.className = 'fIcon spin';
+    fIcon.innerHTML = '<svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12V6"/><path d="M3 12h6"/></svg>';
+    fTitle.textContent = 'Good attempt. Keep going.';
+    fSub.textContent = isPlaceholder(q.explanation) ? 'The correct answer is highlighted. Read it once more and continue.' : q.explanation;
+  }
+
+  setTimeout(function(){ nextZone.className = 'nextZone show'; }, 120);
+}
+
+nextBtn.addEventListener('click', function(){
+  if(qi === questions.length - 1){
+    // Quiz finished — hand off to the lesson-complete screen.
+    window.location.href = 'lesson-complete.html';
+    return;
+  }
+  qi = qi + 1;
+  renderQuestion();
+});
+
+var closeBtn = document.getElementById('closeBtn');
+var backdrop = document.getElementById('backdrop');
+var confirmSheet = document.getElementById('confirmSheet');
+var confirmLeave = document.getElementById('confirmLeave');
+var confirmStay = document.getElementById('confirmStay');
+
+function openConfirm(){
+  backdrop.classList.add('open');
+  confirmSheet.classList.add('open');
+}
+function closeConfirm(){
+  backdrop.classList.remove('open');
+  confirmSheet.classList.remove('open');
+}
+closeBtn.addEventListener('click', openConfirm);
+backdrop.addEventListener('click', closeConfirm);
+confirmStay.addEventListener('click', closeConfirm);
+confirmLeave.addEventListener('click', function(){
+  closeConfirm();
+  window.location.href = 'home.html';
+});
+
+if(questions.length === 0){
+  // No quiz content available for this lesson — show a deliberate
+  // unavailable/complete state rather than crashing or rendering undefined.
+  qTitle.textContent = currentLesson.isComplete ? 'Curriculum complete' : 'Quiz unavailable';
+  optionsEl.innerHTML = '';
+  document.querySelector('.progressZone').style.display = 'none';
+  var unavailableMsg = document.createElement('p');
+  unavailableMsg.style.cssText = 'color:var(--muted);font-size:14px;line-height:1.6;text-align:center;margin-top:24px';
+  unavailableMsg.textContent = currentLesson.isComplete
+    ? 'You\u2019ve completed the current Lexora curriculum. More lessons are on the way.'
+    : 'This lesson\u2019s quiz content isn\u2019t ready yet. Please check back soon.';
+  optionsEl.parentNode.insertBefore(unavailableMsg, optionsEl.nextSibling);
+} else {
+  renderQuestion();
+}
+</script>
+</body>
+</html>

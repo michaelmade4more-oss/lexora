@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#09090b">
+<title>Lexora: Learning History</title>
+<style>
+:root{
+  --bg:#09090b;
+  --surface:#121216;
+  --surface2:#17171c;
+  --line:#25242a;
+  --text:#f1eee7;
+  --muted:#9a98a0;
+  --faint:#626067;
+  --gold:#c9a24c;
+  --gold2:#a9874e;
+  --gold-pale:#e8d9b5;
+  --green:#2e8b75;
+  --green-pale:#7fd6b8;
+  --shadow-card:0 24px 50px -28px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.03);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{min-height:100dvh;overflow-x:hidden}
+button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
+#app{min-height:100dvh;max-width:480px;margin:auto;background:var(--bg);display:flex;flex-direction:column;position:relative}
+main{flex:1}
+
+.ambient{position:absolute;top:0;left:0;right:0;height:260px;
+  background:radial-gradient(circle at 25% 0%,rgba(201,162,76,.13),transparent 60%);pointer-events:none}
+
+.topRow{position:relative;padding:18px 20px 0}
+.backLink{display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-size:14.5px;font-weight:500}
+.backLink svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.header{position:relative;padding:14px 20px 4px}
+.hTitle{font-size:28px;font-weight:700;letter-spacing:-.02em;margin:0}
+.hSub{margin-top:6px;color:var(--muted);font-size:13.5px}
+.hSub b{color:var(--gold-pale);font-weight:700}
+
+.weeksZone{position:relative;padding:22px 20px calc(20px + env(safe-area-inset-bottom))}
+
+.weekBlock{margin-bottom:14px}
+.weekHeader{width:100%;display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--line);
+  border-radius:16px;padding:14px 16px;box-shadow:var(--shadow-card);transition:border-color .15s}
+.weekHeader:active{border-color:var(--gold2)}
+.weekInfo{flex:1;text-align:left}
+.weekTitle{font-size:14.5px;font-weight:700;letter-spacing:-.005em}
+.weekRange{font-size:11.5px;color:var(--faint);margin-top:1px}
+.weekDots{display:flex;gap:4px}
+.wDot{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.wDot.done{background:var(--gold)}
+.weekRatio{font-size:13px;font-weight:700;color:var(--gold-pale);white-space:nowrap}
+.weekChevron{width:16px;height:16px;color:var(--faint);transition:transform .3s cubic-bezier(.2,.8,.2,1);flex:0 0 16px}
+.weekChevron svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.weekHeader.open .weekChevron{transform:rotate(180deg)}
+
+.weekBody{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.2,.8,.2,1)}
+.weekBody.open{max-height:1400px}
+.weekBodyInner{padding:16px 4px 2px}
+
+.tCard{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:12px 14px 12px 17px;overflow:hidden}
+.tCard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--gold),var(--gold2))}
+.tCard+.tCard{margin-top:10px}
+.tTop{display:flex;align-items:center;justify-content:space-between}
+.tDate{font-size:14px;font-weight:700;letter-spacing:-.01em}
+.tDate.today{color:var(--gold-pale)}
+.tBadge{display:flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;color:var(--green-pale)}
+.tBadge svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.tStats{display:flex;gap:14px;margin-top:7px}
+.tStat{font-size:11.5px;color:var(--muted)}
+.tStat b{color:var(--text);font-weight:700}
+
+.navBar{position:sticky;bottom:0;display:flex;border-top:1px solid var(--line);
+  background:rgba(9,9,11,.92);backdrop-filter:blur(14px);padding:10px 6px calc(10px + env(safe-area-inset-bottom))}
+.navItem{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--faint);
+  font-size:10.5px;font-weight:600;padding:4px 0}
+.navItem svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.navItem.active{color:var(--gold)}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ambient"></div>
+
+  <div class="topRow">
+    <button class="backLink" id="backLink"><svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>Back to Profile</button>
+  </div>
+
+  <div class="header">
+    <h1 class="hTitle">Learning History</h1>
+    <p class="hSub"><b>3</b> day streak &middot; every day logged so far</p>
+  </div>
+
+  <main class="weeksZone" id="weeksZone"></main>
+
+  <nav class="navBar">
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Home</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Learn</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12V6"/><path d="M3 12h6"/></svg>Review</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M5 20V11"/><path d="M12 20V4"/><path d="M19 20v-7"/></svg>Progress</button>
+    <button class="navItem active"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>Profile</button>
+  </nav>
+</div>
+
+<script>
+// Weekly buckets — this shape scales to months of history: each week is one
+// collapsed row until opened, so the page never grows into a long flat list.
+var weeks = [
+  {
+    title: 'This week', range: 'Aug 10 – Aug 16', done: 3, total: 7, openByDefault: true,
+    days: [
+      {label:'Today', words:5, quiz:'4/5', minutes:10, today:true},
+      {label:'Yesterday', words:5, quiz:'5/5', minutes:9},
+      {label:'Tuesday, Aug 12', words:5, quiz:'3/5', minutes:12}
+    ]
+  },
+  {
+    title: 'Week of Aug 3', range: 'Aug 3 – Aug 9', done: 5, total: 7, openByDefault: false,
+    days: [
+      {label:'Sunday, Aug 9', words:5, quiz:'5/5', minutes:11},
+      {label:'Saturday, Aug 8', words:5, quiz:'4/5', minutes:10},
+      {label:'Friday, Aug 7', words:5, quiz:'5/5', minutes:9},
+      {label:'Wednesday, Aug 5', words:5, quiz:'3/5', minutes:13},
+      {label:'Monday, Aug 3', words:5, quiz:'4/5', minutes:10}
+    ]
+  },
+  {
+    title: 'Week of Jul 27', range: 'Jul 27 – Aug 2', done: 4, total: 7, openByDefault: false,
+    days: [
+      {label:'Sunday, Aug 2', words:5, quiz:'5/5', minutes:10},
+      {label:'Friday, Jul 31', words:5, quiz:'4/5', minutes:11},
+      {label:'Wednesday, Jul 29', words:5, quiz:'3/5', minutes:12},
+      {label:'Monday, Jul 27', words:5, quiz:'5/5', minutes:9}
+    ]
+  }
+];
+
+var zone = document.getElementById('weeksZone');
+
+function buildDots(done, total){
+  var out = '';
+  for(var i=0;i<total;i++){
+    out += '<span class="wDot' + (i < done ? ' done' : '') + '"></span>';
+  }
+  return out;
+}
+
+function buildDays(days){
+  return days.map(function(d){
+    return '<div class="tCard">' +
+        '<div class="tTop">' +
+          '<span class="tDate' + (d.today ? ' today' : '') + '">' + d.label + '</span>' +
+          '<span class="tBadge"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-9"/></svg>Completed</span>' +
+        '</div>' +
+        '<div class="tStats">' +
+          '<span class="tStat"><b>' + d.words + '</b> words</span>' +
+          '<span class="tStat"><b>' + d.quiz + '</b> quiz</span>' +
+          '<span class="tStat"><b>' + d.minutes + 'm</b> spent</span>' +
+        '</div>' +
+      '</div>';
+  }).join('');
+}
+
+weeks.forEach(function(w){
+  var block = document.createElement('div');
+  block.className = 'weekBlock';
+  block.innerHTML =
+    '<button class="weekHeader' + (w.openByDefault ? ' open' : '') + '">' +
+      '<span class="weekInfo">' +
+        '<div class="weekTitle">' + w.title + '</div>' +
+        '<div class="weekRange">' + w.range + '</div>' +
+      '</span>' +
+      '<span class="weekDots">' + buildDots(w.done, w.total) + '</span>' +
+      '<span class="weekRatio">' + w.done + '/' + w.total + '</span>' +
+      '<span class="weekChevron"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>' +
+    '</button>' +
+    '<div class="weekBody' + (w.openByDefault ? ' open' : '') + '">' +
+      '<div class="weekBodyInner">' + buildDays(w.days) + '</div>' +
+    '</div>';
+
+  var header = block.querySelector('.weekHeader');
+  var body = block.querySelector('.weekBody');
+  header.addEventListener('click', function(){
+    header.classList.toggle('open');
+    body.classList.toggle('open');
+  });
+
+  zone.appendChild(block);
+});
+
+document.getElementById('backLink').addEventListener('click', function(){
+  window.location.href = 'profile.html';
+});
+
+document.querySelectorAll(".navItem").forEach(function(btn){
+  var routes = {Home:"home.html", Learn:"learn.html", Review:"review.html", Progress:"progress.html", Profile:"profile.html"};
+  var label = btn.textContent.trim();
+  if(routes[label]){
+    btn.addEventListener("click", function(){ window.location.href = routes[label]; });
+  }
+});
+</script>
+</body>
+</html>

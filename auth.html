@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#09090b">
+<title>Lexora: Sign In</title>
+<style>
+:root{
+  --bg:#09090b;
+  --surface:#121216;
+  --surface2:#17171c;
+  --line:#25242a;
+  --text:#f1eee7;
+  --muted:#9a98a0;
+  --faint:#666469;
+  --gold:#c9a24c;
+  --gold2:#a9874e;
+  --gold-pale:#e8d9b5;
+  --green:#2e8b75;
+  --shadow-card:0 24px 50px -28px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.03);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{min-height:100dvh;overflow-x:hidden}
+button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
+input{font:inherit;color:inherit}
+#app{min-height:100dvh;max-width:480px;margin:auto;background:var(--bg);display:flex;flex-direction:column;position:relative}
+
+.ambient{position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:480px;height:420px;
+  background:radial-gradient(circle,rgba(201,162,76,.2),transparent 65%);pointer-events:none}
+
+.heroZone{position:relative;padding:38px 20px 4px;text-align:center}
+.illusWrap{width:190px;height:284px;margin:0 auto;position:relative;animation:illusIn .6s cubic-bezier(.16,1,.3,1) both}
+@keyframes illusIn{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.illusImg{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 30px rgba(0,0,0,.5))}
+.illusImg.imgFallback{background:var(--surface2);border:1px solid var(--line);border-radius:24px;filter:none;object-fit:none}
+
+.sparkle{position:absolute;color:var(--gold-pale);opacity:0;animation:sparkleIn 2.4s ease-in-out infinite}
+.sparkle svg{width:100%;height:100%;fill:currentColor}
+.sp1{width:15px;height:15px;top:2px;right:6px;animation-delay:.3s}
+.sp2{width:10px;height:10px;top:96px;left:-8px;animation-delay:1.1s}
+.sp3{width:12px;height:12px;bottom:36px;right:-6px;animation-delay:1.8s}
+@keyframes sparkleIn{0%,100%{opacity:0;transform:scale(.6)}50%{opacity:1;transform:scale(1)}}
+
+.wordmarkRow{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:18px}
+.wmStar{width:20px;height:20px;color:var(--gold)}
+.wmStar svg{width:100%;height:100%;fill:currentColor}
+.wordmark{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.tagline{margin-top:5px;font-size:13.5px;color:var(--muted)}
+
+.switchZone{position:relative;padding:26px 20px 0}
+.switchTrack{position:relative;display:flex;background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:4px}
+.switchSlider{position:absolute;top:4px;bottom:4px;width:calc(50% - 4px);border-radius:10px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));box-shadow:0 6px 16px -6px rgba(201,162,76,.55);
+  transition:transform .32s cubic-bezier(.2,.8,.2,1)}
+.switchBtn{position:relative;z-index:1;flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;
+  font-size:14.5px;font-weight:700;color:var(--muted);transition:color .3s}
+.switchBtn.active{color:#1a1408}
+
+.formZone{position:relative;padding:22px 20px 0}
+.fieldGroup{display:flex;flex-direction:column;gap:12px}
+.field{display:none}
+.field.show{display:block;animation:fieldIn .35s cubic-bezier(.2,.7,.2,1) both}
+@keyframes fieldIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.fieldLabel{font-size:11.5px;font-weight:650;color:var(--faint);margin:0 2px 6px;display:block}
+.inputWrap{position:relative}
+.inputBox{width:100%;min-height:52px;border-radius:14px;background:var(--surface2);border:1px solid var(--line);
+  color:var(--text);padding:0 16px;font-size:15px;outline:none;transition:border-color .18s,box-shadow .18s}
+.inputBox::placeholder{color:var(--faint)}
+.inputBox:focus{border-color:var(--gold2);box-shadow:0 0 0 3px rgba(201,162,76,.14)}
+.inputBox.pw{padding-right:46px}
+.eyeBtn{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:42px;height:42px;
+  display:grid;place-items:center;color:var(--faint)}
+.eyeBtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.forgotRow{text-align:right;margin-top:8px}
+.forgotLink{font-size:12.5px;color:var(--gold-pale);font-weight:600}
+
+.submitBtn{width:100%;min-height:56px;border-radius:16px;font-size:16px;font-weight:700;letter-spacing:-.01em;
+  margin-top:20px;display:flex;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1408;
+  box-shadow:0 10px 26px -10px rgba(201,162,76,.55);transition:transform .12s,filter .12s}
+.submitBtn:active{transform:scale(.98);filter:brightness(.95)}
+
+.dividerRow{display:flex;align-items:center;gap:12px;margin:22px 0}
+.dividerLine{flex:1;height:1px;background:var(--line)}
+.dividerText{font-size:11.5px;color:var(--faint);font-weight:600}
+
+.socialBtn{width:100%;min-height:52px;border-radius:14px;background:var(--surface2);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;gap:10px;font-size:14.5px;font-weight:650;color:var(--text);
+  transition:border-color .15s,transform .12s}
+.socialBtn:active{transform:scale(.98);border-color:var(--gold2)}
+.socialBtn svg{width:18px;height:18px}
+
+.footNote{text-align:center;margin:22px 20px calc(28px + env(safe-area-inset-bottom));font-size:12px;
+  color:var(--faint);line-height:1.6}
+.footNote b{color:var(--muted);font-weight:600}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ambient"></div>
+
+  <div class="heroZone">
+    <div class="illusWrap">
+      <img class="illusImg" alt="Lexora character in Ankara-print top, waving in greeting" src="assets/characters/auth-01.png" onerror="this.classList.add('imgFallback');this.removeAttribute('src')">
+      <span class="sparkle sp1"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></span>
+      <span class="sparkle sp2"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></span>
+      <span class="sparkle sp3"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></span>
+    </div>
+
+    <div class="wordmarkRow">
+      <span class="wmStar"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></span>
+      <span class="wordmark">Lexora</span>
+    </div>
+    <p class="tagline" id="tagline">Good to see you again. Let's keep going.</p>
+  </div>
+
+  <div class="switchZone">
+    <div class="switchTrack">
+      <div class="switchSlider" id="switchSlider"></div>
+      <button class="switchBtn active" id="loginTab">Log in</button>
+      <button class="switchBtn" id="signupTab">Sign up</button>
+    </div>
+  </div>
+
+  <main class="formZone">
+    <div class="fieldGroup">
+      <div class="field" id="nameField">
+        <label class="fieldLabel">Full name</label>
+        <div class="inputWrap"><input class="inputBox" type="text" placeholder="Michael O."></div>
+      </div>
+
+      <div class="field show" id="emailField">
+        <label class="fieldLabel">Email</label>
+        <div class="inputWrap"><input class="inputBox" type="email" placeholder="you@email.com"></div>
+      </div>
+
+      <div class="field show" id="pwField">
+        <label class="fieldLabel">Password</label>
+        <div class="inputWrap">
+          <input class="inputBox pw" type="password" placeholder="Enter your password" id="pwInput">
+          <button class="eyeBtn" id="eyeBtn">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="forgotRow" id="forgotRow">
+      <button class="forgotLink">Forgot password?</button>
+    </div>
+
+    <button class="submitBtn" id="submitBtn">Log in</button>
+
+    <div class="dividerRow"><span class="dividerLine"></span><span class="dividerText">OR</span><span class="dividerLine"></span></div>
+
+    <button class="socialBtn">
+      <svg viewBox="0 0 24 24"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.24 1.4-1.7 4.1-5.5 4.1-3.3 0-6-2.7-6-6.2s2.7-6.2 6-6.2c1.9 0 3.1.8 3.9 1.5l2.6-2.5C16.9 3.2 14.7 2.2 12 2.2 6.9 2.2 2.7 6.4 2.7 12s4.2 9.8 9.3 9.8c5.4 0 8.9-3.8 8.9-9.1 0-.6-.07-1.1-.16-1.6H12z"/></svg>
+      Continue with Google
+    </button>
+  </main>
+
+  <p class="footNote" id="footNote">By continuing, you agree to Lexora's <b>Terms</b> and <b>Privacy Policy</b>.</p>
+</div>
+
+<script>
+var loginTab = document.getElementById('loginTab');
+var signupTab = document.getElementById('signupTab');
+var switchSlider = document.getElementById('switchSlider');
+var nameField = document.getElementById('nameField');
+var forgotRow = document.getElementById('forgotRow');
+var submitBtn = document.getElementById('submitBtn');
+var tagline = document.getElementById('tagline');
+
+function setMode(mode){
+  var isLogin = mode === 'login';
+  loginTab.classList.toggle('active', isLogin);
+  signupTab.classList.toggle('active', !isLogin);
+  switchSlider.style.transform = isLogin ? 'translateX(0)' : 'translateX(100%)';
+
+  nameField.classList.toggle('show', !isLogin);
+  forgotRow.style.display = isLogin ? 'block' : 'none';
+  submitBtn.textContent = isLogin ? 'Log in' : 'Create account';
+  tagline.textContent = isLogin ? "Good to see you again. Let's keep going." : 'Five words a day. That\u2019s all it takes to start.';
+}
+
+loginTab.addEventListener('click', function(){ setMode('login'); });
+signupTab.addEventListener('click', function(){ setMode('signup'); });
+
+var eyeBtn = document.getElementById('eyeBtn');
+var pwInput = document.getElementById('pwInput');
+eyeBtn.addEventListener('click', function(){
+  pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
+});
+</script>
+</body>
+</html>

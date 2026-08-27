@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#09090b">
+<title>Lexora: Daily Goal</title>
+<style>
+:root{
+  --bg:#09090b;
+  --surface:#121216;
+  --surface2:#17171c;
+  --line:#25242a;
+  --text:#f1eee7;
+  --muted:#9a98a0;
+  --faint:#626067;
+  --gold:#c9a24c;
+  --gold2:#a9874e;
+  --gold-pale:#e8d9b5;
+  --green:#2e8b75;
+  --green-pale:#7fd6b8;
+  --amber:#d18a4a;
+  --amber-pale:#f0c39a;
+  --shadow-card:0 24px 50px -28px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.03);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{min-height:100dvh;overflow-x:hidden}
+button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
+#app{min-height:100dvh;max-width:480px;margin:auto;background:var(--bg);display:flex;flex-direction:column;position:relative}
+main{flex:1}
+
+.ambient{position:absolute;top:0;left:0;right:0;height:300px;transition:background .5s;
+  background:radial-gradient(circle at 50% 0%,rgba(201,162,76,.16),transparent 62%);pointer-events:none}
+
+.topRow{position:relative;padding:18px 20px 0}
+.backLink{display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-size:14.5px;font-weight:500}
+.backLink svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.header{position:relative;padding:14px 20px 4px}
+.hTitle{font-size:28px;font-weight:700;letter-spacing:-.02em;margin:0}
+
+.dialZone{position:relative;display:flex;flex-direction:column;align-items:center;padding:26px 20px 6px}
+.dialWrap{width:172px;height:172px;position:relative}
+.dialSvg{width:100%;height:100%;transform:rotate(-90deg)}
+.dialTrack{fill:none;stroke:var(--line);stroke-width:10}
+.dialFill{fill:none;stroke:var(--gold);stroke-width:10;stroke-linecap:round;
+  transition:stroke-dasharray .5s cubic-bezier(.2,.8,.2,1),stroke .4s}
+.dialCenter{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dialNum{font-size:40px;font-weight:750;letter-spacing:-.02em;font-variant-numeric:tabular-nums;transition:color .3s}
+.dialUnit{font-size:12px;color:var(--faint);font-weight:650;letter-spacing:.04em;margin-top:-2px}
+
+.paceChip{margin-top:16px;display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;
+  font-size:12px;font-weight:700;transition:background .3s,color .3s}
+.paceChip .dot{width:6px;height:6px;border-radius:50%}
+
+.estRow{margin-top:14px;color:var(--muted);font-size:13.5px}
+.estRow b{color:var(--text);font-weight:650}
+
+.optionsZone{position:relative;padding:28px 20px 4px}
+.optLabel{color:var(--faint);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin:0 2px 12px}
+.optTrack{position:relative;display:flex;background:var(--surface2);border:1px solid var(--line);border-radius:16px;padding:5px}
+.optSlider{position:absolute;top:5px;bottom:5px;width:calc(33.333% - 3.33px);border-radius:12px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));box-shadow:0 6px 16px -6px rgba(201,162,76,.55);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s}
+.optBtn{position:relative;z-index:1;flex:1;min-height:52px;display:flex;align-items:center;justify-content:center;
+  gap:5px;font-size:16px;font-weight:700;color:var(--muted);transition:color .3s}
+.optBtn.active{color:#1a1408}
+.optBtn.locked{color:var(--faint)}
+.optBtn.locked svg{width:13px;height:13px;stroke:var(--faint);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.descCard{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:15px 18px;box-shadow:var(--shadow-card)}
+.descText{color:var(--muted);font-size:13.5px;line-height:1.55;text-align:center;transition:opacity .2s;
+  text-wrap:balance;max-width:340px;margin:0 auto}
+
+.unlockCard{margin-top:14px;background:linear-gradient(155deg,rgba(201,162,76,.14),var(--surface) 55%);
+  border:1px solid rgba(201,162,76,.3);border-radius:18px;padding:18px;box-shadow:var(--shadow-card);
+  display:none}
+.unlockCard.show{display:block;animation:riseIn2 .35s cubic-bezier(.2,.7,.2,1) both}
+@keyframes riseIn2{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.unlockTop{display:flex;align-items:center;gap:10px}
+.unlockIconWrap{flex:0 0 34px;width:34px;height:34px;border-radius:10px;background:rgba(201,162,76,.18);
+  display:grid;place-items:center;color:var(--gold)}
+.unlockIconWrap svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.unlockTitle{font-size:14.5px;font-weight:700;letter-spacing:-.01em}
+.unlockSub{margin-top:2px;font-size:12px;color:var(--muted)}
+.unlockProgWrap{margin-top:14px}
+.unlockProgTop{display:flex;justify-content:space-between;font-size:11.5px;color:var(--faint);font-weight:650;margin-bottom:7px}
+.unlockProgTop b{color:var(--gold-pale)}
+.unlockTrack{height:7px;border-radius:4px;background:var(--line);overflow:hidden}
+.unlockFill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold2),var(--gold))}
+.unlockBtn{width:100%;min-height:46px;border-radius:13px;margin-top:16px;font-size:14px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1408;transition:transform .12s}
+.unlockBtn:active{transform:scale(.97)}
+.unlockBtn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+.ctaZone{position:relative;padding:30px 20px calc(20px + env(safe-area-inset-bottom))}
+.saveBtn{width:100%;min-height:56px;border-radius:16px;font-size:16px;font-weight:700;letter-spacing:-.01em;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1408;
+  box-shadow:0 10px 26px -10px rgba(201,162,76,.55);transition:transform .12s,filter .12s}
+.saveBtn:active{transform:scale(.98);filter:brightness(.95)}
+.saveBtn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;
+  opacity:0;transform:scale(.5);transition:opacity .2s,transform .2s}
+.saveBtn.saved svg{opacity:1;transform:scale(1)}
+.saveBtn .label{transition:opacity .15s}
+
+.navBar{position:sticky;bottom:0;display:flex;border-top:1px solid var(--line);
+  background:rgba(9,9,11,.92);backdrop-filter:blur(14px);padding:10px 6px calc(10px + env(safe-area-inset-bottom))}
+.navItem{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--faint);
+  font-size:10.5px;font-weight:600;padding:4px 0;transition:transform .12s}
+.navItem svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.navItem.active{color:var(--gold)}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ambient" id="ambient"></div>
+
+  <div class="topRow">
+    <button class="backLink"><svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>Back to Profile</button>
+  </div>
+
+  <div class="header">
+    <h1 class="hTitle">Daily Goal</h1>
+  </div>
+
+  <div class="dialZone">
+    <div class="dialWrap">
+      <svg class="dialSvg" viewBox="0 0 172 172">
+        <circle class="dialTrack" cx="86" cy="86" r="76"/>
+        <circle class="dialFill" id="dialFill" cx="86" cy="86" r="76" stroke-dasharray="0 478"/>
+      </svg>
+      <div class="dialCenter">
+        <span class="dialNum" id="dialNum">5</span>
+        <span class="dialUnit">words / day</span>
+      </div>
+    </div>
+    <span class="paceChip" id="paceChip"><span class="dot" id="paceDot"></span><span id="paceText">Relaxed pace</span></span>
+    <div class="estRow">About <b id="estMin">10</b> minutes a day</div>
+  </div>
+
+  <main class="optionsZone">
+    <div class="optLabel">Words per day</div>
+    <div class="optTrack">
+      <div class="optSlider" id="optSlider"></div>
+      <button class="optBtn active" data-val="5">5</button>
+      <button class="optBtn locked" data-val="10" data-locked="true">
+        <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>10
+      </button>
+      <button class="optBtn locked" data-val="15" data-locked="true">
+        <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>15
+      </button>
+    </div>
+    <div class="descCard" id="descCard">
+      <p class="descText" id="descText">A gentle, sustainable pace. Easy to keep up on busy days.</p>
+    </div>
+
+    <div class="unlockCard" id="unlockCard10">
+      <div class="unlockTop">
+        <span class="unlockIconWrap"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+        <span>
+          <div class="unlockTitle">Invite 5 friends to unlock 10 words/day</div>
+          <div class="unlockSub">They just need to sign up and log in once</div>
+        </span>
+      </div>
+      <div class="unlockProgWrap">
+        <div class="unlockProgTop"><span><b>2</b> of 5 invited</span><span>3 to go</span></div>
+        <div class="unlockTrack"><div class="unlockFill" style="width:40%"></div></div>
+      </div>
+      <button class="unlockBtn" id="inviteBtn10">Invite friends <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
+    </div>
+
+    <div class="unlockCard" id="unlockCard15">
+      <div class="unlockTop">
+        <span class="unlockIconWrap"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+        <span>
+          <div class="unlockTitle">Invite 10 friends to unlock 15 words/day</div>
+          <div class="unlockSub">They just need to sign up and log in once</div>
+        </span>
+      </div>
+      <div class="unlockProgWrap">
+        <div class="unlockProgTop"><span><b>2</b> of 10 invited</span><span>8 to go</span></div>
+        <div class="unlockTrack"><div class="unlockFill" style="width:20%"></div></div>
+      </div>
+      <button class="unlockBtn" id="inviteBtn15">Invite friends <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </main>
+
+  <div class="ctaZone">
+    <button class="saveBtn" id="saveBtn">
+      <svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-9"/></svg>
+      <span class="label" id="saveLabel">Save goal</span>
+    </button>
+  </div>
+
+  <nav class="navBar">
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Home</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Learn</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12V6"/><path d="M3 12h6"/></svg>Review</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M5 20V11"/><path d="M12 20V4"/><path d="M19 20v-7"/></svg>Progress</button>
+    <button class="navItem active"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>Profile</button>
+  </nav>
+</div>
+
+<script>
+var CIRC = 2 * Math.PI * 76;
+var tiers = {
+  5:  {pct: .30, pace:'Relaxed pace',  color:'var(--green)',  colorPale:'var(--green-pale)', chipBg:'rgba(46,139,117,.16)',  glow:'rgba(46,139,117,.18)',  desc:'A gentle, sustainable pace.<br>Easy to keep up on busy days.', min:10},
+  10: {pct: .62, pace:'Balanced pace', color:'var(--gold)',   colorPale:'var(--gold-pale)',   chipBg:'rgba(201,162,76,.16)',  glow:'rgba(201,162,76,.2)',   desc:'A steady pace that builds<br>real vocabulary within weeks.', min:20},
+  15: {pct: 1,   pace:'Intense pace',  color:'var(--amber)',  colorPale:'var(--amber-pale)',  chipBg:'rgba(209,138,74,.18)', glow:'rgba(209,138,74,.2)',   desc:'Fast progress, but only sustainable<br>if you have the time daily.', min:30}
+};
+
+var dialFill = document.getElementById('dialFill');
+var dialNum = document.getElementById('dialNum');
+var paceChip = document.getElementById('paceChip');
+var paceDot = document.getElementById('paceDot');
+var paceText = document.getElementById('paceText');
+var estMin = document.getElementById('estMin');
+var descText = document.getElementById('descText');
+var optSlider = document.getElementById('optSlider');
+var ambient = document.getElementById('ambient');
+var buttons = document.querySelectorAll('.optBtn');
+var saveBtn = document.getElementById('saveBtn');
+var saveLabel = document.getElementById('saveLabel');
+
+var order = ['5','10','15'];
+
+function applyTier(val, animateDial){
+  var t = tiers[val];
+  dialNum.textContent = val;
+  dialFill.style.stroke = t.color;
+  dialFill.style.strokeDasharray = (CIRC * t.pct) + ' ' + CIRC;
+  paceChip.style.background = t.chipBg;
+  paceChip.style.color = t.colorPale;
+  paceDot.style.background = t.color;
+  paceText.textContent = t.pace;
+  estMin.textContent = t.min;
+  descText.style.opacity = 0;
+  setTimeout(function(){ descText.innerHTML = t.desc; descText.style.opacity = 1; }, 150);
+  ambient.style.background = 'radial-gradient(circle at 50% 0%, ' + t.glow + ', transparent 62%)';
+
+  var idx = order.indexOf(val);
+  optSlider.style.transform = 'translateX(' + (idx * 100) + '%)';
+  buttons.forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-val') === val); });
+
+  saveBtn.classList.remove('saved');
+  saveLabel.textContent = 'Save goal';
+}
+
+var descCard = document.getElementById('descCard');
+var unlockCard10 = document.getElementById('unlockCard10');
+var unlockCard15 = document.getElementById('unlockCard15');
+
+function showUnlock(val){
+  descCard.style.display = 'none';
+  unlockCard10.classList.toggle('show', val === '10');
+  unlockCard15.classList.toggle('show', val === '15');
+  buttons.forEach(function(b){ b.classList.remove('active'); });
+  optSlider.style.opacity = '0';
+}
+
+function showUnlocked(val){
+  unlockCard10.classList.remove('show');
+  unlockCard15.classList.remove('show');
+  descCard.style.display = 'block';
+  optSlider.style.opacity = '1';
+  applyTier(val, true);
+}
+
+buttons.forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var val = btn.getAttribute('data-val');
+    if(btn.getAttribute('data-locked') === 'true'){
+      showUnlock(val);
+    } else {
+      showUnlocked(val);
+    }
+  });
+});
+
+document.getElementById('inviteBtn10').addEventListener('click', function(){
+  window.location.href = 'invite.html';
+});
+document.getElementById('inviteBtn15').addEventListener('click', function(){
+  window.location.href = 'invite.html';
+});
+
+saveBtn.addEventListener('click', function(){
+  saveBtn.classList.add('saved');
+  saveLabel.textContent = 'Goal saved';
+  setTimeout(function(){
+    saveBtn.classList.remove('saved');
+    saveLabel.textContent = 'Save goal';
+  }, 1800);
+});
+
+// init
+requestAnimationFrame(function(){ applyTier('5'); });
+
+document.querySelectorAll(".navItem").forEach(function(btn){
+  var routes = {Home:"home.html", Learn:"learn.html", Review:"review.html", Progress:"progress.html", Profile:"profile.html"};
+  var label = btn.textContent.trim();
+  if(routes[label]){
+    btn.addEventListener("click", function(){ window.location.href = routes[label]; });
+  }
+});
+</script>
+</body>
+</html>

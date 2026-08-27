@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#09090b">
+<title>Lexora: Profile</title>
+<style>
+:root{
+  --bg:#09090b;
+  --surface:#121216;
+  --surface2:#17171c;
+  --line:#25242a;
+  --text:#f1eee7;
+  --muted:#89878e;
+  --faint:#626067;
+  --gold:#c8a368;
+  --gold2:#a9874e;
+  --danger:#e06b76;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{min-height:100dvh;overflow-x:hidden}
+button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
+#app{min-height:100dvh;max-width:480px;margin:auto;background:var(--bg);display:flex;flex-direction:column}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 4px}
+.backBtn{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#e9e6df;background:transparent}
+.backBtn:active{background:#18181d}
+.backBtn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.topbarTitle{font-size:15px;font-weight:600;letter-spacing:-.01em;color:#e9e6df}
+.topbarSpacer{width:34px}
+
+.profileMain{flex:1;padding:6px 20px 24px}
+.profileHeader{text-align:center;padding:14px 0 4px;animation:riseIn .5s cubic-bezier(.2,.7,.2,1) both}
+@keyframes riseIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.avatarZone{position:relative;width:112px;height:112px;margin:0 auto}
+.avatarRing{width:112px;height:112px;border-radius:50%;padding:4px;background:var(--gold)}
+.avatarRingInner{width:100%;height:100%;border-radius:50%;background:var(--surface2);padding:3px}
+.avatar{width:100%;height:100%;border-radius:50%;display:block;object-fit:cover;object-position:center 27%}
+.avatarInitial{display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#241f18,#15130f);
+  color:var(--gold);font-size:36px;line-height:1;font-weight:650;letter-spacing:-.02em}
+.streakBadge{position:absolute;right:-2px;bottom:-2px;min-width:28px;height:28px;padding:0 7px;border-radius:14px;
+  background:var(--bg);border:1.5px solid var(--gold);display:flex;align-items:center;gap:3px;justify-content:center;
+  box-shadow:0 4px 10px rgba(0,0,0,.5)}
+.streakBadge svg{width:10px;height:10px;fill:var(--gold);stroke:none}
+.streakBadge span{color:var(--gold);font-size:11px;font-weight:700}
+
+.profileName{font-size:21px;line-height:1.15;font-weight:650;letter-spacing:-.02em;margin-top:14px}
+.profileRole{margin-top:3px;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+
+.statCardRow{display:flex;gap:8px;margin-top:18px;animation:riseIn .5s cubic-bezier(.2,.7,.2,1) .06s both}
+.statCard{flex:1;background:var(--surface2);border:1px solid var(--line);border-radius:16px;
+  padding:12px 6px 11px;display:flex;flex-direction:column;align-items:center;gap:5px}
+.statIcon{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:#1e1d22;color:var(--gold)}
+.statIcon svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.statNum{font-size:16px;font-weight:700;letter-spacing:-.02em;margin-top:2px}
+.statLabel{font-size:9.5px;color:var(--faint);font-weight:600;letter-spacing:.02em}
+
+.sectionLabel{margin:26px 4px 9px 8px;color:#77747c;font-size:10px;line-height:1.2;
+  letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.group{background:var(--surface2);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.row{width:100%;min-height:62px;display:flex;align-items:center;gap:13px;padding:11px 14px;text-align:left}
+.row+.row{border-top:1px solid #201f24}
+.row:active{background:#1c1c21}
+.rowIcon{width:34px;height:34px;flex:0 0 34px;border-radius:9px;display:grid;place-items:center;
+  background:#1e1d22;color:var(--gold)}
+.rowIcon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.rowText{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
+.rowTitle{font-size:14.5px;line-height:1.25;font-weight:560;letter-spacing:-.01em;color:var(--text)}
+.rowSub{font-size:11.5px;line-height:1.35;color:var(--faint)}
+.rowChevron{flex:0 0 auto;color:#5b585f;font-size:20px;line-height:1}
+.row.danger .rowTitle{color:var(--danger)}
+.row.danger .rowIcon{background:rgba(224,107,118,.12);color:var(--danger)}
+
+.note{margin:16px 8px 0;font-size:11px;line-height:1.5;color:#57545b}
+
+.navBar{position:sticky;bottom:0;display:flex;border-top:1px solid var(--line);
+  background:rgba(9,9,11,.92);backdrop-filter:blur(14px);padding:10px 6px calc(10px + env(safe-area-inset-bottom))}
+.navItem{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--faint);
+  font-size:10.5px;font-weight:600;padding:4px 0;transition:transform .12s}
+.navItem:active{transform:scale(.92)}
+.navItem svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.navItem.active{color:var(--gold)}
+
+@media(prefers-reduced-motion:reduce){
+  .profileHeader,.statCardRow{animation:none}
+  .navItem{transition:none}
+}
+@media(max-height:720px){
+  .avatarZone,.avatarRing{width:96px;height:96px}
+  .profileName{margin-top:10px;font-size:19px}
+  .sectionLabel{margin-top:20px}
+  .row{min-height:58px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="topbar">
+    <button class="backBtn" aria-label="Back">
+      <svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="topbarTitle">Profile</div>
+    <div class="topbarSpacer"></div>
+  </div>
+
+  <main class="profileMain">
+
+    <div class="profileHeader">
+      <button class="avatarZone" data-action="edit-photo" aria-label="Change profile photo" style="width:112px;height:112px;border:0;padding:0;background:none">
+        <div class="avatarRing">
+          <div class="avatarRingInner">
+            <div class="avatar avatarInitial">M</div>
+          </div>
+        </div>
+        <div class="streakBadge">
+          <svg viewBox="0 0 24 24"><path d="M12 2c1 4-3 5-3 9a3 3 0 0 0 6 0c0-2-1-3-1-3 2 1 3 3 3 5a5 5 0 0 1-10 0c0-6 5-6 5-11z"/></svg>
+          <span>7</span>
+        </div>
+      </button>
+      <div class="profileName">Michael</div>
+      <div class="profileRole">Lexora Learner</div>
+    </div>
+
+    <div class="statCardRow">
+      <div class="statCard">
+        <span class="statIcon"><svg viewBox="0 0 24 24"><path d="M4 4h13l3 3v13H4z"/><path d="M8 4v13"/></svg></span>
+        <span class="statNum">30</span>
+        <span class="statLabel">Learned</span>
+      </div>
+      <div class="statCard">
+        <span class="statIcon"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></svg></span>
+        <span class="statNum">12</span>
+        <span class="statLabel">Saved</span>
+      </div>
+      <div class="statCard">
+        <span class="statIcon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M9 12l2 2 4-4"/></svg></span>
+        <span class="statNum">84%</span>
+        <span class="statLabel">Quiz avg</span>
+      </div>
+    </div>
+
+    <div class="sectionLabel">My learning</div>
+    <div class="group">
+      <button class="row" data-action="saved">
+        <span class="rowIcon"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></svg></span>
+        <span class="rowText"><span class="rowTitle">Saved Words</span><span class="rowSub">Your saved vocabulary</span></span>
+        <span class="rowChevron">›</span>
+      </button>
+      <button class="row" data-action="history">
+        <span class="rowIcon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+        <span class="rowText"><span class="rowTitle">Learning History</span><span class="rowSub">Review your past activity</span></span>
+        <span class="rowChevron">›</span>
+      </button>
+      <button class="row" data-action="goal">
+        <span class="rowIcon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.8" fill="currentColor" stroke="none"/></svg></span>
+        <span class="rowText"><span class="rowTitle">Daily Goal</span><span class="rowSub">Set your daily learning target</span></span>
+        <span class="rowChevron">›</span>
+      </button>
+    </div>
+
+    <div class="sectionLabel">Preferences</div>
+    <div class="group">
+      <button class="row" data-action="reminders">
+        <span class="rowIcon"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span>
+        <span class="rowText"><span class="rowTitle">Reminders</span><span class="rowSub">Manage your daily reminders</span></span>
+        <span class="rowChevron">›</span>
+      </button>
+      <button class="row" data-action="sound">
+        <span class="rowIcon"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg></span>
+        <span class="rowText"><span class="rowTitle">Sound</span><span class="rowSub">Learning sounds and feedback</span></span>
+        <span class="rowChevron">›</span>
+      </button>
+      <button class="row" data-action="appearance">
+        <span class="rowIcon"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></span>
+        <span class="rowText"><span class="rowTitle">Appearance</span><span class="rowSub">Customize how the app looks</span></span>
+        <span class="rowChevron">›</span>
+      </button>
+      <button class="row" data-action="privacy">
+        <span class="rowIcon"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6z"/></svg></span>
+        <span class="rowText"><span class="rowTitle">Privacy</span><span class="rowSub">Manage your data and privacy</span></span>
+        <span class="rowChevron">›</span>
+      </button>
+    </div>
+
+    <div class="sectionLabel">Account</div>
+    <div class="group">
+      <button class="row danger" data-action="signout">
+        <span class="rowIcon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span>
+        <span class="rowText"><span class="rowTitle">Sign Out</span></span>
+      </button>
+    </div>
+
+    <!-- Dev note: no email, phone, plan, or workspace fields shown here, since there is no account/auth or billing system in Lexora yet. Add an Account group with those fields once sign-in and/or payment exist. -->
+
+  </main>
+
+  <nav class="navBar">
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Home</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Learn</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12V6"/><path d="M3 12h6"/></svg>Review</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M5 20V11"/><path d="M12 20V4"/><path d="M19 20v-7"/></svg>Progress</button>
+    <button class="navItem active"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>Profile</button>
+  </nav>
+</div>
+<script>
+document.querySelectorAll(".navItem").forEach(function(btn){
+  var routes = {Home:"home.html", Learn:"learn.html", Review:"review.html", Progress:"progress.html", Profile:"profile.html"};
+  var label = btn.textContent.trim();
+  if(routes[label]){
+    btn.addEventListener("click", function(){ window.location.href = routes[label]; });
+  }
+});
+</script>
+</body>
+</html>

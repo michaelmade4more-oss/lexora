@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#09090b">
+<title>Lexora: Appearance</title>
+<style>
+:root{
+  --bg:#09090b;
+  --surface:#121216;
+  --surface2:#17171c;
+  --line:#25242a;
+  --text:#f1eee7;
+  --muted:#9a98a0;
+  --faint:#626067;
+  --gold:#c9a24c;
+  --gold2:#a9874e;
+  --gold-pale:#e8d9b5;
+  --shadow-card:0 24px 50px -28px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.03);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{min-height:100dvh;overflow-x:hidden}
+button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
+#app{min-height:100dvh;max-width:480px;margin:auto;background:var(--bg);display:flex;flex-direction:column;position:relative}
+main{flex:1}
+
+.ambient{position:absolute;top:0;left:0;right:0;height:260px;
+  background:radial-gradient(circle at 30% 0%,rgba(201,162,76,.14),transparent 60%);pointer-events:none}
+
+.topRow{position:relative;padding:18px 20px 0}
+.backLink{display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-size:14.5px;font-weight:500}
+.backLink svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.header{position:relative;padding:14px 20px 4px}
+.hTitle{font-size:28px;font-weight:700;letter-spacing:-.02em;margin:0}
+
+.zone{position:relative;padding:22px 20px 0}
+.subLabel{color:var(--faint);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin:0 2px 12px}
+
+.themeRow{display:flex;gap:10px}
+.themeCard{flex:1;border-radius:18px;overflow:hidden;background:var(--surface2);border:1.5px solid var(--line);
+  box-shadow:var(--shadow-card);transition:border-color .2s;position:relative}
+.themeCard.active{border-color:var(--gold2)}
+.themeCard.locked{opacity:.68}
+
+.thumb{height:104px;position:relative;overflow:hidden}
+.thumb-dark{background:linear-gradient(180deg,#0d0d10,#09090b)}
+.thumb-light{background:linear-gradient(180deg,#f4f1ea,#e9e4d8)}
+.thumb-auto{background:linear-gradient(90deg,#0d0d10 50%,#f4f1ea 50%)}
+
+.thumbHeadline{position:absolute;top:14px;left:12px;right:12px;height:7px;border-radius:4px;background:rgba(241,238,231,.9)}
+.thumb-light .thumbHeadline{background:rgba(30,28,22,.75)}
+.thumbHeadline2{position:absolute;top:25px;left:12px;width:60%;height:5px;border-radius:3px;background:rgba(241,238,231,.4)}
+.thumb-light .thumbHeadline2{background:rgba(30,28,22,.35)}
+.thumbCard{position:absolute;left:12px;right:12px;bottom:14px;height:34px;border-radius:9px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.thumb-light .thumbCard{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.08)}
+.thumbGold{position:absolute;left:20px;bottom:22px;width:18px;height:18px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2))}
+
+.lockBadge{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;
+  background:rgba(9,9,11,.7);backdrop-filter:blur(4px);display:grid;place-items:center}
+.lockBadge svg{width:11px;height:11px;stroke:var(--text);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.checkBadge{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;
+  background:var(--gold);display:grid;place-items:center}
+.checkBadge svg{width:12px;height:12px;stroke:#1a1408;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+
+.themeLabel{padding:11px 12px 12px}
+.themeName{font-size:13.5px;font-weight:700}
+.themeTag{font-size:10px;color:var(--faint);margin-top:2px;font-weight:600}
+
+.infoCard{margin-top:20px;background:var(--surface2);border:1px solid var(--line);border-radius:18px;
+  padding:18px;box-shadow:var(--shadow-card)}
+.infoTop{display:flex;align-items:center;gap:10px}
+.infoIconWrap{width:34px;height:34px;border-radius:10px;background:rgba(201,162,76,.14);display:grid;place-items:center}
+.infoIconWrap svg{width:17px;height:17px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.infoTitle{font-size:14.5px;font-weight:700;letter-spacing:-.01em}
+.infoText{margin-top:11px;font-size:13px;line-height:1.55;color:var(--muted)}
+
+.navBar{position:sticky;bottom:0;display:flex;border-top:1px solid var(--line);
+  background:rgba(9,9,11,.92);backdrop-filter:blur(14px);padding:10px 6px calc(10px + env(safe-area-inset-bottom));margin-top:24px}
+.navItem{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--faint);
+  font-size:10.5px;font-weight:600;padding:4px 0}
+.navItem svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.navItem.active{color:var(--gold)}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ambient"></div>
+
+  <div class="topRow">
+    <button class="backLink"><svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>Back to Profile</button>
+  </div>
+
+  <div class="header">
+    <h1 class="hTitle">Appearance</h1>
+  </div>
+
+  <main class="zone">
+    <div class="subLabel">Theme</div>
+    <div class="themeRow">
+      <div class="themeCard active">
+        <div class="thumb thumb-dark">
+          <div class="thumbHeadline"></div><div class="thumbHeadline2"></div>
+          <div class="thumbCard"></div><div class="thumbGold"></div>
+          <span class="checkBadge"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-9"/></svg></span>
+        </div>
+        <div class="themeLabel"><div class="themeName">Dark</div><div class="themeTag">Active</div></div>
+      </div>
+
+      <div class="themeCard locked">
+        <div class="thumb thumb-light">
+          <div class="thumbHeadline"></div><div class="thumbHeadline2"></div>
+          <div class="thumbCard"></div><div class="thumbGold"></div>
+          <span class="lockBadge"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+        </div>
+        <div class="themeLabel"><div class="themeName">Light</div><div class="themeTag">Coming soon</div></div>
+      </div>
+
+      <div class="themeCard locked">
+        <div class="thumb thumb-auto">
+          <div class="thumbHeadline"></div><div class="thumbHeadline2"></div>
+          <div class="thumbCard"></div><div class="thumbGold"></div>
+          <span class="lockBadge"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+        </div>
+        <div class="themeLabel"><div class="themeName">Auto</div><div class="themeTag">Coming soon</div></div>
+      </div>
+    </div>
+
+    <div class="infoCard">
+      <div class="infoTop">
+        <span class="infoIconWrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></span>
+        <span class="infoTitle">Lexora's dark premium interface</span>
+      </div>
+      <p class="infoText">Built around a near-black canvas and warm gold accents, tuned for long reading sessions and low eye strain. Light and Auto modes are on the roadmap for a future build.</p>
+    </div>
+  </main>
+
+  <nav class="navBar">
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Home</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Learn</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12V6"/><path d="M3 12h6"/></svg>Review</button>
+    <button class="navItem"><svg viewBox="0 0 24 24"><path d="M5 20V11"/><path d="M12 20V4"/><path d="M19 20v-7"/></svg>Progress</button>
+    <button class="navItem active"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>Profile</button>
+  </nav>
+</div>
+<script>
+document.querySelectorAll(".navItem").forEach(function(btn){
+  var routes = {Home:"home.html", Learn:"learn.html", Review:"review.html", Progress:"progress.html", Profile:"profile.html"};
+  var label = btn.textContent.trim();
+  if(routes[label]){
+    btn.addEventListener("click", function(){ window.location.href = routes[label]; });
+  }
+});
+</script>
+</body>
+</html>
