@@ -190,7 +190,7 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
 
       <div class="deeper">
         <button class="deeperToggle" id="deeperToggle">
-          Go deeper — usage, context &amp; examples
+          Explore usage, context and examples
           <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="deeperBody" id="deeperBody">
@@ -275,13 +275,47 @@ var saveBtn = document.getElementById('saveBtn');
 saveBtn.addEventListener('click', function(){ saveBtn.classList.toggle('saved'); });
 
 var orbBtn = document.getElementById('orbBtn');
-orbBtn.addEventListener('click', function(){
+var speechRate = 1;
+var activeUtterance = null;
+
+function stopVoice(){
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  activeUtterance = null;
+  orbBtn.classList.remove('playing');
+}
+
+function speakWord(){
+  if(!('speechSynthesis' in window)){
+    orbBtn.classList.remove('playing');
+    return;
+  }
+  stopVoice();
+  var utterance = new SpeechSynthesisUtterance(word.word);
+  utterance.lang = 'en-GB';
+  utterance.rate = speechRate;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+  utterance.onend = function(){
+    activeUtterance = null;
+    orbBtn.classList.remove('playing');
+  };
+  utterance.onerror = function(){
+    activeUtterance = null;
+    orbBtn.classList.remove('playing');
+  };
+  activeUtterance = utterance;
   orbBtn.classList.add('playing');
-  setTimeout(function(){ orbBtn.classList.remove('playing'); }, 1400);
-});
+  window.speechSynthesis.speak(utterance);
+}
+
+orbBtn.addEventListener('click', speakWord);
 
 var slowBtn = document.getElementById('slowBtn');
-slowBtn.addEventListener('click', function(){ slowBtn.classList.toggle('on'); });
+slowBtn.addEventListener('click', function(){
+  var isSlow = slowBtn.classList.toggle('on');
+  speechRate = isSlow ? 0.65 : 1;
+  if(activeUtterance) speakWord();
+});
 
 var deeperToggle = document.getElementById('deeperToggle');
 var deeperBody = document.getElementById('deeperBody');
