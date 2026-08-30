@@ -248,12 +248,28 @@ var urlParams = new URLSearchParams(window.location.search);
 var dayParam = parseInt(urlParams.get('day'), 10);
 var idxParam = parseInt(urlParams.get('idx'), 10) || 0;
 
-var lesson = dayParam
-  ? window.LexoraLessons.getLessonByDay(dayParam)
+// Resolve the lesson defensively. The Word screen must use the exact
+// lesson requested by Learn, but if an old/cached link arrives without a
+// usable day value, fall back to the current Lagos lesson rather than
+// rendering a false "Word unavailable" state.
+var requestedLesson = null;
+if(Number.isFinite(dayParam) && dayParam > 0){
+  requestedLesson = window.LexoraLessons.getLessonByDay(dayParam);
+}
+var lesson = requestedLesson && !requestedLesson.isFallback && Array.isArray(requestedLesson.words)
+  ? requestedLesson
   : window.LexoraLessons.getTodayLesson();
+
 var dayNum = lesson.day;
-var words = lesson.words || [];
+var words = Array.isArray(lesson.words) ? lesson.words : [];
 var word = words[idxParam];
+
+// If the URL carried a stale/invalid index, keep the first real word
+// available instead of showing an unavailable screen.
+if(!word && words.length && (!Number.isFinite(idxParam) || idxParam < 0)){
+  idxParam = 0;
+  word = words[0];
+}
 
 var saveBtn = document.getElementById('saveBtn');
 saveBtn.addEventListener('click', function(){ saveBtn.classList.toggle('saved'); });
