@@ -37,7 +37,7 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
 
 .greetRow{display:flex;align-items:center;justify-content:space-between;margin-bottom:19px;
   animation:riseIn .5s cubic-bezier(.2,.7,.2,1) both}
-.greetText{font-size:11.5px;color:var(--muted);font-weight:500}
+.greetText{font-size:13px;color:var(--muted);font-weight:500}
 .greetText b{color:var(--text);font-weight:700}
 .greetAvatar{width:38px;height:38px;border-radius:50%;flex:0 0 38px;
   background:conic-gradient(from 180deg,var(--gold-pale),var(--gold) 30%,var(--gold2) 55%,var(--gold) 80%,var(--gold-pale));
@@ -46,7 +46,7 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
   display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--gold-pale);overflow:hidden}
 .greetAvatarImg{width:100%;height:100%;object-fit:cover;object-position:center 38%;display:block}
 .greetRight{display:flex;align-items:center;gap:12px}
-.greetStreak{display:flex;align-items:center;gap:4px;color:var(--muted);font-size:10.5px;font-weight:600;
+.greetStreak{display:flex;align-items:center;gap:4px;color:var(--muted);font-size:12px;font-weight:600;
   transition:transform .12s}
 .greetStreak:active{transform:scale(.92)}
 .greetStreak svg{width:16px;height:16px;fill:var(--gold);stroke:none}
@@ -94,7 +94,7 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
 .trialIconWrap{flex:0 0 26px;width:26px;height:26px;border-radius:50%;background:rgba(201,162,76,.14);
   display:grid;place-items:center;color:var(--gold)}
 .trialIconWrap svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.trialTitle{flex:1;min-width:0;text-align:left;font-size:9px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trialTitle{flex:1;min-width:0;text-align:left;font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .trialTrack{height:3px;border-radius:2px;background:var(--line);overflow:hidden}
 .trialFill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold2),var(--gold));width:76%}
 .trialBtn{flex:0 0 auto;min-height:28px;padding:0 11px;border-radius:100px;background:var(--surface);
@@ -102,15 +102,15 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
   display:flex;align-items:center;justify-content:center;transition:border-color .15s}
 .trialBtn:active{border-color:var(--gold2)}
 
-.homeHeadline{font-size:21.5px;line-height:1.18;font-weight:700;letter-spacing:-.015em;margin:8px 0 8px;
+.homeHeadline{font-size:24px;line-height:1.15;font-weight:700;letter-spacing:-.015em;margin:9px 0 9px;
   animation:riseIn .5s cubic-bezier(.2,.7,.2,1) .07s both}
-.homeSub{color:var(--muted);font-size:10.5px;line-height:1.45;margin:0;text-wrap:pretty;
+.homeSub{color:var(--muted);font-size:12px;line-height:1.45;margin:0;text-wrap:pretty;
   animation:riseIn .5s cubic-bezier(.2,.7,.2,1) .1s both}
 @keyframes riseIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
 .lessonCard{margin-top:19px;background:var(--surface2);border:1px solid var(--line);border-radius:22px;
   padding:18px 18px 16px;box-shadow:var(--shadow-card);animation:riseIn .5s cubic-bezier(.2,.7,.2,1) .12s both}
-.lessonMetaRow{display:flex;align-items:center;justify-content:space-between;font-size:10.5px}
+.lessonMetaRow{display:flex;align-items:center;justify-content:space-between;font-size:12px}
 .lessonMeta{color:var(--text)}
 .lessonTag{color:var(--gold);font-weight:650}
 
@@ -118,7 +118,7 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
 .seg{flex:1;height:4px;border-radius:2px;background:var(--line)}
 .seg.done{background:linear-gradient(90deg,var(--gold),var(--gold2))}
 
-.btn{min-height:52px;border-radius:15px;font-size:12.5px;font-weight:650;letter-spacing:-.01em;
+.btn{min-height:54px;border-radius:15px;font-size:14px;font-weight:650;letter-spacing:-.01em;
   display:flex;align-items:center;justify-content:center;gap:7px;transition:transform .12s,filter .12s}
 .btnPrimary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1408;box-shadow:0 8px 20px -10px rgba(201,162,76,.55)}
 .btnPrimary:active{transform:scale(.98);filter:brightness(.95)}
@@ -135,7 +135,7 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
 .streakBannerFlame{flex:0 0 26px;width:26px;height:26px;border-radius:50%;background:rgba(201,162,76,.16);
   display:grid;place-items:center}
 .streakBannerFlame svg{width:14px;height:14px;fill:var(--gold);stroke:none}
-.streakBannerText{font-size:9.5px;font-weight:500;color:var(--muted)}
+.streakBannerText{font-size:10.5px;font-weight:500;color:var(--muted)}
 .streakBannerText b{color:var(--text);font-weight:650}
 
 .thoughtCard{margin-top:28px;background:var(--surface2);border:1px solid var(--line);border-radius:22px;
@@ -143,8 +143,8 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
   animation:riseIn .5s cubic-bezier(.2,.7,.2,1) .2s both}
 .thoughtLeft{flex:1;min-width:0}
 .thoughtEyebrow{color:var(--faint);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
-.thoughtQuote{font-size:14px;line-height:1.4;font-weight:550;letter-spacing:-.005em;margin:8px 0 8px;text-wrap:pretty}
-.thoughtSub{color:var(--muted);font-size:9.5px;line-height:1.5;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thoughtQuote{font-size:15.5px;line-height:1.38;font-weight:550;letter-spacing:-.005em;margin:9px 0 9px;text-wrap:pretty}
+.thoughtSub{color:var(--muted);font-size:10.5px;line-height:1.5;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .thoughtIllustration{flex:0 0 92px;width:92px;display:flex;align-items:flex-end;justify-content:center}
 .thoughtIllustration img{width:100%;height:auto;display:block;filter:drop-shadow(0 10px 16px rgba(0,0,0,.45))}
 .thoughtIllustration img.imgFallback{height:120px;background:var(--surface2);border:1px solid var(--line);
@@ -161,7 +161,7 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
 .dayDot.today{background:var(--gold)}
 .dayDot.missed{border:1.5px solid var(--faint)}
 .dayDot.upcoming{border:1.5px dashed var(--line)}
-.weekCaption{margin:12px 2px 0;color:var(--muted);font-size:10px}
+.weekCaption{margin:12px 2px 0;color:var(--muted);font-size:11px}
 
 .navBar{position:sticky;bottom:0;display:flex;border-top:1px solid var(--line);
   background:rgba(9,9,11,.92);backdrop-filter:blur(14px);padding:10px 6px calc(10px + env(safe-area-inset-bottom));
@@ -177,8 +177,8 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
   .btn,.navItem{transition:none}
 }
 @media(max-height:740px){
-  .homeHeadline{font-size:19px}
-  .thoughtQuote{font-size:13px}
+  .homeHeadline{font-size:21px}
+  .thoughtQuote{font-size:14px}
 }
 </style>
 </head>
@@ -285,6 +285,13 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
 <script src="lessons/day-01.js"></script>
 <script src="lessons/day-02.js"></script>
 <script src="lessons/day-03.js"></script>
+<script src="lessons/day-04.js"></script>
+<script src="lessons/day-05.js"></script>
+<script src="lessons/day-06.js"></script>
+<script src="lessons/day-07.js"></script>
+<script src="lessons/day-08.js"></script>
+<script src="lessons/day-09.js"></script>
+<script src="lessons/day-10.js"></script>
 <script src="lessons/registry.js"></script>
 <script src="lessons/lesson-engine.js"></script>
 <script>
