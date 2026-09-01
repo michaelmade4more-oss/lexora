@@ -34,6 +34,28 @@ var LEXORA_DAY_08 = {
           conversationalExample: "I'm still weighing up whether to move cities.",
           useItWhen: "British English speakers often prefer this phrasal form over plain \"weigh\" in everyday conversation, both are correct.",
           whyHere: "Weigh up\" is the natural spoken British variant of \"weigh,\" teaching it prevents learners from sounding overly formal or American in casual speech."
+        },
+        {
+          slug: "weigh-related-evaluate",
+          word: "Evaluate",
+          kind: "close synonym (more formal)",
+          partOfSpeech: "verb",
+          meaning: "To judge the value, quality, or importance of something carefully.",
+          professionalExample: "We need to evaluate all three vendors before choosing one.",
+          conversationalExample: "Let's evaluate our options before deciding.",
+          useItWhen: "Judging something's overall quality or value, often in a more formal or structured process than simply weighing options.",
+          whyHere: "Evaluate often implies a more formal or systematic process; weigh can describe a quicker, more everyday act of comparing choices."
+        },
+        {
+          slug: "weigh-related-dismiss",
+          word: "Dismiss",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "verb",
+          meaning: "To decide something is not worth considering, often quickly.",
+          professionalExample: "Don't dismiss the idea just because it sounds unusual at first.",
+          conversationalExample: "He dismissed my suggestion without even thinking about it.",
+          useItWhen: "An option is rejected immediately without real consideration, the opposite of weighing it fairly.",
+          whyHere: "Dismissing an option skips the weighing process entirely, useful for contrasting careful and careless decision-making."
         }
       ],
       audioRef: null,
@@ -69,6 +91,28 @@ var LEXORA_DAY_08 = {
           conversationalExample: "I'll make one concession: you can pick the restaurant this time.",
           useItWhen: "One side gives something up, rather than both sides trading something, which is what makes it a compromise.",
           whyHere: "Compromise and concession are often confused, since both involve giving something up. The difference is whether it happens on one side or both."
+        },
+        {
+          slug: "compromise-related-middle-ground",
+          word: "Middle ground",
+          kind: "close synonym (outcome-focused)",
+          partOfSpeech: "noun phrase",
+          meaning: "A position or agreement that partly satisfies opposing sides.",
+          professionalExample: "We found some middle ground on the launch date.",
+          conversationalExample: "Can we find some middle ground here?",
+          useItWhen: "Describing the resulting position after negotiation, rather than the act of negotiating itself.",
+          whyHere: "Middle ground is the outcome; compromise is often used for both the outcome and the process of getting there."
+        },
+        {
+          slug: "compromise-related-stubborn",
+          word: "Stubborn",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Refusing to change one's position, even when reasonable to do so.",
+          professionalExample: "He was too stubborn to compromise, even when the numbers didn't work.",
+          conversationalExample: "You're being stubborn, just meet me halfway.",
+          useItWhen: "Someone refuses to move at all, blocking any compromise from happening.",
+          whyHere: "Stubbornness is the attitude that prevents compromise, a useful contrast for describing failed negotiations."
         }
       ],
       audioRef: null,
@@ -104,6 +148,28 @@ var LEXORA_DAY_08 = {
           conversationalExample: "I used to be more idealistic before I had bills to pay.",
           useItWhen: "Describing an approach guided by principle or vision rather than practical constraints, the direct opposite of pragmatic.",
           whyHere: "This is a genuine, common contrast pair in workplace discussion, \"pragmatic versus idealistic\" is a real, recurring tension worth naming explicitly."
+        },
+        {
+          slug: "pragmatic-related-practical",
+          word: "Practical",
+          kind: "close synonym",
+          partOfSpeech: "adjective",
+          meaning: "Concerned with actual results and workable solutions, rather than theory.",
+          professionalExample: "Let's take a practical approach and just ship what works.",
+          conversationalExample: "That's not romantic, but it's practical.",
+          useItWhen: "Emphasising workability and real-world results, almost interchangeable with pragmatic.",
+          whyHere: "Practical and pragmatic are near-identical in everyday use, pragmatic leans slightly more toward decision-making under real constraints."
+        },
+        {
+          slug: "pragmatic-related-idealistic",
+          word: "Idealistic",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Guided by ideals or principles, sometimes without regard for practical limits.",
+          professionalExample: "Her plan was idealistic, it didn't account for the budget at all.",
+          conversationalExample: "You're being idealistic, that's just not how the world works.",
+          useItWhen: "A view is shaped by principle over practicality, the opposite of a pragmatic approach.",
+          whyHere: "Idealistic and pragmatic are the classic contrast pair in decision-making, principle versus practicality."
         }
       ],
       audioRef: null,
@@ -139,6 +205,28 @@ var LEXORA_DAY_08 = {
           conversationalExample: "We deliberated over the name for months.",
           useItWhen: "Describing the process of thinking something through, rather than the finished, intentional quality of a decision.",
           whyHere: "Same spelling, different pronunciation and word class, an important pair for learners to recognise in both speech and writing."
+        },
+        {
+          slug: "deliberate-related-intentional",
+          word: "Intentional",
+          kind: "close synonym",
+          partOfSpeech: "adjective",
+          meaning: "Done on purpose, as a conscious choice.",
+          professionalExample: "The delay was intentional, we wanted more time to test it.",
+          conversationalExample: "Was that comment intentional, or did it just slip out?",
+          useItWhen: "Describing something done on purpose, almost interchangeably with deliberate as an adjective.",
+          whyHere: "Intentional and deliberate (adjective) are extremely close synonyms, both point to purposeful, not accidental, action."
+        },
+        {
+          slug: "deliberate-related-accidental",
+          word: "Accidental",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Happening by chance, without intention.",
+          professionalExample: "The error was accidental, not a deliberate attempt to mislead anyone.",
+          conversationalExample: "It was totally accidental, I didn't mean to send that.",
+          useItWhen: "Something happens without any intention behind it, the direct opposite of deliberate.",
+          whyHere: "Accidental is the direct opposite of deliberate, and the word most often used to clarify that something wasn't done on purpose."
         }
       ],
       audioRef: null,
@@ -174,6 +262,28 @@ var LEXORA_DAY_08 = {
           conversationalExample: "The main criterion was how quickly they could start.",
           useItWhen: "Referring to exactly one standard, rather than several, this is the correct singular form most learners are missing.",
           whyHere: "This is a genuinely common grammar error in professional English, pairing the singular and plural forms directly addresses it."
+        },
+        {
+          slug: "criteria-related-standards",
+          word: "Standards",
+          kind: "close synonym (quality focus)",
+          partOfSpeech: "noun",
+          meaning: "A level of quality or achievement that is considered acceptable.",
+          professionalExample: "The report didn't meet our usual standards for accuracy.",
+          conversationalExample: "I have pretty high standards when it comes to coffee.",
+          useItWhen: "Referring to an acceptable level of quality, rather than the specific tests used to judge something.",
+          whyHere: "Standards describe the acceptable bar; criteria are the specific points actually checked to see if that bar was met."
+        },
+        {
+          slug: "criteria-related-criterion",
+          word: "Criterion",
+          kind: "grammatical relation (singular form)",
+          partOfSpeech: "noun",
+          meaning: "A single standard or test by which something is judged; the singular of criteria.",
+          professionalExample: "Cost was the deciding criterion in the end.",
+          conversationalExample: "What's your main criterion for choosing a flat?",
+          useItWhen: "Referring to just one single standard, rather than the full set.",
+          whyHere: "Criteria is plural and criterion is singular, a distinction many learners get wrong and genuinely need to see explained."
         }
       ],
       audioRef: null,
