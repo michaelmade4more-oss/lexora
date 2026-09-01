@@ -34,6 +34,28 @@ var LEXORA_DAY_05 = {
           conversationalExample: "He finally took ownership of the mistake instead of blaming his team.",
           useItWhen: "Describing the attitude behind accountability, rather than the formal state of being answerable.",
           whyHere: "Ownership is the felt, internal version of being accountable, one is a state, the other is a mindset, and the pair often appears together in leadership language."
+        },
+        {
+          slug: "accountable-related-responsible",
+          word: "Responsible",
+          kind: "close synonym (broader everyday term)",
+          partOfSpeech: "adjective",
+          meaning: "Having a duty to deal with something or having control over someone.",
+          professionalExample: "She's responsible for onboarding new hires this quarter.",
+          conversationalExample: "Who's responsible for booking the venue?",
+          useItWhen: "Describing a general duty or role, without the stronger sense of being answerable if things go wrong.",
+          whyHere: "Responsible describes having a duty; accountable adds the sharper edge of having to answer for the outcome, good or bad."
+        },
+        {
+          slug: "accountable-related-scapegoat",
+          word: "Scapegoat",
+          kind: "contrast (unfair blame vs true accountability)",
+          partOfSpeech: "noun",
+          meaning: "Someone blamed for a mistake or failure that wasn't fully their fault.",
+          professionalExample: "It felt like he became the scapegoat for a decision the whole team made.",
+          conversationalExample: "Don't make me the scapegoat for something we all agreed to.",
+          useItWhen: "Someone is unfairly blamed, rather than genuinely and fairly held accountable.",
+          whyHere: "Scapegoating is what accountability looks like when it goes wrong, unfairly placed on one person instead of shared fairly."
         }
       ],
       audioRef: null,
@@ -69,6 +91,28 @@ var LEXORA_DAY_05 = {
           conversationalExample: "I tried to be proactive and booked the tickets before prices rose.",
           useItWhen: "Describing an ongoing habit or approach, whereas \"initiative\" often describes a specific instance of independent action.",
           whyHere: "Proactive describes a style of working, initiative describes the specific act, they reinforce each other and are frequently used in the same sentence."
+        },
+        {
+          slug: "initiative-related-proactive",
+          word: "Proactive",
+          kind: "close synonym (attitude vs action)",
+          partOfSpeech: "adjective",
+          meaning: "Acting in advance to deal with an expected situation, rather than reacting after it happens.",
+          professionalExample: "Being proactive, she'd already drafted a response before the client even complained.",
+          conversationalExample: "You could be a bit more proactive about tidying up.",
+          useItWhen: "Describing an attitude or approach, whereas initiative more often describes a specific act someone actually takes.",
+          whyHere: "Proactive describes a mindset; initiative is often the concrete action that mindset produces."
+        },
+        {
+          slug: "initiative-related-passive",
+          word: "Passive",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Accepting what happens without acting to influence or change it.",
+          professionalExample: "He stayed passive throughout the whole restructuring, just waiting to see what happened.",
+          conversationalExample: "I've been too passive about this, I should just ask for the raise.",
+          useItWhen: "Someone waits and reacts rather than acting first, the opposite of showing initiative.",
+          whyHere: "Passive is the direct opposite of showing initiative, useful for describing someone who consistently waits rather than acts."
         }
       ],
       audioRef: null,
@@ -104,6 +148,28 @@ var LEXORA_DAY_05 = {
           conversationalExample: "Once the kids had autonomy over their own schedules, mornings got easier.",
           useItWhen: "Naming the outcome someone has after being empowered, the state of independence itself.",
           whyHere: "Empowering someone usually results in them having autonomy, teaching the pair shows learners the cause and its effect."
+        },
+        {
+          slug: "empower-related-enable",
+          word: "Enable",
+          kind: "close synonym (practical focus)",
+          partOfSpeech: "verb",
+          meaning: "To give someone the means or opportunity to do something.",
+          professionalExample: "The new software enables the team to work from anywhere.",
+          conversationalExample: "This app enables you to track your spending automatically.",
+          useItWhen: "Giving someone the practical means to do something, without the stronger sense of confidence or authority empower carries.",
+          whyHere: "Enable is more neutral and practical; empower adds a sense of confidence and authority being handed over, not just tools."
+        },
+        {
+          slug: "empower-related-undermine",
+          word: "Undermine",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "verb",
+          meaning: "To weaken someone's confidence, authority, or position, often subtly.",
+          professionalExample: "Constantly overriding her decisions in public undermines her authority.",
+          conversationalExample: "I felt like you undermined me in front of everyone.",
+          useItWhen: "Someone's confidence or authority is being weakened, the opposite of empowering them.",
+          whyHere: "Undermining is the direct opposite of empowering, and a common way leaders unintentionally weaken the people they meant to support."
         }
       ],
       audioRef: null,
@@ -139,6 +205,28 @@ var LEXORA_DAY_05 = {
           conversationalExample: "She upheld her promise even when it cost her the deal.",
           useItWhen: "Describing the active defence of a principle, integrity is often the value being upheld.",
           whyHere: "Uphold integrity\" is a natural, common collocation in professional English, learning them together builds fluent phrasing rather than isolated vocabulary."
+        },
+        {
+          slug: "integrity-related-honesty",
+          word: "Honesty",
+          kind: "narrower synonym (truthfulness focus)",
+          partOfSpeech: "noun",
+          meaning: "The quality of telling the truth and not deceiving others.",
+          professionalExample: "Her honesty about the missed deadline actually built more trust, not less.",
+          conversationalExample: "I appreciate your honesty, even though it wasn't easy to hear.",
+          useItWhen: "Specifically referring to truthfulness, one part of the broader idea integrity represents.",
+          whyHere: "Honesty is one component of integrity, integrity is broader, covering consistency between values and actions overall, not just truth-telling."
+        },
+        {
+          slug: "integrity-related-hypocrisy",
+          word: "Hypocrisy",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "noun",
+          meaning: "Claiming to have certain values while acting in a way that contradicts them.",
+          professionalExample: "Preaching honesty while hiding the real numbers is pure hypocrisy.",
+          conversationalExample: "That's hypocrisy, you told me not to do exactly what you just did.",
+          useItWhen: "Someone's actions contradict their stated values, the opposite of acting with integrity.",
+          whyHere: "Hypocrisy is what a lack of integrity looks like in practice, saying one thing and doing another."
         }
       ],
       audioRef: null,
@@ -174,6 +262,28 @@ var LEXORA_DAY_05 = {
           conversationalExample: "He's always been visionary about where the neighbourhood was heading.",
           useItWhen: "Describing the person who holds and communicates a vision, rather than the vision itself.",
           whyHere: "Vision is the idea, visionary is the person who sees it, pairing the two lets learners describe both the concept and the character trait."
+        },
+        {
+          slug: "vision-related-foresight",
+          word: "Foresight",
+          kind: "close synonym (planning focus)",
+          partOfSpeech: "noun",
+          meaning: "The ability to predict or plan for future events or needs.",
+          professionalExample: "It took real foresight to invest in that technology two years early.",
+          conversationalExample: "With a bit more foresight, we could've avoided this mess entirely.",
+          useItWhen: "Emphasising the ability to anticipate the future, one ingredient within a broader vision.",
+          whyHere: "Foresight is the ability to anticipate what's coming; vision goes further, painting a full picture of a desired future to aim for."
+        },
+        {
+          slug: "vision-related-shortsighted",
+          word: "Shortsighted",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Focused only on immediate concerns, without regard for the future.",
+          professionalExample: "Cutting the training budget now feels shortsighted given our growth plans.",
+          conversationalExample: "That was a shortsighted decision, we'll regret it in a year.",
+          useItWhen: "A decision ignores the future entirely, the opposite of being guided by vision.",
+          whyHere: "Shortsighted decisions are exactly what a strong vision is meant to prevent, useful contrast for the concept."
         }
       ],
       audioRef: null,
