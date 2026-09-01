@@ -34,6 +34,28 @@ var LEXORA_DAY_02 = {
           conversationalExample: "Don't take her texts personally, she's just terse with everyone.",
           useItWhen: "You want to describe brevity that reads as cold rather than efficient.",
           whyHere: "Terse sits right next to concise on the \"short\" spectrum but carries a negative tone, learning the pair sharpens the learner's sense of when brevity helps and when it hurts."
+        },
+        {
+          slug: "concise-related-brief",
+          word: "Brief",
+          kind: "close synonym (softer tone)",
+          partOfSpeech: "adjective",
+          meaning: "Short in duration or length.",
+          professionalExample: "Keep the update brief, two minutes is plenty.",
+          conversationalExample: "Sorry, I'll be brief, I know you're busy.",
+          useItWhen: "Emphasising shortness of time or length, without necessarily implying skillful editing.",
+          whyHere: "Brief and concise overlap heavily, but concise more strongly implies that nothing important was lost in being short."
+        },
+        {
+          slug: "concise-related-wordy",
+          word: "Wordy",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Using more words than necessary.",
+          professionalExample: "The first draft was wordy, we cut it by a third.",
+          conversationalExample: "That email was way too wordy for what it needed to say.",
+          useItWhen: "Writing or speech uses far more words than the message actually requires.",
+          whyHere: "Wordy is the direct opposite of concise, and often the exact problem concise writing is trying to fix."
         }
       ],
       audioRef: null,
@@ -69,6 +91,28 @@ var LEXORA_DAY_02 = {
           conversationalExample: "I know what I feel, I just can't articulate it yet.",
           useItWhen: "You need the action rather than the description, articulating something rather than being articulate.",
           whyHere: "Same root word, two grammatical roles, learners frequently confuse when to use the adjective versus the verb, so pairing them prevents that error."
+        },
+        {
+          slug: "articulate-related-eloquent",
+          word: "Eloquent",
+          kind: "near-synonym (more elevated register)",
+          partOfSpeech: "adjective",
+          meaning: "Fluent and persuasive in speech or writing, often with natural elegance.",
+          professionalExample: "Her eloquent closing statement won the room over.",
+          conversationalExample: "He gave such an eloquent toast at the wedding.",
+          useItWhen: "Speech or writing is not just clear but genuinely graceful and persuasive.",
+          whyHere: "Eloquent sits a notch above articulate, articulate means clear and well-organised, eloquent adds real polish and persuasive power."
+        },
+        {
+          slug: "articulate-related-tongue-tied",
+          word: "Tongue-tied",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Unable to speak clearly, usually from nervousness or surprise.",
+          professionalExample: "He got tongue-tied the moment the CEO asked him a direct question.",
+          conversationalExample: "I always get tongue-tied around people I admire.",
+          useItWhen: "Someone struggles to express themselves clearly, often temporarily and due to nerves.",
+          whyHere: "Seeing the opposite of articulate, someone who can't get words out at all, makes the target word's meaning sharper."
         }
       ],
       audioRef: null,
@@ -104,6 +148,28 @@ var LEXORA_DAY_02 = {
           conversationalExample: "As a family, we finally feel cohesive after a rough year.",
           useItWhen: "You're describing unity between parts, rather than logical sense between ideas, that's the difference from coherent.",
           whyHere: "Coherent and cohesive are frequently mixed up because they sound alike, coherent is about logic, cohesive is about unity, the pair helps learners keep the distinction straight."
+        },
+        {
+          slug: "coherent-related-logical",
+          word: "Logical",
+          kind: "near-synonym (reasoning focus)",
+          partOfSpeech: "adjective",
+          meaning: "Following clear, sound reasoning from one point to the next.",
+          professionalExample: "His argument was logical, even if I didn't agree with the conclusion.",
+          conversationalExample: "That's a pretty logical way to look at it.",
+          useItWhen: "The focus is specifically on sound reasoning, rather than overall clarity of structure.",
+          whyHere: "Coherent is broader than logical, coherent can describe structure and flow generally, while logical is specifically about reasoning."
+        },
+        {
+          slug: "coherent-related-disjointed",
+          word: "Disjointed",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Lacking a clear connection between parts; disconnected.",
+          professionalExample: "The presentation felt disjointed, each slide seemed to belong to a different talk.",
+          conversationalExample: "Sorry if this comes out disjointed, I haven't had coffee yet.",
+          useItWhen: "Ideas or parts of something don't connect smoothly to one another.",
+          whyHere: "Disjointed is the direct opposite of coherent, and a useful word for describing exactly what coherence is missing."
         }
       ],
       audioRef: null,
@@ -139,6 +205,28 @@ var LEXORA_DAY_02 = {
           conversationalExample: "It was never said out loud, but there was an implicit agreement between us.",
           useItWhen: "Something is understood without needing to be spelled out \u2014 the opposite of explicit.",
           whyHere: "Explicit and implicit form a natural contrast pair, and knowing both sharpens the learner's sense of when something needs to be stated directly versus left understood."
+        },
+        {
+          slug: "explicit-related-specific",
+          word: "Specific",
+          kind: "near-synonym (detail focus)",
+          partOfSpeech: "adjective",
+          meaning: "Clearly identified and precise, rather than general.",
+          professionalExample: "Can you be more specific about which sections need revising?",
+          conversationalExample: "Give me a specific example, not just a general complaint.",
+          useItWhen: "Something is precisely identified, without necessarily involving stating something openly or directly.",
+          whyHere: "Specific overlaps with explicit around precision, but explicit adds the idea of stating something openly, not leaving it to be inferred."
+        },
+        {
+          slug: "explicit-related-vague",
+          word: "Vague",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Not clearly or precisely expressed.",
+          professionalExample: "The instructions were vague, so everyone interpreted them differently.",
+          conversationalExample: "Can you stop being so vague and just tell me what happened?",
+          useItWhen: "Something is unclear or imprecise, the opposite of explicit.",
+          whyHere: "Vague is the most common opposite of explicit, and the word most learners reach for when explicit is what's actually needed."
         }
       ],
       audioRef: null,
@@ -174,6 +262,28 @@ var LEXORA_DAY_02 = {
           conversationalExample: "Go on, elaborate, what happened next?",
           useItWhen: "You want more detail added to something already clear, rather than resolving confusion, that's the line between elaborate and clarify.",
           whyHere: "Both add information, but clarify removes confusion while elaborate adds depth, understanding the difference prevents learners from using them interchangeably."
+        },
+        {
+          slug: "clarify-related-elaborate",
+          word: "Elaborate",
+          kind: "near-synonym (adds detail)",
+          partOfSpeech: "verb",
+          meaning: "To add more detail or explanation to something already said.",
+          professionalExample: "Could you elaborate on the second point in your proposal?",
+          conversationalExample: "Go on, elaborate, what happened next?",
+          useItWhen: "Adding more detail to something already stated, not necessarily to fix confusion.",
+          whyHere: "Clarify specifically fixes unclear meaning, while elaborate simply adds more information, whether or not anything was unclear."
+        },
+        {
+          slug: "clarify-related-confuse",
+          word: "Confuse",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "verb",
+          meaning: "To make something less clear or harder to understand.",
+          professionalExample: "Adding that extra chart just confused the point we were trying to make.",
+          conversationalExample: "You're confusing me, can you start again?",
+          useItWhen: "Something makes understanding harder, the exact opposite of clarifying it.",
+          whyHere: "Seeing what it means to confuse someone highlights exactly what clarifying is meant to undo."
         }
       ],
       audioRef: null,
