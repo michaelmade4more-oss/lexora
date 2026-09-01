@@ -34,6 +34,28 @@ var LEXORA_DAY_10 = {
           conversationalExample: "She got aggressive the moment anyone disagreed with her.",
           useItWhen: "Behaviour crosses from confident into hostile or disrespectful, that line is exactly what separates it from assertive.",
           whyHere: "This is one of the most important distinctions in professional communication, learners frequently use \"aggressive\" when they mean \"assertive,\" so the contrast deserves direct attention."
+        },
+        {
+          slug: "assertive-related-confident",
+          word: "Confident",
+          kind: "close synonym (broader term)",
+          partOfSpeech: "adjective",
+          meaning: "Feeling or showing certainty in one's own abilities or judgement.",
+          professionalExample: "She walked into the interview looking confident and prepared.",
+          conversationalExample: "You seem a lot more confident since the promotion.",
+          useItWhen: "Describing general self-assurance, without assertive's specific focus on expressing needs or opinions directly.",
+          whyHere: "Confident describes a general inner state; assertive specifically describes expressing that confidence directly to others."
+        },
+        {
+          slug: "assertive-related-passive-aggressive",
+          word: "Passive-aggressive",
+          kind: "contrast (indirect vs direct communication)",
+          partOfSpeech: "adjective",
+          meaning: "Expressing negative feelings indirectly, rather than stating them openly.",
+          professionalExample: "Leaving pointed comments in the shared doc felt pretty passive-aggressive.",
+          conversationalExample: "Don't be passive-aggressive, just tell me what's actually wrong.",
+          useItWhen: "Frustration is expressed indirectly rather than stated openly, the opposite of assertive honesty.",
+          whyHere: "Passive-aggressive behaviour is often what happens when someone avoids being directly assertive, a useful real-world contrast."
         }
       ],
       audioRef: null,
@@ -69,6 +91,28 @@ var LEXORA_DAY_10 = {
           conversationalExample: "My grandmother is completely unflappable, nothing ever seems to worry her.",
           useItWhen: "You want a stronger, more emphatic version of \"composed,\" specifically implying imperviousness to stress, not just present calm.",
           whyHere: "Unflappable is composed taken to its extreme, learning both gives the learner a way to express degree, mildly calm versus practically unshakeable."
+        },
+        {
+          slug: "composed-related-calm",
+          word: "Calm",
+          kind: "close synonym (broader term)",
+          partOfSpeech: "adjective",
+          meaning: "Free from agitation or strong emotion.",
+          professionalExample: "Try to stay calm during the negotiation, even if they push back hard.",
+          conversationalExample: "You seem really calm about all this.",
+          useItWhen: "Describing a general peaceful state, without composed's specific link to holding it together under pressure.",
+          whyHere: "Calm can describe any relaxed state; composed specifically implies staying that way despite pressure or difficulty."
+        },
+        {
+          slug: "composed-related-frazzled",
+          word: "Frazzled",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Worn out and stressed, often from too much happening at once.",
+          professionalExample: "By the third deadline that week, she looked completely frazzled.",
+          conversationalExample: "I'm a bit frazzled today, sorry if I seem distracted.",
+          useItWhen: "Someone visibly shows stress, the opposite of appearing composed.",
+          whyHere: "Frazzled is the visible unravelling that composure is meant to prevent, a vivid contrast for the concept."
         }
       ],
       audioRef: null,
@@ -104,6 +148,28 @@ var LEXORA_DAY_10 = {
           conversationalExample: "Losing that job taught me a lot about resilience.",
           useItWhen: "Naming the quality itself, rather than describing a person or system as having it.",
           whyHere: "Both forms are common in personal and professional contexts, resilient describes the entity, resilience names the trait, learners need both."
+        },
+        {
+          slug: "resilient-related-tough",
+          word: "Tough",
+          kind: "close synonym (everyday register)",
+          partOfSpeech: "adjective",
+          meaning: "Able to endure hardship or difficulty without breaking.",
+          professionalExample: "It's been a tough year, but the team held together.",
+          conversationalExample: "She's tough, she'll bounce back from this.",
+          useItWhen: "Speaking casually about enduring hardship, without resilient's specific implication of recovering and adapting afterward.",
+          whyHere: "Tough is the everyday word for enduring hardship; resilient adds the specific idea of recovering and adapting afterward."
+        },
+        {
+          slug: "resilient-related-brittle",
+          word: "Brittle",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Easily broken or damaged under pressure; fragile.",
+          professionalExample: "The old process was brittle, one delay and the whole schedule collapsed.",
+          conversationalExample: "He seemed a bit brittle after everything that happened this year.",
+          useItWhen: "Something breaks easily under stress, the opposite of being resilient.",
+          whyHere: "Brittle is the direct opposite of resilient, useful for describing systems or people that don't cope well under pressure."
         }
       ],
       audioRef: null,
@@ -139,6 +205,28 @@ var LEXORA_DAY_10 = {
           conversationalExample: "She spoke about her father's illness with real eloquence.",
           useItWhen: "Naming the overall ability or quality, rather than describing a specific instance of speech or writing.",
           whyHere: "Eloquent describes the moment, eloquence names the underlying skill, learners benefit from being able to use both."
+        },
+        {
+          slug: "eloquent-related-fluent",
+          word: "Fluent",
+          kind: "close synonym (skill focus)",
+          partOfSpeech: "adjective",
+          meaning: "Able to speak or write smoothly and easily.",
+          professionalExample: "She's fluent in three languages, including business French.",
+          conversationalExample: "He's pretty fluent for someone who only started learning last year.",
+          useItWhen: "Describing smooth, easy command of language, without eloquent's added sense of persuasive elegance.",
+          whyHere: "Fluent describes ease and smoothness; eloquent adds real elegance and persuasive power on top of that fluency."
+        },
+        {
+          slug: "eloquent-related-inarticulate",
+          word: "Inarticulate",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Unable to express oneself clearly or effectively.",
+          professionalExample: "He got so nervous he became almost inarticulate on stage.",
+          conversationalExample: "I always get inarticulate when I'm put on the spot.",
+          useItWhen: "Someone struggles to express themselves at all, the far opposite of eloquent.",
+          whyHere: "Inarticulate sits at the opposite end of the same scale as eloquent, useful for placing a speaker's skill in context."
         }
       ],
       audioRef: null,
@@ -174,6 +262,28 @@ var LEXORA_DAY_10 = {
           conversationalExample: "People can sense authenticity, you can't fake it for long.",
           useItWhen: "Naming the underlying quality, rather than describing a specific person, object, or moment as authentic.",
           whyHere: "Authentic describes the instance, authenticity names the broader quality behind it, a natural noun-adjective pair used constantly in modern professional language."
+        },
+        {
+          slug: "authentic-related-genuine",
+          word: "Genuine",
+          kind: "close synonym",
+          partOfSpeech: "adjective",
+          meaning: "Real and sincere, not fake or pretended.",
+          professionalExample: "Her feedback felt genuine, not just polite formality.",
+          conversationalExample: "That was a genuine compliment, I meant every word.",
+          useItWhen: "Describing sincerity in a moment or statement, almost interchangeable with authentic.",
+          whyHere: "Genuine and authentic are extremely close synonyms, authentic is often used more broadly for a person's overall character."
+        },
+        {
+          slug: "authentic-related-contrived",
+          word: "Contrived",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Deliberately created to seem natural, but actually artificial or forced.",
+          professionalExample: "The testimonial felt contrived, like it was written by marketing, not a real customer.",
+          conversationalExample: "That apology sounded a bit contrived.",
+          useItWhen: "Something is artificial despite trying to appear natural, the opposite of authentic.",
+          whyHere: "Contrived describes the exact failure authenticity is meant to avoid, forced rather than natural."
         }
       ],
       audioRef: null,
