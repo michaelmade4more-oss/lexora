@@ -34,6 +34,28 @@ var LEXORA_DAY_07 = {
           conversationalExample: "I drafted three versions of the message before sending it.",
           useItWhen: "You need the action rather than the object, drafting something versus having a draft.",
           whyHere: "Same word, different grammatical role, a very common pattern learners need to recognise quickly in professional writing contexts."
+        },
+        {
+          slug: "draft-related-outline",
+          word: "Outline",
+          kind: "near-synonym (structure focus)",
+          partOfSpeech: "noun",
+          meaning: "A general plan or summary showing the main points of something.",
+          professionalExample: "Send me an outline before you write the full report.",
+          conversationalExample: "I've only got a rough outline of the speech so far.",
+          useItWhen: "Describing just the main structure or points, before any full version exists.",
+          whyHere: "An outline is a skeleton with no full sentences yet; a draft is a complete, if unfinished, first attempt at the whole thing."
+        },
+        {
+          slug: "draft-related-final",
+          word: "Final",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Complete and not to be changed further.",
+          professionalExample: "This is the final version, no more edits after today.",
+          conversationalExample: "Is this the final answer, or are you still deciding?",
+          useItWhen: "Something is finished and settled, the opposite of a draft still open to change.",
+          whyHere: "Final is the endpoint every draft is working toward, a useful contrast for describing where something is in the process."
         }
       ],
       audioRef: null,
@@ -69,6 +91,28 @@ var LEXORA_DAY_07 = {
           conversationalExample: "The revision made the essay much stronger.",
           useItWhen: "Naming the result or process, rather than the act of revising in the moment.",
           whyHere: "Verb and noun forms appear constantly together in writing and editing contexts, learning both supports fluent professional communication."
+        },
+        {
+          slug: "revise-related-edit",
+          word: "Edit",
+          kind: "close synonym (smaller-scale changes)",
+          partOfSpeech: "verb",
+          meaning: "To make changes to a piece of writing, often smaller or more technical.",
+          professionalExample: "Can you edit this for grammar before it goes out?",
+          conversationalExample: "I just need to edit a couple of typos.",
+          useItWhen: "Making smaller, often technical corrections, rather than substantial changes to content or structure.",
+          whyHere: "Editing often means fixing details; revising can mean rethinking larger parts of the content or structure itself."
+        },
+        {
+          slug: "revise-related-finalise",
+          word: "Finalise",
+          kind: "contrast (end of the revision process)",
+          partOfSpeech: "verb",
+          meaning: "To complete something and make it official or unchangeable.",
+          professionalExample: "Let's finalise the agenda so we can send it out today.",
+          conversationalExample: "Have you finalised your travel plans yet?",
+          useItWhen: "The revision process is over and the piece is now locked in.",
+          whyHere: "Finalising marks the end of revising, once something is finalised, it's no longer being revised."
         }
       ],
       audioRef: null,
@@ -104,6 +148,28 @@ var LEXORA_DAY_07 = {
           conversationalExample: "He switched his register completely once his boss walked in.",
           useItWhen: "Talking specifically about formality level, rather than emotional attitude, which is what \"tone\" more often describes.",
           whyHere: "Tone and register both shape how writing feels, but tone covers emotion, register covers formality, distinguishing them helps precise self-editing."
+        },
+        {
+          slug: "tone-related-manner",
+          word: "Manner",
+          kind: "close synonym (broader term)",
+          partOfSpeech: "noun",
+          meaning: "The way something is said or done.",
+          professionalExample: "It wasn't what she said, it was the manner in which she said it.",
+          conversationalExample: "I didn't like his manner during the call.",
+          useItWhen: "Describing the general way something is done, without tone's specific link to emotional colouring in speech or writing.",
+          whyHere: "Manner is broad and can apply to behaviour generally; tone is specifically about the emotional colouring of speech or writing."
+        },
+        {
+          slug: "tone-related-blunt",
+          word: "Blunt",
+          kind: "related descriptor (a specific tone)",
+          partOfSpeech: "adjective",
+          meaning: "Direct and plain-spoken, sometimes to the point of feeling harsh.",
+          professionalExample: "His feedback was blunt, but at least it was honest.",
+          conversationalExample: "Sorry to be blunt, but that idea won't work.",
+          useItWhen: "Describing a specific tone that is very direct, sometimes uncomfortably so.",
+          whyHere: "Blunt is a concrete example of one particular tone, useful for showing how tone changes the feel of the exact same message."
         }
       ],
       audioRef: null,
@@ -139,6 +205,28 @@ var LEXORA_DAY_07 = {
           conversationalExample: "I structured my day around the school run.",
           useItWhen: "Describing the act of organising, rather than the resulting arrangement itself.",
           whyHere: "Same word, different grammatical role, common in instructions like \"structure your argument,\" which learners need to use confidently."
+        },
+        {
+          slug: "structure-related-framework",
+          word: "Framework",
+          kind: "close synonym (conceptual focus)",
+          partOfSpeech: "noun",
+          meaning: "A basic system or set of ideas used as a foundation for something.",
+          professionalExample: "We built the proposal around a simple three-part framework.",
+          conversationalExample: "That's a useful framework for thinking about the problem.",
+          useItWhen: "Referring to a conceptual foundation for ideas, slightly more abstract than the physical or textual sense of structure.",
+          whyHere: "Framework often describes an abstract system of ideas, while structure can refer to something more concrete, like a document's layout."
+        },
+        {
+          slug: "structure-related-chaotic",
+          word: "Chaotic",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Disorganised, with no clear order or structure.",
+          professionalExample: "The meeting felt chaotic, with everyone talking over each other.",
+          conversationalExample: "The kitchen was chaotic before the guests arrived.",
+          useItWhen: "Something lacks any clear order, the opposite of having a good structure.",
+          whyHere: "Chaotic describes the state that a clear structure is meant to prevent, useful contrast for showing the value of structure."
         }
       ],
       audioRef: null,
@@ -174,6 +262,28 @@ var LEXORA_DAY_07 = {
           conversationalExample: "I fine-tuned the recipe until it tasted right.",
           useItWhen: "Describing precision adjustments, often used for numbers, settings, or performance, slightly more technical than \"polish,\" which suits language and surface quality.",
           whyHere: "Both describe small, late-stage improvements, learning them together gives learners two natural options depending on context, writing versus technical adjustment."
+        },
+        {
+          slug: "polish-related-refine",
+          word: "Refine",
+          kind: "close synonym",
+          partOfSpeech: "verb",
+          meaning: "To improve something gradually by making small changes.",
+          professionalExample: "We refined the pitch over three separate rounds of feedback.",
+          conversationalExample: "I want to refine this recipe a bit more before I share it.",
+          useItWhen: "Improving something gradually and carefully, almost interchangeable with polishing.",
+          whyHere: "Refine and polish are close synonyms, refine leans toward improving substance, polish leans toward improving final presentation."
+        },
+        {
+          slug: "polish-related-rough",
+          word: "Rough",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Not yet finished or refined; still basic in form.",
+          professionalExample: "This is still a rough version, don't judge the wording yet.",
+          conversationalExample: "It's a bit rough around the edges, but the idea's solid.",
+          useItWhen: "Something is unfinished and unrefined, the opposite of polished.",
+          whyHere: "Rough describes exactly the state something is in before it gets polished, a natural before-and-after pair."
         }
       ],
       audioRef: null,
