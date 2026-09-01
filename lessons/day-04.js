@@ -34,6 +34,28 @@ var LEXORA_DAY_04 = {
           conversationalExample: "She went as our building's delegate to the residents' meeting.",
           useItWhen: "Referring to the representative person, not the act of assigning a task, note the pronunciation shifts too.",
           whyHere: "Same spelling, unrelated day-to-day meaning, useful to teach together so learners don't confuse the noun and verb senses."
+        },
+        {
+          slug: "delegate-related-assign",
+          word: "Assign",
+          kind: "close synonym (task-focused)",
+          partOfSpeech: "verb",
+          meaning: "To give someone a specific task or responsibility.",
+          professionalExample: "I'll assign the client calls to whoever's free this afternoon.",
+          conversationalExample: "Who got assigned the cleanup this week?",
+          useItWhen: "Giving someone a specific task, without necessarily transferring real decision-making authority.",
+          whyHere: "Assign focuses on handing over a task; delegate more strongly implies also handing over the authority to decide how it's done."
+        },
+        {
+          slug: "delegate-related-micromanage",
+          word: "Micromanage",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "verb",
+          meaning: "To control every small detail of someone else's work, rather than trusting them with it.",
+          professionalExample: "He tends to micromanage instead of actually delegating.",
+          conversationalExample: "Stop micromanaging, I know how to load a dishwasher.",
+          useItWhen: "Someone refuses to let go of control over a task they've handed to someone else.",
+          whyHere: "Micromanaging is what happens when delegation fails, real delegation means letting go, not just relabelling control."
         }
       ],
       audioRef: null,
@@ -69,6 +91,28 @@ var LEXORA_DAY_04 = {
           conversationalExample: "I tried to de-escalate by changing the subject.",
           useItWhen: "You want to describe calming a situation down, the direct opposite process to escalating.",
           whyHere: "Understanding when to escalate and when to de-escalate is a genuine workplace skill, the pair gives the learner both directions."
+        },
+        {
+          slug: "escalate-related-refer-upward",
+          word: "Refer upward",
+          kind: "near-synonym (organisational context)",
+          partOfSpeech: "phrasal verb",
+          meaning: "To pass a decision or issue on to someone with more authority.",
+          professionalExample: "If the customer isn't satisfied, refer upward to a supervisor.",
+          conversationalExample: "I'm not authorised to approve that, I'll refer it upward.",
+          useItWhen: "An issue is passed to someone with more authority, without necessarily implying urgency or intensity.",
+          whyHere: "Refer upward describes the organisational action; escalate adds the sense of urgency or seriousness behind that action."
+        },
+        {
+          slug: "escalate-related-defuse",
+          word: "Defuse",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "verb",
+          meaning: "To make a tense or dangerous situation calmer.",
+          professionalExample: "She managed to defuse the argument before it reached the client.",
+          conversationalExample: "He always knows how to defuse a tense moment with a joke.",
+          useItWhen: "A situation is being calmed down, rather than made more intense, the opposite of escalating it.",
+          whyHere: "Defusing a situation is the direct opposite action to escalating one, useful for describing conflict management either way."
         }
       ],
       audioRef: null,
@@ -104,6 +148,28 @@ var LEXORA_DAY_04 = {
           conversationalExample: "There's no consensus in the family about where to go on holiday.",
           useItWhen: "Describing the agreed outcome itself, rather than the process of getting there, which is what \"align\" describes.",
           whyHere: "Aligning is the process, consensus is often the result, seeing them together clarifies the relationship between the verb and its outcome."
+        },
+        {
+          slug: "align-related-coordinate",
+          word: "Coordinate",
+          kind: "near-synonym (activity focus)",
+          partOfSpeech: "verb",
+          meaning: "To organise different people or things to work together effectively.",
+          professionalExample: "Someone needs to coordinate the handover between the two teams.",
+          conversationalExample: "Let's coordinate before we both message the landlord separately.",
+          useItWhen: "Organising actions or schedules together, without necessarily implying shared agreement on goals.",
+          whyHere: "Coordinate is about organising actions; align is more about agreeing on the underlying goal or direction first."
+        },
+        {
+          slug: "align-related-conflict",
+          word: "Conflict",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "verb",
+          meaning: "To be incompatible or in disagreement with something else.",
+          professionalExample: "Her proposal conflicts with the budget we agreed on last month.",
+          conversationalExample: "Our schedules conflict, so I can't make it on Thursday.",
+          useItWhen: "Two things are incompatible or working against each other, the opposite of being aligned.",
+          whyHere: "Conflict describes the state alignment is meant to resolve, seeing both makes the difference concrete."
         }
       ],
       audioRef: null,
@@ -139,6 +205,28 @@ var LEXORA_DAY_04 = {
           conversationalExample: "I need buy-in from the kids before we change the house rules.",
           useItWhen: "Describing the support you're trying to get from stakeholders, rather than the people themselves.",
           whyHere: "You get buy-in from stakeholders, the two words work together constantly in professional English, so it's worth teaching them as a pair."
+        },
+        {
+          slug: "stakeholder-related-interested-party",
+          word: "Interested party",
+          kind: "close synonym (more general)",
+          partOfSpeech: "noun phrase",
+          meaning: "Anyone with a reason to care about the outcome of something.",
+          professionalExample: "We circulated the report to all interested parties before the meeting.",
+          conversationalExample: "As an interested party in this decision, I'd like to say something.",
+          useItWhen: "Describing anyone affected or concerned, in more general or even legal contexts.",
+          whyHere: "Interested party is a more general, sometimes more formal or legal way of saying roughly the same thing as stakeholder."
+        },
+        {
+          slug: "stakeholder-related-bystander",
+          word: "Bystander",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "noun",
+          meaning: "Someone present but not involved or affected by what's happening.",
+          professionalExample: "In this decision, the finance team isn't a bystander, they're a key stakeholder.",
+          conversationalExample: "I was just a bystander in that argument, it had nothing to do with me.",
+          useItWhen: "Someone has no real stake in the outcome, unlike a stakeholder who does.",
+          whyHere: "Contrasting stakeholder with bystander makes clear that having a stake means being genuinely affected, not just present."
         }
       ],
       audioRef: null,
@@ -174,6 +262,28 @@ var LEXORA_DAY_04 = {
           conversationalExample: "I want constructive criticism on my cooking, not just compliments.",
           useItWhen: "Naming the specific type of feedback, rather than describing something as generally constructive.",
           whyHere: "This is the single most common phrase built from the word, learning it as a set phrase prevents awkward learner constructions like \"constructive comment\" where \"criticism\" is expected."
+        },
+        {
+          slug: "constructive-related-helpful",
+          word: "Helpful",
+          kind: "broader synonym (general term)",
+          partOfSpeech: "adjective",
+          meaning: "Giving useful assistance or support.",
+          professionalExample: "Thanks, that was a really helpful suggestion.",
+          conversationalExample: "It would be helpful if you could pick up milk on the way home.",
+          useItWhen: "Something is generally useful, without the specific context of feedback or criticism that constructive usually implies.",
+          whyHere: "Helpful is the general term; constructive is specifically used for feedback or criticism meant to lead to improvement."
+        },
+        {
+          slug: "constructive-related-destructive",
+          word: "Destructive",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Causing damage or harm, rather than helping improve something.",
+          professionalExample: "That kind of destructive criticism doesn't help anyone improve.",
+          conversationalExample: "His comments felt destructive, not helpful at all.",
+          useItWhen: "Feedback or behaviour tears something down rather than helping it improve, the opposite of constructive.",
+          whyHere: "Constructive and destructive are the classic contrast pair used to describe two very different kinds of feedback."
         }
       ],
       audioRef: null,
