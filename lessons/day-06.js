@@ -34,6 +34,28 @@ var LEXORA_DAY_06 = {
           conversationalExample: "I felt sympathy for him, but I hadn't been through what he had.",
           useItWhen: "You feel concern for someone from the outside, without necessarily sharing or fully understanding their emotional experience.",
           whyHere: "This is one of the most commonly confused word pairs in English, teaching them side by side directly fixes a frequent learner error."
+        },
+        {
+          slug: "empathy-related-compassion",
+          word: "Compassion",
+          kind: "close synonym (action-oriented)",
+          partOfSpeech: "noun",
+          meaning: "A feeling of concern for someone's suffering, often paired with a wish to help.",
+          professionalExample: "She handled the layoffs with real compassion, checking in on people individually.",
+          conversationalExample: "He showed a lot of compassion when I told him what happened.",
+          useItWhen: "Describing concern paired with a desire to help, slightly more action-focused than empathy alone.",
+          whyHere: "Empathy is understanding someone's feelings; compassion adds the desire to actively help because of that understanding."
+        },
+        {
+          slug: "empathy-related-indifference",
+          word: "Indifference",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "noun",
+          meaning: "A lack of interest, concern, or sympathy.",
+          professionalExample: "His indifference to the team's stress made the situation worse.",
+          conversationalExample: "Her indifference really hurt more than if she'd been angry.",
+          useItWhen: "Someone shows no concern at all for another person's situation, the opposite of empathy.",
+          whyHere: "Indifference is the emotional absence empathy is meant to overcome, a useful contrast for describing its impact."
         }
       ],
       audioRef: null,
@@ -69,6 +91,28 @@ var LEXORA_DAY_06 = {
           conversationalExample: "It took a while to build rapport with my new neighbours.",
           useItWhen: "Describing the active process of creating rapport, rather than the state of already having it.",
           whyHere: "Build rapport\" is the standard verb pairing for this noun in English, learning it as a fixed phrase avoids awkward alternatives like \"make rapport."
+        },
+        {
+          slug: "rapport-related-connection",
+          word: "Connection",
+          kind: "close synonym (general term)",
+          partOfSpeech: "noun",
+          meaning: "A feeling of understanding or closeness between people.",
+          professionalExample: "There was an instant connection between the two co-founders.",
+          conversationalExample: "We just had a connection from the first conversation.",
+          useItWhen: "Describing closeness generally, without the professional or interpersonal skill implied by building rapport.",
+          whyHere: "Connection is the general feeling; rapport specifically implies it was built deliberately, often through good communication."
+        },
+        {
+          slug: "rapport-related-friction",
+          word: "Friction",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "noun",
+          meaning: "Conflict or disagreement between people, especially ongoing tension.",
+          professionalExample: "There's been some friction between the two departments since the merger.",
+          conversationalExample: "There's a bit of friction between us since the argument.",
+          useItWhen: "Describing tension or disagreement between people, the opposite of good rapport.",
+          whyHere: "Friction is what happens when rapport is missing or has broken down, a useful word for the absence of the target concept."
         }
       ],
       audioRef: null,
@@ -104,6 +148,28 @@ var LEXORA_DAY_06 = {
           conversationalExample: "Setting a boundary with him was hard, but it was necessary.",
           useItWhen: "Describing the act of establishing a boundary, the standard verb form used with this noun.",
           whyHere: "Set a boundary\" is the fixed, natural phrase in English, learners who say \"make a boundary\" or \"put a boundary\" sound unnatural, so the collocation matters."
+        },
+        {
+          slug: "boundary-related-limit",
+          word: "Limit",
+          kind: "close synonym (more general)",
+          partOfSpeech: "noun",
+          meaning: "A point beyond which something is not allowed or possible.",
+          professionalExample: "There's a limit to how many hours we can ask people to work overtime.",
+          conversationalExample: "I've reached my limit with his constant lateness.",
+          useItWhen: "Referring to a general limit, without the personal or relational framing boundary carries.",
+          whyHere: "Limit is the general word; boundary is often used specifically for limits people set around their own time, energy, or treatment."
+        },
+        {
+          slug: "boundary-related-overstep",
+          word: "Overstep",
+          kind: "contrast (violation of a boundary)",
+          partOfSpeech: "verb",
+          meaning: "To go beyond what is acceptable or appropriate.",
+          professionalExample: "Commenting on her personal life like that really oversteps the mark.",
+          conversationalExample: "I think you overstepped when you read my messages.",
+          useItWhen: "Someone crosses a limit that shouldn't have been crossed.",
+          whyHere: "Overstepping is literally the act of violating a boundary, the two words are naturally paired in real use."
         }
       ],
       audioRef: null,
@@ -139,6 +205,28 @@ var LEXORA_DAY_06 = {
           conversationalExample: "Their reconciliation was slow, but it was genuine.",
           useItWhen: "Naming the process or event, rather than describing the action of reconciling directly.",
           whyHere: "Noun and verb forms are used constantly in both personal and professional English, learning them together supports flexible sentence building."
+        },
+        {
+          slug: "reconcile-related-resolve",
+          word: "Resolve",
+          kind: "close synonym (broader term)",
+          partOfSpeech: "verb",
+          meaning: "To find a solution to a problem or disagreement.",
+          professionalExample: "We resolved the pricing dispute after a short call.",
+          conversationalExample: "We finally resolved it after talking it through properly.",
+          useItWhen: "Solving a problem or disagreement generally, without the relational, restorative sense reconcile carries.",
+          whyHere: "Resolve can apply to any problem; reconcile is more specific to repairing a relationship after conflict."
+        },
+        {
+          slug: "reconcile-related-estrange",
+          word: "Estrange",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "verb",
+          meaning: "To cause someone to become emotionally distant or no longer on speaking terms.",
+          professionalExample: "The dispute estranged two departments that used to work closely together.",
+          conversationalExample: "The argument estranged them for almost a year.",
+          useItWhen: "Describing a relationship becoming distant or broken, the state reconciling is meant to repair.",
+          whyHere: "Estrangement is the broken state before reconciliation happens, useful for describing the full arc of a relationship."
         }
       ],
       audioRef: null,
@@ -174,6 +262,28 @@ var LEXORA_DAY_06 = {
           conversationalExample: "That's a considerable improvement from last year.",
           useItWhen: "Describing size or degree, never kindness, this is the key distinction from \"considerate.",
           whyHere: "This pair is one of the most common spelling-confusion errors among learners, teaching them together directly prevents the mistake."
+        },
+        {
+          slug: "considerate-related-thoughtful",
+          word: "Thoughtful",
+          kind: "close synonym",
+          partOfSpeech: "adjective",
+          meaning: "Showing care about the needs or feelings of others.",
+          professionalExample: "It was thoughtful of her to check everyone's dietary needs before booking.",
+          conversationalExample: "That was such a thoughtful gift, thank you.",
+          useItWhen: "Describing a caring gesture or attitude, almost interchangeable with considerate.",
+          whyHere: "Thoughtful and considerate are extremely close synonyms, thoughtful leans slightly more toward gestures, considerate toward ongoing attitude."
+        },
+        {
+          slug: "considerate-related-inconsiderate",
+          word: "Inconsiderate",
+          kind: "antonym (direct negation)",
+          partOfSpeech: "adjective",
+          meaning: "Showing no care for how one's actions affect others.",
+          professionalExample: "Scheduling the call at midnight for the other time zone was pretty inconsiderate.",
+          conversationalExample: "It was inconsiderate to play music that loud so late.",
+          useItWhen: "Someone acts without regard for others, the direct opposite of considerate.",
+          whyHere: "As the direct negation, inconsiderate is the clearest possible contrast for defining what considerate means."
         }
       ],
       audioRef: null,
