@@ -34,6 +34,28 @@ var LEXORA_DAY_09 = {
           conversationalExample: "I couldn't dissuade her, she'd already made up her mind.",
           useItWhen: "The goal is stopping an action, rather than encouraging one, the mirror opposite of persuade.",
           whyHere: "Persuade and dissuade share a root and work as opposites, learning them together builds both directions of the same skill."
+        },
+        {
+          slug: "persuade-related-convince",
+          word: "Convince",
+          kind: "close synonym",
+          partOfSpeech: "verb",
+          meaning: "To make someone believe that something is true.",
+          professionalExample: "The data convinced the board to approve the extra spend.",
+          conversationalExample: "You've convinced me, let's do it your way.",
+          useItWhen: "The focus is on changing belief specifically, whereas persuade often extends to changing action too.",
+          whyHere: "Convince is about belief; persuade often goes a step further, moving someone to actually act, not just agree in principle."
+        },
+        {
+          slug: "persuade-related-manipulate",
+          word: "Manipulate",
+          kind: "contrast (ethical distinction)",
+          partOfSpeech: "verb",
+          meaning: "To influence someone unfairly or dishonestly for personal gain.",
+          professionalExample: "He manipulated the numbers to make the pitch look better than it was.",
+          conversationalExample: "Don't try to manipulate me into feeling guilty.",
+          useItWhen: "Influence crosses into dishonest or unfair territory, unlike honest persuasion.",
+          whyHere: "Manipulate is what persuade becomes when honesty is removed, an important ethical distinction for learners to understand."
         }
       ],
       audioRef: null,
@@ -69,6 +91,28 @@ var LEXORA_DAY_09 = {
           conversationalExample: "He capitalised on the quiet afternoon to finally clean the garage.",
           useItWhen: "The focus is on seizing a timely opportunity, whereas \"leverage\" more often applies to using an existing resource or strength.",
           whyHere: "Both describe turning something to your advantage, but leverage emphasises using an asset, capitalise on emphasises timing, useful for precise word choice."
+        },
+        {
+          slug: "leverage-related-utilise",
+          word: "Utilise",
+          kind: "close synonym (more formal, neutral)",
+          partOfSpeech: "verb",
+          meaning: "To make practical use of something.",
+          professionalExample: "We can utilise the existing data instead of collecting new information.",
+          conversationalExample: "Try to utilise what you already have before buying more.",
+          useItWhen: "Making use of something plainly, without leverage's added sense of gaining strategic advantage.",
+          whyHere: "Utilise is neutral, just making use of something; leverage adds the sense of using it specifically to gain an advantage."
+        },
+        {
+          slug: "leverage-related-neglect",
+          word: "Neglect",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "verb",
+          meaning: "To fail to use or take care of something available to you.",
+          professionalExample: "They neglected the customer data they already had instead of leveraging it.",
+          conversationalExample: "I've been neglecting the skills I already have.",
+          useItWhen: "A useful resource is ignored, rather than leveraged to gain advantage.",
+          whyHere: "Neglecting a resource is the opposite of leveraging it, one wastes an advantage, the other captures it."
         }
       ],
       audioRef: null,
@@ -104,6 +148,28 @@ var LEXORA_DAY_09 = {
           conversationalExample: "He lost credibility with the team after missing three deadlines.",
           useItWhen: "Referring to the overall trust someone has built, rather than describing a single statement or claim as credible.",
           whyHere: "This is the one adjective-noun pair in the curriculum kept together deliberately, both are genuinely useful in different sentence structures, and the distinction between describing a claim (credible) and a person's standing (credibility) has real teaching value."
+        },
+        {
+          slug: "credible-related-believable",
+          word: "Believable",
+          kind: "close synonym (everyday register)",
+          partOfSpeech: "adjective",
+          meaning: "Able to be believed; convincing.",
+          professionalExample: "The witness gave a believable account of what happened.",
+          conversationalExample: "That excuse isn't very believable.",
+          useItWhen: "Speaking casually about whether something seems true, without credible's added weight of established trust.",
+          whyHere: "Believable is the everyday version; credible often carries more formal weight, implying a track record that supports trust."
+        },
+        {
+          slug: "credible-related-dubious",
+          word: "Dubious",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Not entirely trustworthy or certain; open to doubt.",
+          professionalExample: "The source for that statistic looks pretty dubious.",
+          conversationalExample: "I'm a bit dubious about that claim, to be honest.",
+          useItWhen: "Something invites doubt, the opposite of appearing credible.",
+          whyHere: "Dubious describes exactly the doubt that credibility is meant to remove, a natural before-and-after pair."
         }
       ],
       audioRef: null,
@@ -139,6 +205,28 @@ var LEXORA_DAY_09 = {
           conversationalExample: "Letting him choose the restaurant was my concession.",
           useItWhen: "Naming the specific point given up, rather than describing the act of giving it up in the moment.",
           whyHere: "Concede is the action, concession is the result, both appear constantly in negotiation language, so learners need both forms."
+        },
+        {
+          slug: "concede-related-admit",
+          word: "Admit",
+          kind: "close synonym (more general)",
+          partOfSpeech: "verb",
+          meaning: "To confirm, often reluctantly, that something is true.",
+          professionalExample: "She admitted the project was behind schedule.",
+          conversationalExample: "I admit, you were right about that.",
+          useItWhen: "Confirming a fact reluctantly, without necessarily involving giving up a position in an argument.",
+          whyHere: "Admit is broader, applying to any reluctant truth; concede more specifically involves giving ground in a disagreement or contest."
+        },
+        {
+          slug: "concede-related-insist",
+          word: "Insist",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "verb",
+          meaning: "To firmly maintain a position, refusing to give way.",
+          professionalExample: "He insisted the numbers were correct, despite the evidence.",
+          conversationalExample: "She insisted on paying, even though I offered first.",
+          useItWhen: "Someone holds their ground firmly, the opposite of conceding a point.",
+          whyHere: "Insisting is the refusal to concede, useful for describing the two possible directions an argument can take."
         }
       ],
       audioRef: null,
@@ -174,6 +262,28 @@ var LEXORA_DAY_09 = {
           conversationalExample: "Something compelled her to check her phone, and she was glad she did.",
           useItWhen: "You need the action, force or strong pull toward doing something, rather than the descriptive adjective.",
           whyHere: "Compel is the root verb behind compelling, understanding both shows the learner where the adjective's force comes from."
+        },
+        {
+          slug: "compelling-related-persuasive",
+          word: "Persuasive",
+          kind: "close synonym",
+          partOfSpeech: "adjective",
+          meaning: "Effective at convincing someone to believe or do something.",
+          professionalExample: "That was a persuasive argument, well done.",
+          conversationalExample: "You make a persuasive case, but I still need to think about it.",
+          useItWhen: "Describing something effective at changing minds, closely overlapping with compelling.",
+          whyHere: "Persuasive and compelling overlap heavily, compelling often adds a sense of being hard to look away from or ignore."
+        },
+        {
+          slug: "compelling-related-tedious",
+          word: "Tedious",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Boring and tiresome, especially because it drags on too long.",
+          professionalExample: "The presentation was so tedious that half the room checked their phones.",
+          conversationalExample: "That meeting was tedious, nothing new got decided.",
+          useItWhen: "Something fails to hold attention at all, the opposite of being compelling.",
+          whyHere: "Tedious is the failure state compelling communication is meant to avoid, a useful contrast for judging engagement."
         }
       ],
       audioRef: null,
