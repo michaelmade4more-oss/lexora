@@ -34,6 +34,28 @@ var LEXORA_DAY_01 = {
           conversationalExample: "I couldn't get across how tired I actually was.",
           useItWhen: "Speaking casually, \"get across\" fits everyday conversation better than the more formal \"convey,\" which suits writing and professional speech.",
           whyHere: "Same core meaning, different register, teaching both means the learner has a formal and an informal option for the same idea."
+        },
+        {
+          slug: "convey-related-communicate",
+          word: "Communicate",
+          kind: "broader synonym (general term)",
+          partOfSpeech: "verb",
+          meaning: "To share or exchange information, ideas, or feelings with someone, in any form.",
+          professionalExample: "We need to communicate this change to the whole team before Friday.",
+          conversationalExample: "We don't communicate as much as we used to.",
+          useItWhen: "Talking about sharing information generally, not specifically about how well or precisely it lands.",
+          whyHere: "Communicate is the general umbrella term; convey is more specific, about successfully getting a particular idea or feeling across."
+        },
+        {
+          slug: "convey-related-imply",
+          word: "Imply",
+          kind: "contrast (indirect vs direct)",
+          partOfSpeech: "verb",
+          meaning: "To suggest something without stating it directly.",
+          professionalExample: "Her silence implied she wasn't convinced by the plan.",
+          conversationalExample: "Are you implying I forgot on purpose?",
+          useItWhen: "Something is suggested indirectly, rather than communicated openly.",
+          whyHere: "Convey usually means getting a message across clearly; imply is almost its opposite in directness, useful for spotting the contrast."
         }
       ],
       audioRef: null,
@@ -69,6 +91,28 @@ var LEXORA_DAY_01 = {
           conversationalExample: "The expression on his face said everything before he spoke.",
           useItWhen: "Naming the act or result itself, rather than describing something as having that quality.",
           whyHere: "Expressive describes the quality, expression names the act or product, both are core to this theme and used constantly together."
+        },
+        {
+          slug: "expressive-related-vivid",
+          word: "Vivid",
+          kind: "near-synonym (visual emphasis)",
+          partOfSpeech: "adjective",
+          meaning: "Producing a strong, clear impression, especially through detail or colour.",
+          professionalExample: "The report used vivid examples that made the data easy to remember.",
+          conversationalExample: "I still have a vivid memory of that day.",
+          useItWhen: "Something creates a strong, clear mental image, not necessarily through emotion.",
+          whyHere: "Vivid overlaps with expressive but leans toward clarity and detail rather than emotional openness."
+        },
+        {
+          slug: "expressive-related-reserved",
+          word: "Reserved",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Slow to reveal thoughts or feelings; controlled and quiet in manner.",
+          professionalExample: "He's quite reserved in meetings, but he shares strong opinions one-on-one.",
+          conversationalExample: "She seemed reserved at first, but she opened up over dinner.",
+          useItWhen: "Someone holds back their thoughts or feelings, the opposite of being expressive.",
+          whyHere: "Understanding reserved sharpens the meaning of expressive by contrast, the two sit at opposite ends of the same scale."
         }
       ],
       audioRef: null,
@@ -104,6 +148,28 @@ var LEXORA_DAY_01 = {
           conversationalExample: "I could tell his engagement in the conversation was fading.",
           useItWhen: "Naming the measurable or felt state of interest, rather than the act of creating it.",
           whyHere: "Engage is the action, engagement is the resulting state, a pair used constantly across both everyday and professional communication."
+        },
+        {
+          slug: "engage-related-involve",
+          word: "Involve",
+          kind: "near-synonym (inclusion focus)",
+          partOfSpeech: "verb",
+          meaning: "To include someone in an activity or decision.",
+          professionalExample: "We should involve the design team earlier in the process.",
+          conversationalExample: "I want to involve you in the planning this time.",
+          useItWhen: "The focus is on including someone, not necessarily capturing their interest.",
+          whyHere: "Involve is often used interchangeably with engage, but engage carries a stronger sense of genuine attention or interest."
+        },
+        {
+          slug: "engage-related-disengage",
+          word: "Disengage",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "verb",
+          meaning: "To withdraw attention, interest, or involvement from something.",
+          professionalExample: "The audience started to disengage halfway through the presentation.",
+          conversationalExample: "I could tell he'd disengaged from the conversation.",
+          useItWhen: "Someone loses interest or pulls away, the opposite of engaging.",
+          whyHere: "Seeing what disengagement looks like makes it easier to recognise and describe genuine engagement."
         }
       ],
       audioRef: null,
@@ -139,6 +205,28 @@ var LEXORA_DAY_01 = {
           conversationalExample: "It's a nuanced situation, neither of them was fully wrong.",
           useItWhen: "Describing something, an opinion, an explanation, a situation, that contains those subtle distinctions, rather than naming the distinction itself.",
           whyHere: "Nuance is the subtlety itself, nuanced describes something that contains it, learners need both to discuss complexity accurately."
+        },
+        {
+          slug: "nuance-related-subtlety",
+          word: "Subtlety",
+          kind: "close synonym",
+          partOfSpeech: "noun",
+          meaning: "A small, delicate detail or distinction that is easy to miss.",
+          professionalExample: "The subtlety in his feedback was easy to miss if you weren't listening closely.",
+          conversationalExample: "There's a subtlety to how she says things that took me a while to notice.",
+          useItWhen: "A detail is easy to overlook, whether or not it carries a distinction between two things.",
+          whyHere: "Subtlety and nuance are often used interchangeably, but nuance more specifically implies a fine distinction between similar things."
+        },
+        {
+          slug: "nuance-related-oversimplify",
+          word: "Oversimplify",
+          kind: "contrast (loss of nuance)",
+          partOfSpeech: "verb",
+          meaning: "To describe something in a way that ignores its real complexity.",
+          professionalExample: "The summary oversimplified a decision that actually had several trade-offs.",
+          conversationalExample: "Don't oversimplify it, it's more complicated than that.",
+          useItWhen: "Explaining something in a way that strips out its important nuance.",
+          whyHere: "Oversimplifying is exactly what happens when nuance gets lost, understanding one clarifies the other."
         }
       ],
       audioRef: null,
@@ -174,6 +262,28 @@ var LEXORA_DAY_01 = {
           conversationalExample: "Her story about moving cities alone really struck a chord with me.",
           useItWhen: "Speaking informally, this idiom is a natural, conversational alternative to \"resonate,\" useful for everyday speech rather than written communication.",
           whyHere: "Same core meaning, idiomatic rather than literal phrasing, gives the learner a natural spoken alternative to the more formal verb."
+        },
+        {
+          slug: "resonate-related-relate-to",
+          word: "Relate to",
+          kind: "informal near-synonym",
+          partOfSpeech: "phrasal verb",
+          meaning: "To feel a personal connection with something, often because of shared experience.",
+          professionalExample: "Customers really related to the story in the ad campaign.",
+          conversationalExample: "I really relate to what you just said.",
+          useItWhen: "Speaking casually about feeling connected to an idea or experience.",
+          whyHere: "Relate to is the everyday, conversational version of the more polished resonate."
+        },
+        {
+          slug: "resonate-related-fall-flat",
+          word: "Fall flat",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "phrasal verb",
+          meaning: "To fail to produce the intended effect or reaction.",
+          professionalExample: "The joke fell flat with half the room.",
+          conversationalExample: "My apology sort of fell flat, I don't think she believed me.",
+          useItWhen: "Something was meant to connect or impress but didn't land.",
+          whyHere: "Falling flat is the direct opposite of resonating, seeing both helps a learner judge whether a message actually landed."
         }
       ],
       audioRef: null,
