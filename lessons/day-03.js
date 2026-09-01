@@ -34,6 +34,28 @@ var LEXORA_DAY_03 = {
           conversationalExample: "From my vantage point at the back, the whole room looked full.",
           useItWhen: "You want to emphasise the literal or figurative position someone views things from, slightly more physical or positional than \"perspective.",
           whyHere: "Vantage point is the concrete cousin of perspective, using both helps a learner move between abstract and physical framing naturally."
+        },
+        {
+          slug: "perspective-related-viewpoint",
+          word: "Viewpoint",
+          kind: "close synonym",
+          partOfSpeech: "noun",
+          meaning: "A particular way of considering or judging something.",
+          professionalExample: "From a customer viewpoint, the price increase looks unjustified.",
+          conversationalExample: "I get your viewpoint, but I still disagree.",
+          useItWhen: "Referring to one particular way of seeing an issue, often interchangeably with perspective.",
+          whyHere: "Viewpoint and perspective are close synonyms, but perspective more often implies a broader frame shaped by experience."
+        },
+        {
+          slug: "perspective-related-narrow-minded",
+          word: "Narrow-minded",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Unwilling to consider ideas or views different from one's own.",
+          professionalExample: "Dismissing every new idea without discussion comes across as narrow-minded.",
+          conversationalExample: "Don't be so narrow-minded, at least hear him out.",
+          useItWhen: "Someone refuses to consider a different perspective at all.",
+          whyHere: "Being narrow-minded is essentially the refusal to seek or value another perspective, a useful contrast for the concept."
         }
       ],
       audioRef: null,
@@ -69,6 +91,28 @@ var LEXORA_DAY_03 = {
           conversationalExample: "I presumed you'd already eaten, sorry, I should have checked.",
           useItWhen: "You need the action of assuming rather than the noun form.",
           whyHere: "Presume is the verb behind the noun assumption, learning both means a learner can move fluidly between \"I presumed\" and \"that was an assumption."
+        },
+        {
+          slug: "assumption-related-premise",
+          word: "Premise",
+          kind: "near-synonym (formal, logical framing)",
+          partOfSpeech: "noun",
+          meaning: "A statement taken as true, used as the basis for an argument.",
+          professionalExample: "The whole strategy rests on the premise that demand will keep growing.",
+          conversationalExample: "The premise of the film is that time runs backwards.",
+          useItWhen: "Describing the stated starting point of an argument or story, in a more formal or structured sense.",
+          whyHere: "Premise is a more formal cousin of assumption, often used when the starting belief is stated openly rather than simply taken for granted."
+        },
+        {
+          slug: "assumption-related-verify",
+          word: "Verify",
+          kind: "contrast (checking vs assuming)",
+          partOfSpeech: "verb",
+          meaning: "To check that something is true or accurate.",
+          professionalExample: "We should verify those numbers before we present them.",
+          conversationalExample: "Let me verify that before I promise you anything.",
+          useItWhen: "Confirming something is actually true, rather than simply assuming it is.",
+          whyHere: "Verifying is the corrective action to an unchecked assumption, pairing them highlights good practice around uncertain beliefs."
         }
       ],
       audioRef: null,
@@ -104,6 +148,28 @@ var LEXORA_DAY_03 = {
           conversationalExample: "As the eldest, I try to stay impartial when my siblings argue.",
           useItWhen: "The focus is fairness between people or sides, rather than basing a judgement on facts, that's the difference from objective.",
           whyHere: "Objective is about evidence, impartial is about fairness between parties, they overlap but aren't identical, and learners benefit from seeing both."
+        },
+        {
+          slug: "objective-related-impartial",
+          word: "Impartial",
+          kind: "close synonym (fairness focus)",
+          partOfSpeech: "adjective",
+          meaning: "Treating all sides or people equally, without favouritism.",
+          professionalExample: "The panel needs to stay impartial when scoring every candidate.",
+          conversationalExample: "Try to stay impartial, you're friends with both of them.",
+          useItWhen: "Emphasising fairness between people or sides, slightly more than objective's focus on facts alone.",
+          whyHere: "Impartial and objective overlap closely, impartial leans toward fairness between parties, objective leans toward facts over feelings."
+        },
+        {
+          slug: "objective-related-biased",
+          word: "Biased",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Unfairly favouring one side, person, or outcome over another.",
+          professionalExample: "The review felt biased toward the company's own product.",
+          conversationalExample: "You're a bit biased, you already love her cooking.",
+          useItWhen: "Judgement is skewed by personal preference, the opposite of being objective.",
+          whyHere: "Biased is the everyday word for exactly what an objective view is meant to avoid."
         }
       ],
       audioRef: null,
@@ -139,6 +205,28 @@ var LEXORA_DAY_03 = {
           conversationalExample: "I don't need a justification, I just want an apology.",
           useItWhen: "The reasoning is being used to defend or excuse something, rather than simply explain the logic behind it.",
           whyHere: "Justification leans defensive, rationale leans explanatory, the pair helps learners pick the word that matches the tone they intend."
+        },
+        {
+          slug: "rationale-related-reasoning",
+          word: "Reasoning",
+          kind: "close synonym",
+          partOfSpeech: "noun",
+          meaning: "The process of thinking through something in a logical way.",
+          professionalExample: "Walk me through your reasoning before we approve the budget.",
+          conversationalExample: "I don't follow your reasoning at all.",
+          useItWhen: "Describing the thinking process itself, rather than the final explanation given for a decision.",
+          whyHere: "Reasoning is the process; rationale is often the finished explanation presented afterward to justify a decision."
+        },
+        {
+          slug: "rationale-related-arbitrary",
+          word: "Arbitrary",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Based on random choice rather than any reason or system.",
+          professionalExample: "The cuts felt arbitrary, nobody could explain why those two teams were chosen.",
+          conversationalExample: "That rule seems completely arbitrary to me.",
+          useItWhen: "A decision has no clear reasoning behind it, the opposite of having a rationale.",
+          whyHere: "Calling a decision arbitrary is the direct accusation that it lacks any real rationale."
         }
       ],
       audioRef: null,
@@ -174,6 +262,28 @@ var LEXORA_DAY_03 = {
           conversationalExample: "You're very perceptive, I hadn't told anyone I was upset.",
           useItWhen: "Describing a person's ability to notice and understand, rather than the understanding itself.",
           whyHere: "Perceptive describes the person, insight describes what they produce, pairing them lets a learner praise both the person and their contribution."
+        },
+        {
+          slug: "insight-related-awareness",
+          word: "Awareness",
+          kind: "broader synonym (general term)",
+          partOfSpeech: "noun",
+          meaning: "Knowledge or perception of a situation or fact.",
+          professionalExample: "The training raised awareness of unconscious bias in hiring.",
+          conversationalExample: "I just don't have much awareness of how loud I'm being sometimes.",
+          useItWhen: "General knowledge that something exists or is happening, without the deeper understanding insight implies.",
+          whyHere: "Awareness is knowing something exists; insight goes further, understanding what it actually means or why it matters."
+        },
+        {
+          slug: "insight-related-oblivious",
+          word: "Oblivious",
+          kind: "antonym (contrast pair)",
+          partOfSpeech: "adjective",
+          meaning: "Completely unaware of something happening around you.",
+          professionalExample: "He was oblivious to how his comment landed in the room.",
+          conversationalExample: "I was totally oblivious that she'd been upset all week.",
+          useItWhen: "Someone lacks even basic awareness, let alone insight, into a situation.",
+          whyHere: "Oblivious sits at the far end of the scale from insight, useful for showing just how much understanding insight actually adds."
         }
       ],
       audioRef: null,
