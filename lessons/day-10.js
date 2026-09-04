@@ -1,13 +1,13 @@
 /*
   Lexora Lesson Content — Day 10
   -----------------------------
-  Theme: Confidence and Advanced Everyday Vocabulary
+  Theme: Advanced Vocabulary
   Real, approved curriculum content — no placeholder fields.
 */
 
 var LEXORA_DAY_10 = {
   day: 10,
-  theme: "Confidence and Advanced Everyday Vocabulary",
+  theme: "Advanced Vocabulary",
   words: [
     {
       id: "day10-w1-assertive",
