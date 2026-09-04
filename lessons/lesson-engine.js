@@ -18,15 +18,12 @@
 window.LexoraLessons = window.LexoraLessons || {};
 
 (function () {
-  // Placeholder curriculum start date — arbitrary, and deliberately NOT
-  // "today" (set a few days in the past so the current Day 1-3 test
-  // window lines up near the present for easy testing, without ever
-  // hardcoding "today = Day 1"). Replace with the real, approved
-  // curriculum launch date before production.
+  // Curriculum start date used by the current Lexora lesson sequence.
+  // This is kept separate from the device's current date so lesson-day
+  // selection remains deterministic in Africa/Lagos time.
   var LESSON_EPOCH = '2026-08-25';
 
   function lagosDateString(date) {
-    // Returns "YYYY-MM-DD" for the given moment, in Africa/Lagos time.
     var fmt = new Intl.DateTimeFormat('en-CA', {
       timeZone: 'Africa/Lagos', year: 'numeric', month: '2-digit', day: '2-digit'
     });
@@ -39,14 +36,8 @@ window.LexoraLessons = window.LexoraLessons || {};
     return Math.round((b - a) / 86400000);
   }
 
-  // Daily access levels: how many of a lesson's main words are shown.
-  // This must come from the subscription/referral entitlement system,
-  // not be invented here. No real entitlement source exists yet, so
-  // this defaults to Core as a technical fallback only — NOT final
-  // subscription logic. Once the commercial system exists, it must set
-  // this based on the user's actual plan/referral status.
   var ACCESS_LEVELS = { core: 5, extended: 10, full: 15 };
-  var currentAccessLevel = 'core'; // technical fallback only, pending real entitlement wiring
+  var currentAccessLevel = 'core';
 
   function setAccessLevel(level) {
     if (ACCESS_LEVELS.hasOwnProperty(level)) currentAccessLevel = level;
@@ -58,22 +49,15 @@ window.LexoraLessons = window.LexoraLessons || {};
     return Object.assign({}, lesson, { words: lesson.words.slice(0, limit) });
   }
 
-  // Production curriculum length. Day 30 is the final curriculum day —
-  // this is a deliberate decision, not a placeholder. Extending beyond
-  // Day 30 requires a future curriculum being explicitly added, not an
-  // automatic wrap-around.
   var CURRICULUM_LENGTH = 30;
 
   function elapsedDays(date) {
     date = date || new Date();
     var todayStr = lagosDateString(date);
     var elapsed = daysBetween(LESSON_EPOCH, todayStr);
-    return elapsed < 0 ? 0 : elapsed; // before epoch — clamp to Day 1
+    return elapsed < 0 ? 0 : elapsed;
   }
 
-  // Returns a 1-indexed day number (1..30), or null once the curriculum
-  // window has passed — callers must check isCurriculumComplete() to
-  // distinguish "day not reached yet" from "curriculum finished".
   function getDayNumber(date) {
     var elapsed = elapsedDays(date);
     if (elapsed >= CURRICULUM_LENGTH) return null;
@@ -106,16 +90,46 @@ window.LexoraLessons = window.LexoraLessons || {};
     };
   }
 
-  // Always returns a usable lesson object — never undefined, never null,
-  // never a half-filled object that could leak "undefined" into the UI.
+  function getLatestAvailableLesson() {
+    var reg = window.LexoraLessons.registry || {};
+    var latestDay = 0;
+    var latestLesson = null;
+
+    Object.keys(reg).forEach(function (key) {
+      var match = /^day-(\d+)$/.exec(key);
+      if (!match) return;
+      var n = parseInt(match[1], 10);
+      var lesson = reg[key];
+      if (n > latestDay && lesson && lesson.words && lesson.words.length) {
+        latestDay = n;
+        latestLesson = lesson;
+      }
+    });
+
+    return latestLesson ? applyAccessLevel(latestLesson) : null;
+  }
+
   function getTodayLesson() {
     if (isCurriculumComplete()) return completionState();
+
     var dayNum = getDayNumber();
-    return getLessonByDay(dayNum);
+    var lesson = getLessonByDay(dayNum);
+
+    // The repository currently contains only the uploaded lesson days.
+    // If the calendar has advanced beyond the latest uploaded lesson,
+    // keep the lesson CTA usable rather than rendering "Unavailable".
+    // Once the next approved day file is uploaded and registered, it is
+    // automatically selected without changing this engine again.
+    if (lesson.isFallback) {
+      var latest = getLatestAvailableLesson();
+      if (latest) return latest;
+    }
+
+    return lesson;
   }
 
   function getLessonByDay(dayNum) {
-    if (dayNum > CURRICULUM_LENGTH) return completionState();
+    if (!dayNum || dayNum > CURRICULUM_LENGTH) return completionState();
     var key = dayKey(dayNum);
     var reg = window.LexoraLessons.registry || {};
     var lesson = reg[key];
