@@ -9,6 +9,7 @@ window.LexoraEarlyAudio = (function () {
     word: 'assets/audio/word-happy.wav',
     wordBall: 'assets/audio/word-ball.wav',
     wordSmall: 'assets/audio/word-small.wav',
+    wordThree: 'assets/audio/count-three.wav',
     retry: 'assets/audio/lesson-retry.wav',
     success: 'assets/audio/lesson-success.wav',
     successSting: 'assets/audio/lesson-success-sting.wav'

@@ -72,6 +72,10 @@ No important action may be communicated only through animation. Motion supports 
 
 Correct answers must not consistently appear on the same side, in the same visual position, or with the same ordering pattern. Lesson authors must deliberately vary answer placement across activities and validate the answer key independently from the presentation order. This prevents a child from succeeding through position memorisation rather than listening, noticing, or understanding. Lesson 3 therefore places the correct **Small star** choice on the left, while earlier lessons are not a template for future answer order.
 
+### Structured lesson specification
+
+Every new lesson must begin with a machine-readable specification before its HTML is generated. The specification must define the lesson ID, sequence, track, title, learning target, spoken instruction, activity type, ordered choices, correct answer ID, correct answer position, audio assets, feedback states, completion copy, and forbidden ambiguous phrases. The generated interface must be validated against that specification before deployment. Lesson 4 is the first implementation of this format in `lessons/lesson-04-counting-1-3.spec.json`.
+
 ## 6. Audio model
 
 Audio is a first-class interaction, not decoration. Every audio-led activity must provide:

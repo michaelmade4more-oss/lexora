@@ -1,0 +1,52 @@
+{
+  "id": "early-lesson-04",
+  "sequence": 4,
+  "track": "early-learner",
+  "title": "Counting 1 to 3",
+  "theme": "Count the stars",
+  "learning_target": {
+    "type": "counting",
+    "spoken_target": "One, two, three.",
+    "success_concept": "Recognise a group of three objects."
+  },
+  "instruction": "Count the stars. Find the group with three.",
+  "activity": {
+    "type": "picture-choice",
+    "prompt": "Now choose three stars",
+    "choices": [
+      {
+        "id": "three",
+        "label": "Three stars",
+        "visual": "★★★",
+        "correct": true,
+        "position": "left"
+      },
+      {
+        "id": "two",
+        "label": "Two stars",
+        "visual": "★★",
+        "correct": false,
+        "position": "right"
+      }
+    ]
+  },
+  "audio": {
+    "target_asset": "assets/audio/count-three.wav",
+    "instruction_asset": "assets/audio/early-instruction-count-three.wav",
+    "retry_asset": "assets/audio/lesson-retry.wav",
+    "success_asset": "assets/audio/lesson-success.wav",
+    "success_sting_asset": "assets/audio/lesson-success-sting.wav"
+  },
+  "states": {
+    "incorrect_feedback": "Let’s count again.",
+    "correct_feedback": "Yes! Three stars!",
+    "completion_title": "Yay, you counted three!",
+    "completion_body": "One, two, three. Your words are growing."
+  },
+  "validation": {
+    "correct_answer_id": "three",
+    "correct_answer_position": "left",
+    "requires_position_variation_review": true,
+    "must_not_contain": ["choose a group", "choose the stars", "Yes! Ball!", "Yes! Small star!"]
+  }
+}
