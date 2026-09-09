@@ -1,0 +1,41 @@
+{
+  "id": "early-lesson-05",
+  "sequence": 5,
+  "track": "early-learner",
+  "title": "Find the cat",
+  "theme": "Animal friends",
+  "learning_target": {
+    "type": "object-recognition",
+    "spoken_target": "Cat",
+    "success_concept": "Recognise a familiar animal from its spoken name."
+  },
+  "instruction": "Listen, then find the cat.",
+  "activity": {
+    "type": "visual-choice",
+    "prompt": "Tap the cat",
+    "choices": [
+      {"id": "dog", "visual": "🐶", "alt_text": "Dog", "correct": false, "position": "left"},
+      {"id": "cat", "visual": "🐱", "alt_text": "Cat", "correct": true, "position": "right"}
+    ],
+    "visible_text_labels": false
+  },
+  "audio": {
+    "target_asset": "assets/audio/word-cat.wav",
+    "instruction_asset": "assets/audio/early-instruction-find-cat.wav",
+    "retry_asset": "assets/audio/lesson-retry.wav",
+    "success_asset": "assets/audio/lesson-success.wav",
+    "success_sting_asset": "assets/audio/lesson-success-sting.wav"
+  },
+  "states": {
+    "incorrect_feedback": "Let’s listen again.",
+    "correct_feedback": "Yes! Cat!",
+    "completion_title": "Yay, you found the cat!",
+    "completion_body": "That is a cat. Your words are growing."
+  },
+  "validation": {
+    "correct_answer_id": "cat",
+    "correct_answer_position": "right",
+    "visible_labels_for_non_readers": false,
+    "must_not_contain": ["Blue ball", "Red ball", "Small star", "Big star", "choose the red ball"]
+  }
+}
