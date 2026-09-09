@@ -295,9 +295,11 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
 <script src="lessons/registry.js"></script>
 <script src="lessons/lesson-engine.js"></script>
 <script>
+var selectedProfile = sessionStorage.getItem('lexoraSelectedProfile') || 'Michael';
 var h = new Date().getHours();
 var part = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-document.getElementById('greetText').innerHTML = part + ', <b>Michael</b>';
+document.getElementById('greetText').innerHTML = part + ', <b>' + selectedProfile + '</b>';
+document.querySelector('.streakBannerText').innerHTML = '<b>2 day streak.</b> Keep your rhythm, ' + selectedProfile + '.';
 
 var streakBtn = document.getElementById('streakBtn');
 var streakSheet = document.getElementById('streakSheet');
