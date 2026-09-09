@@ -230,7 +230,7 @@
         card.dataset.profile = name;
         card.dataset.role = 'Child learning';
         card.innerHTML = `<span class="avatar-ring ${avatarClass}" aria-hidden="true"><span class="avatar">${safeName.charAt(0).toUpperCase()}</span></span><span class="profile-name">${safeName}</span><span class="profile-meta">Child learning</span>`;
-        card.addEventListener('click', () => { sessionStorage.setItem('lexoraSelectedProfile', name); window.location.href = 'home.html'; });
+        card.addEventListener('click', () => { sessionStorage.setItem('lexoraSelectedProfile', name); window.location.href = 'child-home-early.html'; });
         addCard.parentNode.insertBefore(card, addCard);
       }
       function loadSavedProfiles() {
@@ -272,7 +272,7 @@
       loadSavedProfiles();
       document.querySelectorAll('[data-profile]').forEach(card => card.addEventListener('click', () => {
         sessionStorage.setItem('lexoraSelectedProfile', card.dataset.profile);
-        window.location.href = 'home.html';
+        window.location.href = card.dataset.role === 'Child learning' ? 'child-home-early.html' : 'home.html';
       }));
       backdrop.addEventListener('click', event => { if (event.target === backdrop) closeModal(); });
       document.addEventListener('keydown', event => {
