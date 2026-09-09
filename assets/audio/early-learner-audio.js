@@ -3,6 +3,8 @@
 window.LexoraEarlyAudio = (function () {
   var muted = false;
   var files = {
+    welcome: 'assets/audio/home-welcome-chime.wav',
+    start: 'assets/audio/lesson-start-cue.wav',
     instruction: 'assets/audio/early-instruction.wav',
     word: 'assets/audio/word-happy.wav',
     retry: 'assets/audio/lesson-retry.wav',
@@ -16,7 +18,7 @@ window.LexoraEarlyAudio = (function () {
     if (!cache[key] && files[key]) {
       cache[key] = new Audio(files[key]);
       cache[key].preload = 'auto';
-      cache[key].volume = key === 'successSting' ? 0.52 : 0.82;
+      cache[key].volume = key === 'successSting' ? 0.52 : (key === 'welcome' || key === 'start' ? 0.58 : 0.82);
     }
     return cache[key];
   }
