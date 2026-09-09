@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0d">
+  <meta name="description" content="Choose a Lexora learning profile.">
+  <title>Lexora — Who's learning?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;750&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #09090b;
+      --bg-glow: #17151a;
+      --panel: rgba(25, 25, 30, .72);
+      --panel-solid: #17171c;
+      --panel-hover: #202027;
+      --line: rgba(255, 255, 255, .11);
+      --line-strong: rgba(255, 255, 255, .18);
+      --text: #f5f3ef;
+      --muted: #a7a4ac;
+      --subtle: #77747e;
+      --gold: #d8b45b;
+      --gold-soft: #f0dfb1;
+      --coral: #e4846d;
+      --teal: #55b6a8;
+      --danger: #ff8c83;
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --ease: cubic-bezier(.2, .8, .2, 1);
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html { min-height: 100%; background: var(--bg); }
+    body {
+      min-width: 280px;
+      min-height: 100dvh;
+      margin: 0;
+      background:
+        radial-gradient(65rem 36rem at 50% -12%, var(--bg-glow) 0%, transparent 65%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, sans-serif;
+      font-synthesis: none;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    button, input { font: inherit; }
+    button { color: inherit; border: 0; cursor: pointer; touch-action: manipulation; }
+    button:focus-visible, input:focus-visible { outline: 3px solid rgba(216, 180, 91, .8); outline-offset: 4px; }
+
+    .app-shell {
+      width: 100%;
+      max-width: 560px;
+      min-height: 100dvh;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      padding: max(18px, env(safe-area-inset-top)) 20px max(22px, env(safe-area-inset-bottom));
+    }
+    .topbar { display: flex; justify-content: space-between; align-items: center; min-height: 42px; }
+    .brand { display: inline-flex; align-items: center; gap: 9px; color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: .01em; }
+    .brand-mark { width: 25px; height: 25px; border-radius: 8px; display: grid; place-items: center; color: #17130b; background: linear-gradient(145deg, #f0d795, #ba8d31); font-size: 13px; font-weight: 750; box-shadow: 0 5px 18px rgba(216, 180, 91, .18); }
+    .icon-button { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: rgba(255, 255, 255, .055); color: var(--muted); transition: transform .18s var(--ease), background .18s var(--ease), color .18s var(--ease); }
+    .icon-button:hover { color: var(--text); background: var(--panel-hover); }
+    .icon-button:active { transform: scale(.94); }
+    .icon-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: clamp(28px, 6vh, 54px) 0 18px; }
+    .eyebrow { margin: 0 0 9px; color: var(--gold); font-size: 9px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+    h1 { max-width: 440px; margin: 0; text-align: center; font-size: clamp(25px, 5.5vw, 32px); line-height: 1.1; letter-spacing: -.05em; font-weight: 700; }
+    .intro { max-width: 280px; margin: 10px 0 0; color: var(--muted); text-align: center; font-size: 12px; line-height: 1.4; }
+
+    .profile-grid { width: 100%; max-width: 370px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: clamp(22px, 4vh, 34px); }
+    .profile-card { min-height: 146px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; padding: 14px 8px; border: 1px solid var(--line); border-radius: 21px; background: linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.025)); box-shadow: 0 9px 22px rgba(0,0,0,.12); transition: transform .22s var(--ease), border-color .22s var(--ease), background .22s var(--ease), box-shadow .22s var(--ease); }
+    .profile-card:hover { transform: translateY(-3px); border-color: var(--line-strong); background: linear-gradient(160deg, rgba(255,255,255,.1), rgba(255,255,255,.035)); box-shadow: 0 18px 38px rgba(0,0,0,.23); }
+    .profile-card:active { transform: scale(.975); }
+    .avatar-ring { width: 68px; height: 68px; padding: 3px; border-radius: 50%; box-shadow: 0 6px 17px rgba(0,0,0,.2); }
+    .avatar { width: 100%; height: 100%; display: grid; place-items: center; border-radius: 50%; font-size: 25px; font-weight: 650; letter-spacing: -.06em; }
+    .gold { background: linear-gradient(145deg, #e4c46d, #9d7229); }
+    .gold .avatar { color: var(--gold-soft); background: linear-gradient(145deg, #302819, #15130f); }
+    .coral { background: linear-gradient(145deg, #ef9a80, #bb5745); }
+    .coral .avatar { color: #ffe7df; background: linear-gradient(145deg, #4d271f, #201312); }
+    .teal { background: linear-gradient(145deg, #6dd1c2, #368b80); }
+    .teal .avatar { color: #d9faf5; background: linear-gradient(145deg, #173f3a, #0e1d1b); }
+    .profile-name { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: -.02em; }
+    .profile-meta { margin: -6px 0 0; color: var(--subtle); font-size: 9px; }
+    .add-card { color: var(--muted); }
+    .add-card:hover { color: var(--text); }
+    .add-card .avatar-ring { display: grid; place-items: center; padding: 0; border: 1px dashed var(--line-strong); background: transparent; box-shadow: none; }
+    .add-card svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+
+    .footer { margin-top: auto; padding-top: 30px; text-align: center; }
+    .privacy-note { display: inline-flex; align-items: center; gap: 7px; margin: 0; color: var(--subtle); font-size: 9px; line-height: 1.5; }
+    .privacy-note svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    .modal-backdrop { position: fixed; inset: 0; z-index: 10; display: grid; place-items: end center; padding: 16px; background: rgba(0,0,0,.62); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); opacity: 0; visibility: hidden; transition: opacity .22s ease, visibility .22s ease; }
+    .modal-backdrop.is-open { opacity: 1; visibility: visible; }
+    .modal { width: min(100%, 440px); padding: 24px; border: 1px solid var(--line-strong); border-radius: 28px; background: rgba(28,28,34,.94); box-shadow: 0 24px 80px rgba(0,0,0,.52); transform: translateY(22px); transition: transform .3s var(--ease); }
+    .modal-backdrop.is-open .modal { transform: translateY(0); }
+    .modal-handle { width: 36px; height: 4px; margin: -8px auto 22px; border-radius: 10px; background: var(--line-strong); }
+    .modal h2 { margin: 0; font-size: 22px; letter-spacing: -.04em; }
+    .modal p { margin: 9px 0 20px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .modal-actions { display: grid; gap: 10px; }
+    .primary-button, .secondary-button { min-height: 48px; border-radius: 15px; font-size: 14px; font-weight: 650; transition: transform .18s var(--ease), filter .18s ease, background .18s ease; }
+    .primary-button { color: #17130b; background: linear-gradient(135deg, #f0d795, #c39a43); }
+    .primary-button:hover { filter: brightness(1.08); }
+    .secondary-button { color: var(--muted); border: 1px solid var(--line); background: rgba(255,255,255,.045); }
+    .secondary-button:hover { color: var(--text); background: rgba(255,255,255,.08); }
+    .primary-button:active, .secondary-button:active { transform: scale(.98); }
+    .field { display: grid; gap: 8px; margin: 18px 0 4px; }
+    .field label { color: var(--muted); font-size: 12px; font-weight: 600; }
+    .field input { width: 100%; min-height: 48px; padding: 0 14px; color: var(--text); border: 1px solid var(--line-strong); border-radius: 14px; outline: none; background: rgba(0,0,0,.2); }
+    .field input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(216,180,91,.14); }
+    .toast { position: fixed; z-index: 20; left: 50%; bottom: max(22px, env(safe-area-inset-bottom)); width: max-content; max-width: calc(100% - 40px); padding: 12px 16px; border: 1px solid var(--line-strong); border-radius: 999px; color: var(--text); background: rgba(38,38,44,.94); box-shadow: 0 12px 36px rgba(0,0,0,.35); font-size: 12px; opacity: 0; pointer-events: none; transform: translate(-50%, 12px); transition: opacity .25s ease, transform .25s var(--ease); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (min-width: 620px) { .modal-backdrop { align-items: center; } }
+    @media (max-height: 620px) and (orientation: landscape) { main { padding-top: 26px; } .profile-card { min-height: 150px; } .avatar-ring { width: 70px; height: 70px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" aria-label="Lexora navigation">
+      <div class="brand" aria-label="Lexora"><span class="brand-mark" aria-hidden="true">L</span><span>LEXORA</span></div>
+      <button class="icon-button" id="settingsButton" type="button" aria-label="Open grown-up settings" title="Grown-up settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+      </button>
+    </header>
+
+    <main>
+      <p class="eyebrow">Your learning space</p>
+      <h1>Who's learning today?</h1>
+      <p class="intro">Choose your learning profile.</p>
+
+      <section class="profile-grid" aria-label="Learning profiles">
+        <button class="profile-card" type="button" data-profile="Michael" data-role="Adult learning">
+          <span class="avatar-ring gold" aria-hidden="true"><span class="avatar">M</span></span>
+          <span class="profile-name">Michael</span><span class="profile-meta">Adult learning</span>
+        </button>
+        <button class="profile-card" type="button" data-profile="Zainab" data-role="Child learning">
+          <span class="avatar-ring coral" aria-hidden="true"><span class="avatar">Z</span></span>
+          <span class="profile-name">Zainab</span><span class="profile-meta">Child learning</span>
+        </button>
+        <button class="profile-card" type="button" data-profile="David" data-role="Child learning">
+          <span class="avatar-ring teal" aria-hidden="true"><span class="avatar">D</span></span>
+          <span class="profile-name">David</span><span class="profile-meta">Child learning</span>
+        </button>
+        <button class="profile-card add-card" id="addProfileButton" type="button">
+          <span class="avatar-ring" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg></span>
+          <span class="profile-name">Add profile</span><span class="profile-meta">Parent approval required</span>
+        </button>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="privacy-note"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>Profile changes require grown-up approval.</p>
+    </footer>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" role="presentation" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalCopy">
+      <div class="modal-handle" aria-hidden="true"></div>
+      <h2 id="modalTitle">Grown-up settings</h2>
+      <p id="modalCopy">This area is protected because it includes profiles, learning limits, and account settings.</p>
+      <div id="modalContent"></div>
+      <div class="modal-actions" id="modalActions">
+        <button class="primary-button" id="continueButton" type="button">Continue</button>
+        <button class="secondary-button" id="closeButton" type="button">Not now</button>
+      </div>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const backdrop = document.getElementById('modalBackdrop');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalCopy = document.getElementById('modalCopy');
+      const modalContent = document.getElementById('modalContent');
+      const modalActions = document.getElementById('modalActions');
+      const continueButton = document.getElementById('continueButton');
+      const closeButton = document.getElementById('closeButton');
+      const toast = document.getElementById('toast');
+      let lastFocused = null;
+      let toastTimer;
+
+      function showModal(mode) {
+        lastFocused = document.activeElement;
+        modalContent.innerHTML = '';
+        modalActions.innerHTML = '';
+        if (mode === 'add') {
+          modalTitle.textContent = 'Add a profile';
+          modalCopy.textContent = 'A grown-up can create a learning space for someone new.';
+          const field = document.createElement('div');
+          field.className = 'field';
+          field.innerHTML = '<label for="profileName">Profile name</label><input id="profileName" type="text" maxlength="30" autocomplete="off" placeholder="Enter a name">';
+          modalContent.appendChild(field);
+          modalActions.innerHTML = '<button class="primary-button" id="saveProfile" type="button">Create profile</button><button class="secondary-button" id="cancelModal" type="button">Cancel</button>';
+          document.getElementById('saveProfile').addEventListener('click', () => {
+            const name = document.getElementById('profileName').value.trim();
+            if (!name) { document.getElementById('profileName').focus(); return; }
+            closeModal(); showToast(`${name}'s profile is ready to set up.`);
+          });
+          document.getElementById('cancelModal').addEventListener('click', closeModal);
+        } else {
+          modalTitle.textContent = 'Grown-up settings';
+          modalCopy.textContent = 'This area is protected because it includes profiles, learning limits, and account settings.';
+          modalActions.innerHTML = '<button class="primary-button" id="gateButton" type="button">Solve a quick check</button><button class="secondary-button" id="cancelModal" type="button">Not now</button>';
+          document.getElementById('gateButton').addEventListener('click', () => { closeModal(); showToast('Parental gate ready — connect this to your approved verification flow.'); });
+          document.getElementById('cancelModal').addEventListener('click', closeModal);
+        }
+        backdrop.classList.add('is-open');
+        backdrop.setAttribute('aria-hidden', 'false');
+        requestAnimationFrame(() => (modalContent.querySelector('input') || modalActions.querySelector('button')).focus());
+      }
+      function closeModal() {
+        backdrop.classList.remove('is-open');
+        backdrop.setAttribute('aria-hidden', 'true');
+        if (lastFocused) lastFocused.focus();
+      }
+      function showToast(message) {
+        clearTimeout(toastTimer); toast.textContent = message; toast.classList.add('show');
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+      }
+
+      document.getElementById('settingsButton').addEventListener('click', () => showModal('settings'));
+      document.getElementById('addProfileButton').addEventListener('click', () => showModal('add'));
+      document.querySelectorAll('[data-profile]').forEach(card => card.addEventListener('click', () => {
+        sessionStorage.setItem('lexoraSelectedProfile', card.dataset.profile);
+        window.location.href = 'home.html';
+      }));
+      backdrop.addEventListener('click', event => { if (event.target === backdrop) closeModal(); });
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && backdrop.classList.contains('is-open')) closeModal();
+      });
+      continueButton.addEventListener('click', () => showToast('Choose a profile to continue.'));
+      closeButton.addEventListener('click', closeModal);
+    })();
+  </script>
+</body>
+</html>
