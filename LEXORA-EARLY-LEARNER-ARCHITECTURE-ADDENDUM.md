@@ -68,6 +68,10 @@ The required state order is:
 
 No important action may be communicated only through animation. Motion supports meaning; it does not replace labels, focus, or a visible control.
 
+### Answer-position variation
+
+Correct answers must not consistently appear on the same side, in the same visual position, or with the same ordering pattern. Lesson authors must deliberately vary answer placement across activities and validate the answer key independently from the presentation order. This prevents a child from succeeding through position memorisation rather than listening, noticing, or understanding. Lesson 3 therefore places the correct **Small star** choice on the left, while earlier lessons are not a template for future answer order.
+
 ## 6. Audio model
 
 Audio is a first-class interaction, not decoration. Every audio-led activity must provide:
