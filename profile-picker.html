@@ -110,13 +110,13 @@
     .secondary-button { color: var(--muted); border: 1px solid var(--line); background: rgba(255,255,255,.045); }
     .secondary-button:hover { color: var(--text); background: rgba(255,255,255,.08); }
     .primary-button:active, .secondary-button:active { transform: scale(.98); }
-    .field { display: grid; gap: 8px; margin: 18px 0 4px; }
-    .field label { color: var(--muted); font-size: 12px; font-weight: 600; }
-    .field input { width: 100%; min-height: 48px; padding: 0 14px; color: var(--text); border: 1px solid var(--line-strong); border-radius: 14px; outline: none; background: rgba(0,0,0,.2); }
+    .field { display: grid; gap: 7px; margin: 15px 0 4px; }
+    .field label { color: var(--muted); font-size: 11px; font-weight: 600; }
+    .field input { width: 100%; min-height: 42px; padding: 0 12px; color: var(--text); border: 1px solid var(--line-strong); border-radius: 12px; outline: none; background: rgba(0,0,0,.2); font-size: 12px; }
     .field input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(216,180,91,.14); }
-    .field select { width: 100%; min-height: 48px; padding: 0 14px; color: var(--text); border: 1px solid var(--line-strong); border-radius: 14px; outline: none; background: rgba(0,0,0,.2); }
+    .field select { width: 100%; min-height: 42px; padding: 0 12px; color: var(--text); border: 1px solid var(--line-strong); border-radius: 12px; outline: none; background: rgba(0,0,0,.2); font-size: 12px; }
     .field select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(216,180,91,.14); }
-    .avatar-choice-label { display: block; margin: 18px 0 9px; color: var(--muted); font-size: 12px; font-weight: 600; }
+    .avatar-choice-label { display: block; margin: 15px 0 8px; color: var(--muted); font-size: 11px; font-weight: 600; }
     .avatar-choices { display: flex; gap: 10px; }
     .avatar-choice { width: 42px; height: 42px; display: grid; place-items: center; border: 2px solid transparent; border-radius: 50%; font-size: 15px; font-weight: 650; transition: border-color .18s, transform .18s; }
     .avatar-choice.selected { border-color: var(--gold); transform: scale(1.06); }
@@ -221,18 +221,38 @@
         backdrop.setAttribute('aria-hidden', 'false');
         requestAnimationFrame(() => (modalContent.querySelector('input') || modalActions.querySelector('button')).focus());
       }
+      function addProfileCard(name, avatarClass) {
+        const addCard = document.getElementById('addProfileButton');
+        const card = document.createElement('button');
+        const safeName = name.replace(/[&<>"']/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[character]));
+        card.className = 'profile-card';
+        card.type = 'button';
+        card.dataset.profile = name;
+        card.dataset.role = 'Child learning';
+        card.innerHTML = `<span class="avatar-ring ${avatarClass}" aria-hidden="true"><span class="avatar">${safeName.charAt(0).toUpperCase()}</span></span><span class="profile-name">${safeName}</span><span class="profile-meta">Child learning</span>`;
+        card.addEventListener('click', () => { sessionStorage.setItem('lexoraSelectedProfile', name); window.location.href = 'home.html'; });
+        addCard.parentNode.insertBefore(card, addCard);
+      }
+      function loadSavedProfiles() {
+        try { (JSON.parse(localStorage.getItem('lexoraChildProfiles') || '[]')).forEach(profile => addProfileCard(profile.name, profile.avatar)); } catch (error) { /* Ignore unavailable storage. */ }
+      }
       function showProfileSetup() {
         modalTitle.textContent = 'Create a child profile';
         modalCopy.textContent = 'Set up a name, avatar, and proposed age band.';
         modalContent.innerHTML = '<div class="field"><label for="profileName">Child\'s name</label><input id="profileName" type="text" maxlength="30" autocomplete="off" placeholder="Enter a name"></div><span class="avatar-choice-label">Choose an avatar</span><div class="avatar-choices" role="radiogroup" aria-label="Choose an avatar"><button class="avatar-choice gold selected" type="button" data-avatar="gold" aria-label="Gold avatar">A</button><button class="avatar-choice coral" type="button" data-avatar="coral" aria-label="Coral avatar">B</button><button class="avatar-choice teal" type="button" data-avatar="teal" aria-label="Teal avatar">C</button></div><div class="field"><label for="ageBand">Age band</label><select id="ageBand"><option value="">Choose an age band</option><option>Ages 3–5 · Early Learner</option><option>Ages 6–8 · Foundation</option><option>Ages 9–12 · Developing Reader</option><option>Ages 13–17 · Teen</option></select></div>';
         modalActions.innerHTML = '<button class="primary-button" id="createProfile" type="button">Create profile</button><button class="secondary-button" id="cancelModal" type="button">Cancel</button>';
-        document.querySelectorAll('.avatar-choice').forEach(choice => choice.addEventListener('click', () => { document.querySelectorAll('.avatar-choice').forEach(item => item.classList.remove('selected')); choice.classList.add('selected'); }));
+        let selectedAvatar = 'gold';
+        document.querySelectorAll('.avatar-choice').forEach(choice => choice.addEventListener('click', () => { document.querySelectorAll('.avatar-choice').forEach(item => item.classList.remove('selected')); choice.classList.add('selected'); selectedAvatar = choice.dataset.avatar; }));
         document.getElementById('createProfile').addEventListener('click', () => {
           const name = document.getElementById('profileName').value.trim();
           const ageBand = document.getElementById('ageBand').value;
           if (!name) { document.getElementById('profileName').focus(); return; }
           if (!ageBand) { document.getElementById('ageBand').focus(); return; }
-          closeModal(); showToast(`${name}'s profile is ready to set up.`);
+          const profiles = JSON.parse(localStorage.getItem('lexoraChildProfiles') || '[]');
+          profiles.push({ name, avatar: selectedAvatar, ageBand });
+          localStorage.setItem('lexoraChildProfiles', JSON.stringify(profiles));
+          addProfileCard(name, selectedAvatar);
+          closeModal(); showToast(`${name}'s profile is ready to learn.`);
         });
         document.getElementById('cancelModal').addEventListener('click', closeModal);
         requestAnimationFrame(() => document.getElementById('profileName').focus());
@@ -249,6 +269,7 @@
 
       document.getElementById('settingsButton').addEventListener('click', () => showModal('settings'));
       document.getElementById('addProfileButton').addEventListener('click', () => showModal('add'));
+      loadSavedProfiles();
       document.querySelectorAll('[data-profile]').forEach(card => card.addEventListener('click', () => {
         sessionStorage.setItem('lexoraSelectedProfile', card.dataset.profile);
         window.location.href = 'home.html';
