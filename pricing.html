@@ -53,7 +53,7 @@ main{flex:1}
   border:1px solid rgba(224,107,118,.3);color:#f0b8bc;font-size:10.3px;font-weight:700;margin-bottom:14px}
 
 .heroTitle{font-size:22.5px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
-.heroSub{margin-top:8px;color:var(--muted);font-size:12.6px;line-height:1.5;max-width:300px;margin-left:auto;margin-right:auto}
+.heroSub{margin-top:8px;color:var(--muted);font-size:12.6px;line-height:1.5;max-width:310px;margin-left:auto;margin-right:auto}
 
 .featZone{position:relative;padding:22px 20px 0}
 .featCard{background:var(--surface2);border:1px solid var(--line);border-radius:18px;padding:18px 8px;
@@ -66,7 +66,7 @@ main{flex:1}
   display:grid;place-items:center;color:var(--gold);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 16px -10px rgba(201,162,76,.45)}
 .featIconWrap svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.featLabel{font-size:9.5px;color:var(--muted);text-align:center;font-weight:650;line-height:1.3;letter-spacing:-.01em;
+.featLabel{font-size:9.5px;color:var(--muted);text-align:center;font-weight:600;line-height:1.3;letter-spacing:-.01em;
   min-height:14px;display:flex;align-items:flex-start;justify-content:center;white-space:nowrap}
 
 .plansZone{position:relative;padding:24px 20px 0}
@@ -81,7 +81,7 @@ main{flex:1}
 .planCard.selected .planRadioDot{opacity:1;transform:scale(1)}
 .planInfo{flex:1}
 .planNameRow{display:flex;align-items:center;gap:8px}
-.planName{font-size:13.5px;font-weight:700}
+.planName{font-size:13.5px;font-weight:600}
 .bestBadge{font-size:8.6px;font-weight:800;letter-spacing:.04em;padding:2.5px 8px;border-radius:100px;
   background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1408}
 .planSub{margin-top:6px;font-size:10.8px;color:var(--faint)}
@@ -93,9 +93,10 @@ main{flex:1}
 .trustRow{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:18px;padding:0 20px}
 .trustRow svg{width:14px;height:14px;stroke:var(--faint);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .trustText{font-size:10.3px;color:var(--faint);text-align:center;line-height:1.5}
+.scopeNote{margin:8px 24px 0;color:var(--faint);font-size:9.8px;line-height:1.45;text-align:center}
 
 .ctaZone{position:relative;padding:20px 20px 8px}
-.subscribeBtn{width:100%;min-height:52px;border-radius:16px;font-size:14.4px;font-weight:700;letter-spacing:-.01em;
+.subscribeBtn{width:100%;min-height:52px;border-radius:16px;font-size:14.4px;font-weight:650;letter-spacing:-.01em;
   display:flex;align-items:center;justify-content:center;gap:8px;
   background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1408;
   box-shadow:0 10px 26px -10px rgba(201,162,76,.55);transition:transform .12s,filter .12s}
@@ -134,7 +135,7 @@ main{flex:1}
       <div class="crest"><div class="crestInner"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 6.9L22 11l-7.4 2.1L12 20l-2.6-6.9L2 11l7.4-2.1z"/></svg></div></div>
       <span class="statusPill">Your free trial has ended</span>
       <h1 class="heroTitle">Keep your Full Access</h1>
-      <p class="heroSub">One subscription. Adult, Child and Teacher experiences, all included.</p>
+      <p class="heroSub">One Adult account for learning and family management. Child access follows your plan.</p>
     </div>
 
     <div class="featZone">
@@ -142,21 +143,22 @@ main{flex:1}
         <div class="featRow">
           <div class="featItem">
             <span class="featIconWrap"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="18" cy="7" r="2.3"/><path d="M15 20c.3-2.6 2-4.5 4.5-4.9"/></svg></span>
-            <span class="featLabel">All access</span>
+            <span class="featLabel">Adult learning</span>
           </div>
           <div class="featItem">
             <span class="featIconWrap"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg></span>
-            <span class="featLabel">Audio library</span>
+            <span class="featLabel">Audio lessons</span>
           </div>
           <div class="featItem">
             <span class="featIconWrap"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12V6"/><path d="M3 12h6"/></svg></span>
-            <span class="featLabel">Unlimited review</span>
+            <span class="featLabel">Review anytime</span>
           </div>
         </div>
       </div>
     </div>
 
     <div class="plansZone" id="plansZone">
+      <p style="margin:0 0 12px;text-align:center;color:var(--faint);font-size:10px;line-height:1.45">Choose your Adult Lexora subscription. Child profile access is set by the active entitlement.</p>
       <div class="planCard" data-plan="monthly">
         <div class="planTop">
           <span class="planRadio"><span class="planRadioDot"></span></span>
@@ -204,8 +206,9 @@ main{flex:1}
 
     <div class="trustRow">
       <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-      <span class="trustText">Secure payment via card or bank transfer. Cancel anytime.</span>
+      <span class="trustText">Secure payment by card or bank transfer. Cancel anytime.</span>
     </div>
+    <p class="scopeNote">Teacher access is separate and begins only after a parent-approved invitation.</p>
 
     <div class="ctaZone">
       <button class="subscribeBtn" id="subscribeBtn">Subscribe &middot; &#8358;9,999/year</button>
@@ -217,7 +220,7 @@ main{flex:1}
         <span class="earnIconWrap"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
         <span class="earnBody">
           <div class="earnTitle">Prefer to earn access?</div>
-          <div class="earnSub">Invite friends and unlock 30 days free</div>
+          <div class="earnSub">Invite friends to earn 30 days of access</div>
         </span>
         <span class="earnChevron">&rsaquo;</span>
       </button>
