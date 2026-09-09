@@ -68,5 +68,9 @@ window.LexoraEarlyAudio = (function () {
     });
   }
 
-  return { play: play, playTap: playTap, setMuted: setMuted, stop: stop };
+  function preload(keys) {
+    (keys || []).forEach(function (key) { audioFor(key); });
+  }
+
+  return { play: play, playTap: playTap, setMuted: setMuted, stop: stop, preload: preload };
 })();
