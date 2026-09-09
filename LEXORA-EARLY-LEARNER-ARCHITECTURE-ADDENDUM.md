@@ -76,6 +76,10 @@ Correct answers must not consistently appear on the same side, in the same visua
 
 Every new lesson must begin with a machine-readable specification before its HTML is generated. The specification must define the lesson ID, sequence, track, title, learning target, spoken instruction, activity type, ordered choices, correct answer ID, correct answer position, audio assets, feedback states, completion copy, and forbidden ambiguous phrases. The generated interface must be validated against that specification before deployment. Lesson 4 is the first implementation of this format in `lessons/lesson-04-counting-1-3.spec.json`.
 
+### Non-reader choice rule
+
+For the 3–5 Early Learner band, a picture-choice activity must not require reading to succeed. The spoken instruction and visual objects carry the learning task. Visible text labels are optional and should be hidden when they add noise or turn the activity into a reading test. Accessibility names, caregiver-facing semantics, and internal answer IDs must remain present even when the child-facing label is visually hidden. Lesson 2 follows this rule by presenting a ball and a star as visual choices, with the audio prompt **“Find the ball.”**
+
 ## 6. Audio model
 
 Audio is a first-class interaction, not decoration. Every audio-led activity must provide:
