@@ -122,6 +122,10 @@ The preferred child-session header is:
 
 The profile picker remains the place where Lexora branding is most prominent. The child session prioritises orientation, emotional safety, and the active learning task.
 
+### Progress feedback
+
+The lesson-room progress indicator must respond to meaningful learning states rather than remain decorative. The five-lesson Early Learner slice uses the following state model: initial lesson entry at 1 of 5, after listening and revealing the activity at 2 of 5, after a correct choice at 3 of 5, and completion at 5 of 5. The indicator must update in the same interaction that changes the lesson state and must never imply completion before the activity is complete.
+
 ## 9. Parent and safety boundaries
 
 The child experience remains subordinate to the Adult account and Child Profile model:
