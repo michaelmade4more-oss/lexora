@@ -268,7 +268,7 @@
       }
 
       document.getElementById('settingsButton').addEventListener('click', () => showModal('settings'));
-      document.getElementById('addProfileButton').addEventListener('click', () => showModal('add'));
+      document.getElementById('addProfileButton').addEventListener('click', () => { window.location.href = 'add-child-profile.html'; });
       loadSavedProfiles();
       document.querySelectorAll('[data-profile]').forEach(card => card.addEventListener('click', () => {
         sessionStorage.setItem('lexoraSelectedProfile', card.dataset.profile);
