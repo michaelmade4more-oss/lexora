@@ -114,6 +114,14 @@
     .field label { color: var(--muted); font-size: 12px; font-weight: 600; }
     .field input { width: 100%; min-height: 48px; padding: 0 14px; color: var(--text); border: 1px solid var(--line-strong); border-radius: 14px; outline: none; background: rgba(0,0,0,.2); }
     .field input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(216,180,91,.14); }
+    .field select { width: 100%; min-height: 48px; padding: 0 14px; color: var(--text); border: 1px solid var(--line-strong); border-radius: 14px; outline: none; background: rgba(0,0,0,.2); }
+    .field select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(216,180,91,.14); }
+    .avatar-choice-label { display: block; margin: 18px 0 9px; color: var(--muted); font-size: 12px; font-weight: 600; }
+    .avatar-choices { display: flex; gap: 10px; }
+    .avatar-choice { width: 42px; height: 42px; display: grid; place-items: center; border: 2px solid transparent; border-radius: 50%; font-size: 15px; font-weight: 650; transition: border-color .18s, transform .18s; }
+    .avatar-choice.selected { border-color: var(--gold); transform: scale(1.06); }
+    .gate-question { margin: 18px 0 4px; padding: 14px; border: 1px solid var(--line); border-radius: 15px; color: var(--gold-soft); background: rgba(216,180,91,.07); text-align: center; font-size: 20px; font-weight: 650; letter-spacing: -.02em; }
+    .gate-input { text-align: center; font-size: 18px; font-weight: 650; }
     .toast { position: fixed; z-index: 20; left: 50%; bottom: max(22px, env(safe-area-inset-bottom)); width: max-content; max-width: calc(100% - 40px); padding: 12px 16px; border: 1px solid var(--line-strong); border-radius: 999px; color: var(--text); background: rgba(38,38,44,.94); box-shadow: 0 12px 36px rgba(0,0,0,.35); font-size: 12px; opacity: 0; pointer-events: none; transform: translate(-50%, 12px); transition: opacity .25s ease, transform .25s var(--ease); }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
@@ -193,17 +201,13 @@
         modalContent.innerHTML = '';
         modalActions.innerHTML = '';
         if (mode === 'add') {
-          modalTitle.textContent = 'Add a profile';
-          modalCopy.textContent = 'A grown-up can create a learning space for someone new.';
-          const field = document.createElement('div');
-          field.className = 'field';
-          field.innerHTML = '<label for="profileName">Profile name</label><input id="profileName" type="text" maxlength="30" autocomplete="off" placeholder="Enter a name">';
-          modalContent.appendChild(field);
-          modalActions.innerHTML = '<button class="primary-button" id="saveProfile" type="button">Create profile</button><button class="secondary-button" id="cancelModal" type="button">Cancel</button>';
-          document.getElementById('saveProfile').addEventListener('click', () => {
-            const name = document.getElementById('profileName').value.trim();
-            if (!name) { document.getElementById('profileName').focus(); return; }
-            closeModal(); showToast(`${name}'s profile is ready to set up.`);
+          modalTitle.textContent = 'Parent approval';
+          modalCopy.textContent = 'A quick check keeps profile changes grown-up only.';
+          modalContent.innerHTML = '<div class="gate-question" aria-label="Security question">7 + 5 = ?</div><div class="field"><label for="gateAnswer">Your answer</label><input class="gate-input" id="gateAnswer" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="Enter answer"></div>';
+          modalActions.innerHTML = '<button class="primary-button" id="gateSubmit" type="button">Continue</button><button class="secondary-button" id="cancelModal" type="button">Cancel</button>';
+          document.getElementById('gateSubmit').addEventListener('click', () => {
+            if (document.getElementById('gateAnswer').value.trim() !== '12') { showToast('That answer is not quite right.'); document.getElementById('gateAnswer').focus(); return; }
+            showProfileSetup();
           });
           document.getElementById('cancelModal').addEventListener('click', closeModal);
         } else {
@@ -216,6 +220,22 @@
         backdrop.classList.add('is-open');
         backdrop.setAttribute('aria-hidden', 'false');
         requestAnimationFrame(() => (modalContent.querySelector('input') || modalActions.querySelector('button')).focus());
+      }
+      function showProfileSetup() {
+        modalTitle.textContent = 'Create a child profile';
+        modalCopy.textContent = 'Set up a name, avatar, and proposed age band.';
+        modalContent.innerHTML = '<div class="field"><label for="profileName">Child\'s name</label><input id="profileName" type="text" maxlength="30" autocomplete="off" placeholder="Enter a name"></div><span class="avatar-choice-label">Choose an avatar</span><div class="avatar-choices" role="radiogroup" aria-label="Choose an avatar"><button class="avatar-choice gold selected" type="button" data-avatar="gold" aria-label="Gold avatar">A</button><button class="avatar-choice coral" type="button" data-avatar="coral" aria-label="Coral avatar">B</button><button class="avatar-choice teal" type="button" data-avatar="teal" aria-label="Teal avatar">C</button></div><div class="field"><label for="ageBand">Age band</label><select id="ageBand"><option value="">Choose an age band</option><option>Ages 3–5 · Early Learner</option><option>Ages 6–8 · Foundation</option><option>Ages 9–12 · Developing Reader</option><option>Ages 13–17 · Teen</option></select></div>';
+        modalActions.innerHTML = '<button class="primary-button" id="createProfile" type="button">Create profile</button><button class="secondary-button" id="cancelModal" type="button">Cancel</button>';
+        document.querySelectorAll('.avatar-choice').forEach(choice => choice.addEventListener('click', () => { document.querySelectorAll('.avatar-choice').forEach(item => item.classList.remove('selected')); choice.classList.add('selected'); }));
+        document.getElementById('createProfile').addEventListener('click', () => {
+          const name = document.getElementById('profileName').value.trim();
+          const ageBand = document.getElementById('ageBand').value;
+          if (!name) { document.getElementById('profileName').focus(); return; }
+          if (!ageBand) { document.getElementById('ageBand').focus(); return; }
+          closeModal(); showToast(`${name}'s profile is ready to set up.`);
+        });
+        document.getElementById('cancelModal').addEventListener('click', closeModal);
+        requestAnimationFrame(() => document.getElementById('profileName').focus());
       }
       function closeModal() {
         backdrop.classList.remove('is-open');
