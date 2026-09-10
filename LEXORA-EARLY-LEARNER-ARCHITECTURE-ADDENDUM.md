@@ -164,12 +164,18 @@ The following remain explicitly open and must be resolved before the Early Learn
 
 ## 12. Build order after this addendum
 
+### Curriculum Engine v1
+
+The Early Learner curriculum now has a reusable engine foundation. `curriculum/lesson-schema.json` defines the required lesson contract, `curriculum/registry.json` defines the ordered curriculum spine, and `engine/curriculum-engine.js` renders specification-driven lesson states. The engine owns the listen, reveal, choice, incorrect, retry, correct, continue, completion, mute, and synthetic sound behaviours. A lesson page must provide a specification and mount the engine rather than copy another lesson’s HTML when it belongs to the engine-rendered curriculum.
+
+Sound Attention 1 is the first engine-rendered lesson. It is defined in `lessons/engine/sound-attention-01.spec.json` and is available at `sound-attention-01.html`. Its objective is to match a heard chime to the same visual sound source. It is deliberately audio-led and hides child-facing text labels while retaining semantic labels for accessibility.
+
 The recommended next sequence is:
 
-1. Refine the Early Learner lesson-room interaction model with two or three validated activities.
-2. Replace speech-synthesis placeholders with an approved audio asset strategy.
+1. Validate Curriculum Engine v1 with Sound Attention 1 and its companion activities.
+2. Replace prototype synthetic sounds with an approved audio asset strategy.
 3. Establish the reusable Early Learner visual and motion component set.
-4. Build the Early Learner Home around a small number of clear lesson invitations.
+4. Connect registry order and readiness signals to the Early Learner Home.
 5. Test with caregivers and children before expanding the curriculum.
 6. Resolve offline, privacy, reward, and entitlement decisions before broadening the child product.
 7. Template the approved child-safe interaction patterns for later age bands.

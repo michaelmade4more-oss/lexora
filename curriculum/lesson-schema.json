@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://michaelmade4more-oss.github.io/lexora/curriculum/lesson-schema.json",
+  "title": "Lexora Early Learner Lesson Specification",
+  "type": "object",
+  "required": ["id", "sequence", "track", "stage", "strand", "title", "objective", "instruction", "activity", "audio", "feedback", "progress"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+    "sequence": {"type": "integer", "minimum": 1},
+    "track": {"const": "early-learner"},
+    "stage": {"enum": ["discover", "join", "build"]},
+    "strand": {"enum": ["listening-and-attention", "oral-language", "concept-knowledge", "phonological-awareness", "oral-blending", "early-phonics", "comprehension"]},
+    "title": {"type": "string"},
+    "objective": {"type": "string"},
+    "instruction": {"type": "string"},
+    "activity": {
+      "type": "object",
+      "required": ["type", "prompt", "choices", "correctAnswerId"],
+      "properties": {
+        "type": {"enum": ["visual-choice", "sound-match", "rhythm-copy", "rhyme-choice", "syllable-clap", "oral-blend", "initial-sound"]},
+        "prompt": {"type": "string"},
+        "choices": {"type": "array", "minItems": 2, "items": {"type": "object", "required": ["id", "visual", "label", "position"], "properties": {"id": {"type": "string"}, "visual": {"type": "string"}, "label": {"type": "string"}, "position": {"enum": ["left", "right"]}}}},
+        "correctAnswerId": {"type": "string"},
+        "visibleTextLabels": {"type": "boolean"}
+      }
+    },
+    "audio": {"type": "object", "required": ["instruction", "target"], "properties": {"instruction": {"type": "string"}, "target": {"type": "string"}, "retry": {"type": "string"}, "success": {"type": "string"}}},
+    "feedback": {"type": "object", "required": ["incorrect", "correct", "complete"], "properties": {"incorrect": {"type": "string"}, "correct": {"type": "string"}, "complete": {"type": "string"}}},
+    "progress": {"type": "object", "required": ["totalLessons", "position"], "properties": {"totalLessons": {"type": "integer", "minimum": 1}, "position": {"type": "integer", "minimum": 1}}}
+  }
+}

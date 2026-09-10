@@ -1,0 +1,20 @@
+{
+  "engineVersion": "1.0.0",
+  "track": "early-learner",
+  "totalLessons": 8,
+  "units": [
+    {"id": "foundation", "title": "Listening, objects, concepts, and counting", "stage": "discover", "lessons": ["early-lesson-01", "early-lesson-02", "early-lesson-03", "early-lesson-04", "early-lesson-05"]},
+    {"id": "sound-attention", "title": "Sound attention and matching", "stage": "discover", "lessons": ["early-lesson-06"]},
+    {"id": "sound-attention-follow-on", "title": "Sound attention follow-on", "stage": "discover", "lessons": ["early-lesson-07", "early-lesson-08"]}
+  ],
+  "lessons": [
+    {"id": "early-lesson-01", "sequence": 1, "source": "../early-lesson-01.html", "status": "foundation"},
+    {"id": "early-lesson-02", "sequence": 2, "source": "../early-lesson-02.html", "status": "foundation"},
+    {"id": "early-lesson-03", "sequence": 3, "source": "../early-lesson-03.html", "status": "foundation"},
+    {"id": "early-lesson-04", "sequence": 4, "source": "../early-lesson-04.html", "status": "foundation"},
+    {"id": "early-lesson-05", "sequence": 5, "source": "../early-lesson-05.html", "status": "foundation"},
+    {"id": "early-lesson-06", "sequence": 6, "source": "../lessons/engine/sound-attention-01.spec.json", "status": "engine-rendered"},
+    {"id": "early-lesson-07", "sequence": 7, "source": null, "status": "planned"},
+    {"id": "early-lesson-08", "sequence": 8, "source": null, "status": "planned"}
+  ]
+}
