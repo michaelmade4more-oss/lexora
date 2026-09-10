@@ -1,14 +1,1 @@
-{
-  "id": "early-lesson-07",
-  "sequence": 7,
-  "track": "early-learner",
-  "stage": "discover",
-  "strand": "listening-and-attention",
-  "title": "Copy the rhythm",
-  "objective": "Notice a simple two-beat rhythm and choose the matching pattern.",
-  "instruction": "Listen. Find the same rhythm.",
-  "activity": {"type": "rhythm-copy", "prompt": "Tap the same rhythm", "choices": [{"id":"tap-tap","visual":"● ●","label":"Two taps","position":"right"},{"id":"tap-hold","visual":"● —","label":"Tap and hold","position":"left"}], "correctAnswerId":"tap-tap", "visibleTextLabels":false, "targetSound":"clap"},
-  "audio": {"instruction":"assets/audio/early-instruction-same-sound.wav","target":"synthetic:clap","retry":"assets/audio/lesson-retry.wav","success":"assets/audio/lesson-success.wav"},
-  "feedback": {"incorrect":"Let’s hear it once more.","correct":"Yes! Same rhythm!","complete":"Yay, you copied the rhythm!"},
-  "progress": {"totalLessons":10,"position":7}
-}
+{"id":"early-lesson-07","sequence":7,"track":"early-learner","stage":"discover","strand":"listening-and-attention","title":"Copy the rhythm","objective":"Notice a simple two-beat rhythm and choose the matching pattern.","instruction":"Listen. Find the same rhythm.","activity":{"type":"rhythm-copy","prompt":"Tap the same rhythm","choices":[{"id":"tap-tap","visual":"● ●","label":"Two taps","position":"right","sound":"tap-tap"},{"id":"tap-hold","visual":"● —","label":"Tap and hold","position":"left","sound":"tap-hold"}],"correctAnswerId":"tap-tap","visibleTextLabels":false,"targetSound":"tap-tap","heroVisual":"👂"},"audio":{"instruction":"assets/audio/early-instruction-same-sound.wav","target":"synthetic:clap","retry":"assets/audio/lesson-retry.wav","success":"assets/audio/lesson-success.wav"},"feedback":{"incorrect":"Let’s hear it once more.","correct":"Yes! Same rhythm!","complete":"Yay, you copied the rhythm!"},"progress":{"totalLessons":10,"position":7}}

@@ -1,14 +1,1 @@
-{
-  "id": "early-lesson-08",
-  "sequence": 8,
-  "track": "early-learner",
-  "stage": "discover",
-  "strand": "listening-and-attention",
-  "title": "Hear the sound",
-  "objective": "Distinguish a high chime from a low drum sound.",
-  "instruction": "Listen. Find the sound you heard.",
-  "activity": {"type": "sound-match", "prompt": "Tap the sound you heard", "choices": [{"id":"drum","visual":"🥁","label":"Drum","position":"left"},{"id":"chime","visual":"🔔","label":"Chime","position":"right"}], "correctAnswerId":"drum", "visibleTextLabels":false, "targetSound":"drum"},
-  "audio": {"instruction":"assets/audio/early-instruction-same-sound.wav","target":"synthetic:clap","retry":"assets/audio/lesson-retry.wav","success":"assets/audio/lesson-success.wav"},
-  "feedback": {"incorrect":"Listen again. You can do it.","correct":"Yes! You heard the sound!","complete":"Yay, you noticed the sound!"},
-  "progress": {"totalLessons":10,"position":8}
-}
+{"id":"early-lesson-08","sequence":8,"track":"early-learner","stage":"discover","strand":"listening-and-attention","title":"Hear the sound","objective":"Distinguish a high chime from a low drum sound.","instruction":"Listen. Find the sound you heard.","activity":{"type":"sound-match","prompt":"Tap the sound you heard","choices":[{"id":"drum","visual":"🥁","label":"Drum","position":"left","sound":"drum"},{"id":"chime","visual":"🔔","label":"Chime","position":"right","sound":"chime"}],"correctAnswerId":"drum","visibleTextLabels":false,"targetSound":"drum","heroVisual":"👂"},"audio":{"instruction":"assets/audio/early-instruction-same-sound.wav","target":"synthetic:clap","retry":"assets/audio/lesson-retry.wav","success":"assets/audio/lesson-success.wav"},"feedback":{"incorrect":"Listen again. You can do it.","correct":"Yes! You heard the sound!","complete":"Yay, you noticed the sound!"},"progress":{"totalLessons":10,"position":8}}

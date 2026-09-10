@@ -4,7 +4,53 @@ window.LexoraCurriculumEngine = (function () {
   function qs(root, selector) { return root.querySelector(selector); }
   function escapeText(value) { return String(value).replace(/[&<>"']/g, function (char) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]; }); }
 
+  function speakWord(word) {
+    try {
+      if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) return false;
+      window.speechSynthesis.cancel();
+      var utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = 'en-US';
+      utterance.rate = .78;
+      utterance.pitch = 1.05;
+      utterance.volume = .9;
+      window.speechSynthesis.speak(utterance);
+      return true;
+    } catch (error) { return false; }
+  }
+  function clapPattern(count, spacing) {
+    try {
+      var context = tone.context || (tone.context = new (window.AudioContext || window.webkitAudioContext)());
+      if (context.state === 'suspended') context.resume();
+      var now = context.currentTime;
+      for (var beat = 0; beat < count; beat += 1) {
+        var offset = beat * spacing;
+        var buffer = context.createBuffer(1, Math.floor(context.sampleRate * .12), context.sampleRate);
+        var data = buffer.getChannelData(0);
+        for (var i = 0; i < data.length; i += 1) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 5);
+        var source = context.createBufferSource();
+        var filter = context.createBiquadFilter();
+        var gain = context.createGain();
+        source.buffer = buffer;
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(1500, now + offset);
+        filter.Q.setValueAtTime(.8, now + offset);
+        gain.gain.setValueAtTime(.0001, now + offset);
+        gain.gain.exponentialRampToValueAtTime(.22, now + offset + .004);
+        gain.gain.exponentialRampToValueAtTime(.0001, now + offset + .12);
+        source.connect(filter).connect(gain).connect(context.destination);
+        source.start(now + offset);
+      }
+      return true;
+    } catch (error) { return false; }
+  }
   function tone(kind) {
+    if (kind === 'word:cat') return speakWord('cat') || clapPattern(1, .1);
+    if (kind === 'word:hat') return speakWord('hat') || clapPattern(2, .1);
+    if (kind === 'word:sun') return speakWord('sun') || clapPattern(1, .1);
+    if (kind === 'syllables:banana') return clapPattern(3, .24);
+    if (kind === 'syllables:sun') return clapPattern(1, .1);
+    if (kind === 'tap-tap') return clapPattern(2, .18);
+    if (kind === 'tap-hold') return clapPattern(1, .1);
     try {
       var context = tone.context || (tone.context = new (window.AudioContext || window.webkitAudioContext)());
       if (context.state === 'suspended') context.resume();
@@ -21,30 +67,9 @@ window.LexoraCurriculumEngine = (function () {
         drumOsc.connect(drumGain).connect(context.destination);
         drumOsc.start(now);
         drumOsc.stop(now + .25);
-        return;
+        return true;
       }
-      if (kind === 'clap' || kind === 'tap-tap' || kind === 'tap-hold') {
-        var count = kind === 'tap-tap' ? 2 : 1;
-        for (var beat = 0; beat < count; beat += 1) {
-          var offset = beat * .16;
-          var buffer = context.createBuffer(1, Math.floor(context.sampleRate * .12), context.sampleRate);
-          var data = buffer.getChannelData(0);
-          for (var i = 0; i < data.length; i += 1) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 5);
-          var source = context.createBufferSource();
-          var filter = context.createBiquadFilter();
-          var clapGain = context.createGain();
-          source.buffer = buffer;
-          filter.type = 'bandpass';
-          filter.frequency.setValueAtTime(1500, now + offset);
-          filter.Q.setValueAtTime(.8, now + offset);
-          clapGain.gain.setValueAtTime(.0001, now + offset);
-          clapGain.gain.exponentialRampToValueAtTime(.22, now + offset + .004);
-          clapGain.gain.exponentialRampToValueAtTime(.0001, now + offset + .12);
-          source.connect(filter).connect(clapGain).connect(context.destination);
-          source.start(now + offset);
-        }
-        return;
-      }
+      if (kind === 'clap') return clapPattern(1, .1);
       var chimeGain = context.createGain();
       chimeGain.gain.setValueAtTime(.0001, now);
       chimeGain.gain.exponentialRampToValueAtTime(.13, now + .012);
@@ -58,10 +83,15 @@ window.LexoraCurriculumEngine = (function () {
         oscillator.start(now);
         oscillator.stop(now + .64);
       });
-    } catch (error) {}
+      return true;
+    } catch (error) { return false; }
   }
   function soundDuration(kind) {
-    return kind === 'drum' ? 420 : (kind === 'chime' ? 700 : (kind === 'tap-tap' ? 520 : 360));
+    if (kind === 'word:cat' || kind === 'word:hat' || kind === 'word:sun') return 900;
+    if (kind === 'syllables:banana') return 900;
+    if (kind === 'syllables:sun' || kind === 'tap-hold') return 420;
+    if (kind === 'tap-tap') return 560;
+    return kind === 'drum' ? 420 : (kind === 'chime' ? 700 : 360);
   }
   var pathCache = {};
   function preloadPath(path) {
@@ -90,7 +120,7 @@ window.LexoraCurriculumEngine = (function () {
       var width = Math.round(position / total * 100);
       root.innerHTML = '<div class="engine-room"><header class="engine-top"><button class="engine-back" id="engineBack" aria-label="Back to my learning space">‹</button><span class="engine-step">' + position + ' of ' + total + '</span><button class="engine-mute" id="engineMute" aria-label="Audio on">◖</button></header>' +
         '<div class="engine-progress" aria-label="Lesson ' + position + ' of ' + total + '"><i style="width:' + width + '%"></i></div>' +
-        '<main class="engine-scene"><div class="engine-kicker">' + escapeText(spec.title) + '</div><h1>' + escapeText(spec.title) + '</h1><p class="engine-instruction">' + escapeText(spec.instruction) + '</p><div class="engine-guide" aria-hidden="true">' + escapeText(activity.choices[0].visual) + '<span>♪</span></div><div class="engine-word-card"><strong>Listen</strong><span>' + escapeText(activity.prompt) + '</span></div><button class="engine-listen" id="engineListen" aria-label="Listen">◖</button><div class="engine-audio-label" id="engineAudioLabel">Listen</div><div class="engine-choices hidden" id="engineChoices">' + activity.choices.map(function (choice) { return '<button class="engine-choice" data-answer="' + escapeText(choice.id) + '" aria-label="' + escapeText(choice.label) + '"><span class="engine-visual">' + escapeText(choice.visual) + '</span><span class="engine-choice-label">' + escapeText(choice.label) + '</span></button>'; }).join('') + '</div><div class="engine-choice-prompt hidden" id="enginePrompt">' + escapeText(activity.prompt) + '</div><div class="engine-feedback" id="engineFeedback"></div><button class="engine-retry hidden" id="engineRetry">Listen again</button><button class="engine-continue hidden" id="engineContinue">Keep going</button></main><section class="engine-complete" id="engineComplete"><div><div class="engine-check">✓</div><h2>' + escapeText(spec.feedback.complete) + '</h2><button class="engine-finish" id="engineFinish">Back to my space</button></div></section></div>';
+        '<main class="engine-scene"><div class="engine-kicker">' + escapeText(spec.title) + '</div><h1>' + escapeText(spec.title) + '</h1><p class="engine-instruction">' + escapeText(spec.instruction) + '</p><div class="engine-guide" aria-hidden="true">' + escapeText(activity.heroVisual || '👂') + '<span>♪</span></div><div class="engine-word-card"><strong>Listen</strong><span>' + escapeText(activity.prompt) + '</span></div><button class="engine-listen" id="engineListen" aria-label="Listen">◖</button><div class="engine-audio-label" id="engineAudioLabel">Listen</div><div class="engine-choices hidden" id="engineChoices">' + activity.choices.map(function (choice) { return '<button class="engine-choice" data-answer="' + escapeText(choice.id) + '" data-sound="' + escapeText(choice.sound || choice.id) + '" aria-label="' + escapeText(choice.label) + '"><span class="engine-visual">' + escapeText(choice.visual) + '</span><span class="engine-choice-label">' + escapeText(choice.label) + '</span></button>'; }).join('') + '</div><div class="engine-choice-prompt hidden" id="enginePrompt">' + escapeText(activity.prompt) + '</div><div class="engine-feedback" id="engineFeedback"></div><button class="engine-retry hidden" id="engineRetry">Listen again</button><button class="engine-continue hidden" id="engineContinue">Keep going</button></main><section class="engine-complete" id="engineComplete"><div><div class="engine-check">✓</div><h2>' + escapeText(spec.feedback.complete) + '</h2><button class="engine-finish" id="engineFinish">Back to my space</button></div></section></div>';
       var listen = qs(root, '#engineListen'), choices = qs(root, '#engineChoices'), prompt = qs(root, '#enginePrompt'), feedback = qs(root, '#engineFeedback'), retry = qs(root, '#engineRetry'), cont = qs(root, '#engineContinue'), audioLabel = qs(root, '#engineAudioLabel'), complete = qs(root, '#engineComplete');
       var muted = false;
       preloadPath(spec.audio.instruction);
@@ -100,7 +130,7 @@ window.LexoraCurriculumEngine = (function () {
       function playRetry() { if (muted) return; playPath(spec.audio.retry); tone('clap'); }
       listen.addEventListener('click', function () { if (!muted) playPath(spec.audio.instruction); playTarget(); });
       qs(root, '#engineMute').addEventListener('click', function (event) { muted = !muted; event.currentTarget.setAttribute('aria-label', muted ? 'Audio off' : 'Audio on'); audioLabel.textContent = muted ? 'Audio is off' : 'Listen'; });
-      Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (choice) { choice.addEventListener('click', function () { Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (item) { item.disabled = true; }); if (!muted) tone(choice.dataset.answer); if (choice.dataset.answer === activity.correctAnswerId) { choice.classList.add('correct'); feedback.textContent = spec.feedback.correct; feedback.classList.add('success'); cont.classList.remove('hidden'); cont.classList.add('attention'); playPath(spec.audio.success); } else { choice.classList.add('wrong'); feedback.textContent = spec.feedback.incorrect; feedback.classList.add('retry-state'); retry.classList.remove('hidden'); retry.classList.add('attention'); playRetry(); setTimeout(function () { choice.classList.remove('wrong'); Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (item) { item.disabled = false; }); }, 500); } }); });
+      Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (choice) { choice.addEventListener('click', function () { Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (item) { item.disabled = true; }); if (!muted) tone(choice.dataset.sound || choice.dataset.answer); if (choice.dataset.answer === activity.correctAnswerId) { choice.classList.add('correct'); feedback.textContent = spec.feedback.correct; feedback.classList.add('success'); cont.classList.remove('hidden'); cont.classList.add('attention'); playPath(spec.audio.success); } else { choice.classList.add('wrong'); feedback.textContent = spec.feedback.incorrect; feedback.classList.add('retry-state'); retry.classList.remove('hidden'); retry.classList.add('attention'); playRetry(); setTimeout(function () { choice.classList.remove('wrong'); Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (item) { item.disabled = false; }); }, 500); } }); });
       retry.addEventListener('click', function () { retry.classList.add('hidden'); retry.classList.remove('attention'); playTarget(); });
       cont.addEventListener('click', function () { cont.classList.remove('attention'); complete.classList.add('open'); });
       qs(root, '#engineBack').addEventListener('click', function () { location.href = 'child-home-early.html'; });
