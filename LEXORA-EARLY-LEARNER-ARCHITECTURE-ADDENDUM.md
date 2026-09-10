@@ -76,9 +76,15 @@ Correct answers must not consistently appear on the same side, in the same visua
 
 Every new lesson must begin with a machine-readable specification before its HTML is generated. The specification must define the lesson ID, sequence, track, title, learning target, spoken instruction, activity type, ordered choices, correct answer ID, correct answer position, audio assets, feedback states, completion copy, and forbidden ambiguous phrases. The generated interface must be validated against that specification before deployment. Lesson 4 is the first implementation of this format in `lessons/lesson-04-counting-1-3.spec.json`.
 
+The complete curriculum direction is defined in `LEXORA-EARLY-LEARNER-CURRICULUM-MAP.md`. The first five lessons are a foundation unit covering listening, objects, concepts, and counting. Future work must proceed through deliberate units: Lessons 6–8 for sound attention and matching, Lessons 9–11 for rhyming and syllables, Lessons 12–15 for oral word blending, and Lesson 16 onward for initial sounds and early letter-sound work. Individual lessons must not be added as disconnected vocabulary screens without a defined strand, stage, objective, and readiness rationale.
+
 ### Non-reader choice rule
 
 For the 3–5 Early Learner band, a picture-choice activity must not require reading to succeed. The spoken instruction and visual objects carry the learning task. Visible text labels are optional and should be hidden when they add noise or turn the activity into a reading test. Accessibility names, caregiver-facing semantics, and internal answer IDs must remain present even when the child-facing label is visually hidden. Lesson 2 follows this rule by presenting a ball and a star as visual choices, with the audio prompt **“Find the ball.”**
+
+### Feedback attention cues
+
+Feedback must guide the child’s eye and ear to the next action. On an incorrect choice, the lesson must play a short gentle retry cue, visibly reveal **Listen again**, and apply a brief nudge or pulse without making the mistake feel alarming. On a correct choice, the lesson must play a short success cue, visibly reveal **Keep going**, and apply a bounded pulse or lift animation to that button. These cues support attention but never replace the visible labels. All feedback motion must respect `prefers-reduced-motion`.
 
 ## 6. Audio model
 
