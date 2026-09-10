@@ -12,7 +12,7 @@ window.LexoraCurriculumEngine = (function () {
       utterance.lang = 'en-US';
       utterance.rate = .78;
       utterance.pitch = 1.05;
-      utterance.volume = .9;
+      utterance.volume = 1.0;
       window.speechSynthesis.speak(utterance);
       return true;
     } catch (error) { return false; }
@@ -35,7 +35,7 @@ window.LexoraCurriculumEngine = (function () {
         filter.frequency.setValueAtTime(1500, now + offset);
         filter.Q.setValueAtTime(.8, now + offset);
         gain.gain.setValueAtTime(.0001, now + offset);
-        gain.gain.exponentialRampToValueAtTime(.22, now + offset + .004);
+        gain.gain.exponentialRampToValueAtTime(.52, now + offset + .004);
         gain.gain.exponentialRampToValueAtTime(.0001, now + offset + .12);
         source.connect(filter).connect(gain).connect(context.destination);
         source.start(now + offset);
@@ -62,7 +62,7 @@ window.LexoraCurriculumEngine = (function () {
         drumOsc.frequency.setValueAtTime(145, now);
         drumOsc.frequency.exponentialRampToValueAtTime(58, now + .18);
         drumGain.gain.setValueAtTime(.0001, now);
-        drumGain.gain.exponentialRampToValueAtTime(.34, now + .006);
+        drumGain.gain.exponentialRampToValueAtTime(.72, now + .006);
         drumGain.gain.exponentialRampToValueAtTime(.0001, now + .24);
         drumOsc.connect(drumGain).connect(context.destination);
         drumOsc.start(now);
@@ -72,7 +72,7 @@ window.LexoraCurriculumEngine = (function () {
       if (kind === 'clap') return clapPattern(1, .1);
       var chimeGain = context.createGain();
       chimeGain.gain.setValueAtTime(.0001, now);
-      chimeGain.gain.exponentialRampToValueAtTime(.13, now + .012);
+      chimeGain.gain.exponentialRampToValueAtTime(.34, now + .012);
       chimeGain.gain.exponentialRampToValueAtTime(.0001, now + .62);
       chimeGain.connect(context.destination);
       [880, 1320, 1760].forEach(function (frequency, index) {
@@ -98,7 +98,7 @@ window.LexoraCurriculumEngine = (function () {
     if (!path || path.indexOf('synthetic:') === 0 || pathCache[path]) return;
     var audio = new Audio(path);
     audio.preload = 'auto';
-    audio.volume = .82;
+    audio.volume = 1.0;
     pathCache[path] = audio;
   }
   function playPath(path) {
@@ -123,12 +123,19 @@ window.LexoraCurriculumEngine = (function () {
         '<main class="engine-scene"><div class="engine-kicker">' + escapeText(spec.title) + '</div><h1>' + escapeText(spec.title) + '</h1><p class="engine-instruction">' + escapeText(spec.instruction) + '</p><div class="engine-guide" aria-hidden="true">' + escapeText(activity.heroVisual || '👂') + '<span>♪</span></div><div class="engine-word-card"><strong>Listen</strong><span>' + escapeText(activity.prompt) + '</span></div><button class="engine-listen" id="engineListen" aria-label="Listen">◖</button><div class="engine-audio-label" id="engineAudioLabel">Listen</div><div class="engine-choices hidden" id="engineChoices">' + activity.choices.map(function (choice) { return '<button class="engine-choice" data-answer="' + escapeText(choice.id) + '" data-sound="' + escapeText(choice.sound || choice.id) + '" aria-label="' + escapeText(choice.label) + '"><span class="engine-visual">' + escapeText(choice.visual) + '</span><span class="engine-choice-label">' + escapeText(choice.label) + '</span></button>'; }).join('') + '</div><div class="engine-choice-prompt hidden" id="enginePrompt">' + escapeText(activity.prompt) + '</div><div class="engine-feedback" id="engineFeedback"></div><button class="engine-retry hidden" id="engineRetry">Listen again</button><button class="engine-continue hidden" id="engineContinue">Keep going</button></main><section class="engine-complete" id="engineComplete"><div><div class="engine-check">✓</div><h2>' + escapeText(spec.feedback.complete) + '</h2><button class="engine-finish" id="engineFinish">Back to my space</button></div></section></div>';
       var listen = qs(root, '#engineListen'), choices = qs(root, '#engineChoices'), prompt = qs(root, '#enginePrompt'), feedback = qs(root, '#engineFeedback'), retry = qs(root, '#engineRetry'), cont = qs(root, '#engineContinue'), audioLabel = qs(root, '#engineAudioLabel'), complete = qs(root, '#engineComplete');
       var muted = false;
+      var instructionTimer = null;
       preloadPath(spec.audio.instruction);
       preloadPath(spec.audio.retry);
       preloadPath(spec.audio.success);
       function playTarget() { if (!muted) tone(activity.targetSound); audioLabel.textContent = 'Listening…'; listen.classList.add('playing'); setTimeout(function () { listen.classList.remove('playing'); audioLabel.textContent = 'Listen again'; choices.classList.remove('hidden'); prompt.classList.remove('hidden'); }, soundDuration(activity.targetSound)); }
       function playRetry() { if (muted) return; playPath(spec.audio.retry); tone('clap'); }
-      listen.addEventListener('click', function () { if (!muted) playPath(spec.audio.instruction); playTarget(); });
+      listen.addEventListener('click', function () {
+        if (instructionTimer) clearTimeout(instructionTimer);
+        if (muted) { playTarget(); return; }
+        audioLabel.textContent = 'Listen to the directions…';
+        playPath(spec.audio.instruction);
+        instructionTimer = setTimeout(function () { playTarget(); }, 3100);
+      });
       qs(root, '#engineMute').addEventListener('click', function (event) { muted = !muted; event.currentTarget.setAttribute('aria-label', muted ? 'Audio off' : 'Audio on'); audioLabel.textContent = muted ? 'Audio is off' : 'Listen'; });
       Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (choice) { choice.addEventListener('click', function () { Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (item) { item.disabled = true; }); if (!muted) tone(choice.dataset.sound || choice.dataset.answer); if (choice.dataset.answer === activity.correctAnswerId) { choice.classList.add('correct'); feedback.textContent = spec.feedback.correct; feedback.classList.add('success'); cont.classList.remove('hidden'); cont.classList.add('attention'); playPath(spec.audio.success); } else { choice.classList.add('wrong'); feedback.textContent = spec.feedback.incorrect; feedback.classList.add('retry-state'); retry.classList.remove('hidden'); retry.classList.add('attention'); playRetry(); setTimeout(function () { choice.classList.remove('wrong'); Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (item) { item.disabled = false; }); }, 500); } }); });
       retry.addEventListener('click', function () { retry.classList.add('hidden'); retry.classList.remove('attention'); playTarget(); });
