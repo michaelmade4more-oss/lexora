@@ -1,11 +1,11 @@
 {
   "engineVersion": "1.0.0",
   "track": "early-learner",
-  "totalLessons": 8,
+  "totalLessons": 10,
   "units": [
     {"id": "foundation", "title": "Listening, objects, concepts, and counting", "stage": "discover", "lessons": ["early-lesson-01", "early-lesson-02", "early-lesson-03", "early-lesson-04", "early-lesson-05"]},
-    {"id": "sound-attention", "title": "Sound attention and matching", "stage": "discover", "lessons": ["early-lesson-06"]},
-    {"id": "sound-attention-follow-on", "title": "Sound attention follow-on", "stage": "discover", "lessons": ["early-lesson-07", "early-lesson-08"]}
+    {"id": "sound-attention", "title": "Sound attention and matching", "stage": "discover", "lessons": ["early-lesson-06", "early-lesson-07", "early-lesson-08"]},
+    {"id": "rhyme-and-syllables", "title": "Rhyme and syllable awareness", "stage": "join", "lessons": ["early-lesson-09", "early-lesson-10"]}
   ],
   "lessons": [
     {"id": "early-lesson-01", "sequence": 1, "source": "../early-lesson-01.html", "status": "foundation"},
@@ -13,8 +13,10 @@
     {"id": "early-lesson-03", "sequence": 3, "source": "../early-lesson-03.html", "status": "foundation"},
     {"id": "early-lesson-04", "sequence": 4, "source": "../early-lesson-04.html", "status": "foundation"},
     {"id": "early-lesson-05", "sequence": 5, "source": "../early-lesson-05.html", "status": "foundation"},
-    {"id": "early-lesson-06", "sequence": 6, "source": "../lessons/engine/sound-attention-01.spec.json", "status": "engine-rendered"},
-    {"id": "early-lesson-07", "sequence": 7, "source": null, "status": "planned"},
-    {"id": "early-lesson-08", "sequence": 8, "source": null, "status": "planned"}
+    {"id": "early-lesson-06", "sequence": 6, "source": "../lessons/engine/early-lesson-06.spec.json", "status": "engine-rendered"},
+    {"id": "early-lesson-07", "sequence": 7, "source": "../lessons/engine/early-lesson-07.spec.json", "status": "engine-rendered"},
+    {"id": "early-lesson-08", "sequence": 8, "source": "../lessons/engine/early-lesson-08.spec.json", "status": "engine-rendered"},
+    {"id": "early-lesson-09", "sequence": 9, "source": "../lessons/engine/early-lesson-09.spec.json", "status": "engine-rendered"},
+    {"id": "early-lesson-10", "sequence": 10, "source": "../lessons/engine/early-lesson-10.spec.json", "status": "engine-rendered"}
   ]
 }

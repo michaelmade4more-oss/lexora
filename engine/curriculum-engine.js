@@ -46,12 +46,11 @@ window.LexoraCurriculumEngine = (function () {
       var activity = spec.activity;
       var total = spec.progress.totalLessons;
       var position = spec.progress.position;
+      var progress = window.LexoraProgress;
       var width = Math.round(position / total * 100);
-      var nextRoute = position < total ? 'early-lesson-' + String(position + 1).padStart(2, '0') + '.html' : 'child-home-early.html';
-      var nextLabel = position < total ? 'Next little game' : 'Back to my space';
       root.innerHTML = '<div class="engine-room"><header class="engine-top"><button class="engine-back" id="engineBack" aria-label="Back to my learning space">‹</button><span class="engine-step">' + position + ' of ' + total + '</span><button class="engine-mute" id="engineMute" aria-label="Audio on">◖</button></header>' +
         '<div class="engine-progress" aria-label="Lesson ' + position + ' of ' + total + '"><i style="width:' + width + '%"></i></div>' +
-        '<main class="engine-scene"><div class="engine-kicker">' + escapeText(spec.title) + '</div><h1>' + escapeText(spec.title) + '</h1><p class="engine-instruction">' + escapeText(spec.instruction) + '</p><div class="engine-guide" aria-hidden="true">' + escapeText(activity.choices[0].visual) + '<span>♪</span></div><div class="engine-word-card"><strong>Listen</strong><span>' + escapeText(activity.prompt) + '</span></div><button class="engine-listen" id="engineListen" aria-label="Listen">◖</button><div class="engine-audio-label" id="engineAudioLabel">Listen</div><div class="engine-choices hidden" id="engineChoices">' + activity.choices.map(function (choice) { return '<button class="engine-choice" data-answer="' + escapeText(choice.id) + '" aria-label="' + escapeText(choice.label) + '"><span class="engine-visual">' + escapeText(choice.visual) + '</span><span class="engine-choice-label">' + escapeText(choice.label) + '</span></button>'; }).join('') + '</div><div class="engine-choice-prompt hidden" id="enginePrompt">' + escapeText(activity.prompt) + '</div><div class="engine-feedback" id="engineFeedback"></div><button class="engine-retry hidden" id="engineRetry">Listen again</button><button class="engine-continue hidden" id="engineContinue">Keep going</button></main><section class="engine-complete" id="engineComplete"><div><div class="engine-check">✓</div><h2>' + escapeText(spec.feedback.complete) + '</h2><button class="engine-finish" id="engineFinish">' + nextLabel + '</button></div></section></div>';
+        '<main class="engine-scene"><div class="engine-kicker">' + escapeText(spec.title) + '</div><h1>' + escapeText(spec.title) + '</h1><p class="engine-instruction">' + escapeText(spec.instruction) + '</p><div class="engine-guide" aria-hidden="true">' + escapeText(activity.choices[0].visual) + '<span>♪</span></div><div class="engine-word-card"><strong>Listen</strong><span>Find the same sound</span></div><button class="engine-listen" id="engineListen" aria-label="Listen">◖</button><div class="engine-audio-label" id="engineAudioLabel">Listen</div><div class="engine-choices hidden" id="engineChoices">' + activity.choices.map(function (choice) { return '<button class="engine-choice" data-answer="' + escapeText(choice.id) + '" aria-label="' + escapeText(choice.label) + '"><span class="engine-visual">' + escapeText(choice.visual) + '</span><span class="engine-choice-label">' + escapeText(choice.label) + '</span></button>'; }).join('') + '</div><div class="engine-choice-prompt hidden" id="enginePrompt">' + escapeText(activity.prompt) + '</div><div class="engine-feedback" id="engineFeedback"></div><button class="engine-retry hidden" id="engineRetry">Listen again</button><button class="engine-continue hidden" id="engineContinue">Keep going</button></main><section class="engine-complete" id="engineComplete"><div><div class="engine-check">✓</div><h2>' + escapeText(spec.feedback.complete) + '</h2><button class="engine-finish" id="engineFinish">Back to my space</button></div></section></div>';
       var listen = qs(root, '#engineListen'), choices = qs(root, '#engineChoices'), prompt = qs(root, '#enginePrompt'), feedback = qs(root, '#engineFeedback'), retry = qs(root, '#engineRetry'), cont = qs(root, '#engineContinue'), audioLabel = qs(root, '#engineAudioLabel'), complete = qs(root, '#engineComplete');
       var muted = false;
       preloadPath(spec.audio.instruction);
@@ -65,7 +64,10 @@ window.LexoraCurriculumEngine = (function () {
       retry.addEventListener('click', function () { retry.classList.add('hidden'); retry.classList.remove('attention'); playTarget(); });
       cont.addEventListener('click', function () { cont.classList.remove('attention'); complete.classList.add('open'); });
       qs(root, '#engineBack').addEventListener('click', function () { location.href = 'child-home-early.html'; });
-      qs(root, '#engineFinish').addEventListener('click', function () { location.href = nextRoute; });
+      qs(root, '#engineFinish').addEventListener('click', function () {
+        if (progress) { progress.markComplete(position); location.href = progress.nextLessonUrl(); }
+        else { location.href = 'child-home-early.html'; }
+      });
       return spec;
     });
   }
