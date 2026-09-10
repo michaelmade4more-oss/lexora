@@ -2,12 +2,15 @@ import json, re, sys
 from pathlib import Path
 root=Path('/home/ubuntu/lexora_repo')
 fail=[]
-for n in range(1,11):
+for n in range(1,16):
     p=root/'lessons'/'engine'/f'early-lesson-{n:02d}.spec.json'
     if not p.exists(): fail.append(f'Lesson {n}: missing specification'); continue
     try: s=json.loads(p.read_text())
     except Exception as e: fail.append(f'Lesson {n}: invalid JSON {e}'); continue
-    for key in ['id','sequence','track','stage','strand','title','objective','instruction','activity','audio','feedback','progress']:
+    required_keys = ['id','sequence','track','stage','strand','title','objective','instruction','activity','audio','feedback','progress']
+    if n >= 10:
+        required_keys += ['supportLevel','learningEvidence','readinessSignals']
+    for key in required_keys:
         if key not in s: fail.append(f'Lesson {n}: missing {key}')
     a=s.get('activity',{})
     choices=a.get('choices',[])
@@ -35,4 +38,4 @@ if fail:
     print('FAIL')
     print('\n'.join(fail))
     sys.exit(1)
-print('PASS: 10 structured specifications and P0 implementation checks')
+print('PASS: 15 structured specifications and P0 implementation checks')

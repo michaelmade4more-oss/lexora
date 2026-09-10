@@ -1,6 +1,6 @@
 /* Lexora Progress v2 — completion, evidence, revisit, and progression stay separate. */
 window.LexoraProgress = (function () {
-  var TOTAL = 10;
+  var TOTAL = 15;
   function profile() { return sessionStorage.getItem('lexoraSelectedProfile') || 'Gracefilled'; }
   function key() { return 'lexora_progress_v2_' + profile(); }
   function read() {

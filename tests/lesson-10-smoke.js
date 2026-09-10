@@ -1,0 +1,25 @@
+const { chromium } = require('playwright');
+const base = process.env.LEXORA_BASE_URL || 'http://127.0.0.1:8000';
+(async () => {
+  const browser = await chromium.launch({ headless: true, executablePath: '/usr/bin/chromium', args: ['--no-sandbox'] });
+  const context = await browser.newContext();
+  await context.addInitScript(() => sessionStorage.setItem('lexoraSelectedProfile', 'Lesson 10 Smoke'));
+  const page = await context.newPage();
+  await page.goto(`${base}/early-lesson-10.html`, { waitUntil: 'networkidle' });
+  const position = await page.locator('#lessonRoot .engine-step').textContent();
+  if (position.trim() !== '10 of 15') throw new Error(`Expected 10 of 15, got ${position}`);
+  await page.locator('#engineMute').click();
+  await page.locator('#engineListen').click();
+  await page.locator('#engineChoices').waitFor({ state: 'visible' });
+  if (!(await page.locator('#engineFallback').isVisible())) throw new Error('Fallback was not visible');
+  await page.locator('.engine-choice[data-answer="tap"]').click();
+  await page.locator('#engineRetry').waitFor({ state: 'visible' });
+  await page.locator('#engineRetry').click();
+  await page.waitForTimeout(650);
+  await page.locator('.engine-choice[data-answer="tap-tap"]').click();
+  await page.locator('#engineContinue').click();
+  await page.locator('#engineFinish').click();
+  await page.waitForURL('**/early-lesson-11.html');
+  console.log(JSON.stringify({ status: 'PASS', position: position.trim(), next: page.url(), checks: ['position', 'fallback', 'retry', 'correctness', 'next route'] }));
+  await browser.close();
+})();

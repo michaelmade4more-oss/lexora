@@ -1,22 +1,135 @@
 {
-  "engineVersion": "1.0.0",
+  "engineVersion": "1.1.0",
   "track": "early-learner",
-  "totalLessons": 10,
+  "totalLessons": 15,
   "units": [
-    {"id":"foundation","title":"Listening, objects, concepts, and counting","stage":"discover","lessons":["early-lesson-01","early-lesson-02","early-lesson-03","early-lesson-04","early-lesson-05"]},
-    {"id":"sound-attention","title":"Sound attention and matching","stage":"discover","lessons":["early-lesson-06","early-lesson-07","early-lesson-08"]},
-    {"id":"rhyming-and-syllables","title":"Rhyming and syllables","stage":"join","lessons":["early-lesson-09","early-lesson-10"]}
+    {
+      "id": "foundation",
+      "title": "Listening, objects, concepts, and counting",
+      "stage": "discover",
+      "lessons": [
+        "early-lesson-01",
+        "early-lesson-02",
+        "early-lesson-03",
+        "early-lesson-04",
+        "early-lesson-05"
+      ]
+    },
+    {
+      "id": "sound-attention",
+      "title": "Sound attention and matching",
+      "stage": "discover",
+      "lessons": [
+        "early-lesson-06",
+        "early-lesson-07",
+        "early-lesson-08",
+        "early-lesson-09",
+        "early-lesson-10"
+      ]
+    },
+    {
+      "id": "rhyming-and-syllables",
+      "title": "Rhyming, syllables, and oral blending",
+      "stage": "join",
+      "lessons": [
+        "early-lesson-11",
+        "early-lesson-12",
+        "early-lesson-13",
+        "early-lesson-14",
+        "early-lesson-15"
+      ]
+    }
   ],
   "lessons": [
-    {"id":"early-lesson-01","sequence":1,"source":"../../early-lesson-01.html","status":"foundation"},
-    {"id":"early-lesson-02","sequence":2,"source":"../../early-lesson-02.html","status":"foundation"},
-    {"id":"early-lesson-03","sequence":3,"source":"../../early-lesson-03.html","status":"foundation"},
-    {"id":"early-lesson-04","sequence":4,"source":"../../early-lesson-04.html","status":"foundation"},
-    {"id":"early-lesson-05","sequence":5,"source":"../../early-lesson-05.html","status":"foundation"},
-    {"id":"early-lesson-06","sequence":6,"source":"early-lesson-06.spec.json","status":"engine-rendered"},
-    {"id":"early-lesson-07","sequence":7,"source":"early-lesson-07.spec.json","status":"engine-rendered"},
-    {"id":"early-lesson-08","sequence":8,"source":"early-lesson-08.spec.json","status":"engine-rendered"},
-    {"id":"early-lesson-09","sequence":9,"source":"early-lesson-09.spec.json","status":"engine-rendered"},
-    {"id":"early-lesson-10","sequence":10,"source":"early-lesson-10.spec.json","status":"engine-rendered"}
+    {
+      "id": "early-lesson-01",
+      "sequence": 1,
+      "source": "../../early-lesson-01.html",
+      "status": "foundation"
+    },
+    {
+      "id": "early-lesson-02",
+      "sequence": 2,
+      "source": "../../early-lesson-02.html",
+      "status": "foundation"
+    },
+    {
+      "id": "early-lesson-03",
+      "sequence": 3,
+      "source": "../../early-lesson-03.html",
+      "status": "foundation"
+    },
+    {
+      "id": "early-lesson-04",
+      "sequence": 4,
+      "source": "../../early-lesson-04.html",
+      "status": "foundation"
+    },
+    {
+      "id": "early-lesson-05",
+      "sequence": 5,
+      "source": "../../early-lesson-05.html",
+      "status": "foundation"
+    },
+    {
+      "id": "early-lesson-06",
+      "sequence": 6,
+      "source": "early-lesson-06.spec.json",
+      "status": "engine-rendered"
+    },
+    {
+      "id": "early-lesson-07",
+      "sequence": 7,
+      "source": "early-lesson-07.spec.json",
+      "status": "engine-rendered"
+    },
+    {
+      "id": "early-lesson-08",
+      "sequence": 8,
+      "source": "early-lesson-08.spec.json",
+      "status": "engine-rendered"
+    },
+    {
+      "id": "early-lesson-09",
+      "sequence": 9,
+      "source": "early-lesson-09.spec.json",
+      "status": "engine-rendered"
+    },
+    {
+      "id": "early-lesson-10",
+      "sequence": 10,
+      "source": "early-lesson-10.spec.json",
+      "status": "engine-rendered"
+    },
+    {
+      "id": "early-lesson-11",
+      "sequence": 11,
+      "source": "early-lesson-11.spec.json",
+      "status": "engine-rendered"
+    },
+    {
+      "id": "early-lesson-12",
+      "sequence": 12,
+      "source": "early-lesson-12.spec.json",
+      "status": "engine-rendered"
+    },
+    {
+      "id": "early-lesson-13",
+      "sequence": 13,
+      "source": "early-lesson-13.spec.json",
+      "status": "engine-rendered"
+    },
+    {
+      "id": "early-lesson-14",
+      "sequence": 14,
+      "source": "early-lesson-14.spec.json",
+      "status": "engine-rendered"
+    },
+    {
+      "id": "early-lesson-15",
+      "sequence": 15,
+      "source": "early-lesson-15.spec.json",
+      "status": "engine-rendered"
+    }
   ]
 }

@@ -1,6 +1,6 @@
 # Early Learner browser journey
 
-This harness runs the real Lessons 1–10 flow in Chromium against either the local static server or the deployed GitHub Pages build. It uses a seeded random source, a fresh `Harness Child` profile, and a second profile for isolation checks.
+This harness runs the real Lessons 1–15 flow in Chromium against either the local static server or the deployed GitHub Pages build. It uses a seeded random source, a fresh `Harness Child` profile, and a second profile for isolation checks.
 
 ```bash
 npm install

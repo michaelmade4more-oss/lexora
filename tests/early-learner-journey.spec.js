@@ -5,6 +5,7 @@ const path = require('path');
 const BASE_URL = process.env.LEXORA_BASE_URL || 'http://127.0.0.1:8000';
 const profile = 'Harness Child';
 const otherProfile = 'Other Child';
+const correctAnswers = ['happy', 'ball', 'small', 'three', 'cat', 'chime', 'tap-tap', 'drum', 'hat', 'tap-tap', 'hat', 'log', 'apple', 'banana', 'sun'];
 const results = [];
 
 function record(step, status, detail, evidence = {}) {
@@ -48,13 +49,13 @@ async function localRecords(page, keyProfile = profile) {
 
   try {
     await page.goto(`${BASE_URL}/child-home-early.html`, { waitUntil: 'networkidle' });
-    assertStep(await page.locator('#lessonSummary').textContent() === 'Lesson 1 of 10', '01 fresh profile', 'Fresh isolated child profile starts at Lesson 1.', { profile });
+    assertStep(await page.locator('#lessonSummary').textContent() === 'Lesson 1 of 15', '01 fresh profile', 'Fresh isolated child profile starts at Lesson 1.', { profile });
 
-    for (let lesson = 1; lesson <= 10; lesson += 1) {
+    for (let lesson = 1; lesson <= 15; lesson += 1) {
       const pageUrl = `${BASE_URL}/early-lesson-${String(lesson).padStart(2, '0')}.html`;
       await page.goto(pageUrl, { waitUntil: 'networkidle' });
       const stepText = await page.locator('.step-count, .engine-step').first().textContent();
-      assertStep(stepText.includes(`${lesson} of 10`), `lesson ${lesson} position`, `Curriculum position is ${stepText.trim()}.`, { stepText });
+      assertStep(stepText.includes(`${lesson} of 15`), `lesson ${lesson} position`, `Curriculum position is ${stepText.trim()}.`, { stepText });
 
       const isEngine = await visible(page, '#engineListen');
       // Lesson 1 forces the visual fallback path. Engine lessons are muted for the same deterministic path.
@@ -68,10 +69,7 @@ async function localRecords(page, keyProfile = profile) {
 
       const choiceSelector = isEngine ? '.engine-choice' : '.choice';
       const choices = page.locator(choiceSelector);
-      const correctId = await page.evaluate(() => {
-        const answer = document.querySelector('[data-answer="happy"], [data-answer="ball"], [data-answer="small"], [data-answer="three"], [data-answer="cat"], [data-answer="chime"], [data-answer="tap-tap"], [data-answer="drum"], [data-answer="hat"], [data-answer="banana"]');
-        return answer?.dataset.answer || null;
-      });
+      const correctId = correctAnswers[lesson - 1];
       assertStep(Boolean(correctId), `lesson ${lesson} answer key`, `Correct answer ID is available independently of position.`, { correctId });
       const wrong = page.locator(`${choiceSelector}:not([data-answer="${correctId}"])`).first();
       await wrong.click();
@@ -90,38 +88,38 @@ async function localRecords(page, keyProfile = profile) {
       assertStep(await visible(page, finishSelector), `lesson ${lesson} completion`, 'Completion state is visible without implying mastery.');
       await page.locator(finishSelector).click();
 
-      const expectedNext = lesson < 10 ? lesson + 1 : 11;
+      const expectedNext = lesson < 15 ? lesson + 1 : 16;
       await page.waitForLoadState('networkidle');
       const afterFinishUrl = page.url();
-      assertStep(afterFinishUrl.includes(lesson < 10 ? `early-lesson-${String(expectedNext).padStart(2, '0')}.html` : 'child-home-early.html'), `lesson ${lesson} next route`, 'Completion routes to the next lesson or home.', { afterFinishUrl });
+      assertStep(afterFinishUrl.includes(lesson < 15 ? `early-lesson-${String(expectedNext).padStart(2, '0')}.html` : 'child-home-early.html'), `lesson ${lesson} next route`, 'Completion routes to the next lesson or home.', { afterFinishUrl });
       const stored = await localRecords(page);
       const recordForLesson = stored.lessons?.[`early-lesson-${String(lesson).padStart(2, '0')}`];
       assertStep(Boolean(recordForLesson?.completed), `lesson ${lesson} completion persistence`, 'Completion record is persisted separately from evidence.', { record: recordForLesson });
       assertStep(Boolean(recordForLesson?.evidence?.length), `lesson ${lesson} evidence persistence`, 'Learning evidence contains attempts and support data.', { evidenceCount: recordForLesson?.evidence?.length });
 
       await page.reload({ waitUntil: 'networkidle' });
-      if (lesson < 10) {
+      if (lesson < 15) {
         await page.goto(`${BASE_URL}/child-home-early.html`, { waitUntil: 'networkidle' });
-        assertStep((await page.locator('#lessonSummary').textContent()).includes(`Lesson ${expectedNext} of 10`), `lesson ${lesson} home resume`, `Child Home offers Lesson ${expectedNext}.`);
+        assertStep((await page.locator('#lessonSummary').textContent()).includes(`Lesson ${expectedNext} of 15`), `lesson ${lesson} home resume`, `Child Home offers Lesson ${expectedNext}.`);
       } else {
         await page.goto(`${BASE_URL}/child-home-early.html`, { waitUntil: 'networkidle' });
-        assertStep((await page.locator('#lessonSummary').textContent()).includes('You can play again'), 'lesson 10 home completion', 'Child Home reflects completion of the ten-lesson spine.');
+        assertStep((await page.locator('#lessonSummary').textContent()).includes('You can play again'), 'lesson 15 home completion', 'Child Home reflects completion of the fifteen-lesson spine.');
       }
     }
 
     const final = await localRecords(page);
-    const ids = Array.from({ length: 10 }, (_, i) => `early-lesson-${String(i + 1).padStart(2, '0')}`);
-    assertStep(ids.every((id) => final.lessons?.[id]?.completed), 'final records', 'Lessons 1–10 all have completion records.', { lessonCount: Object.keys(final.lessons || {}).length });
-    assertStep(ids.every((id) => final.lessons?.[id]?.evidence?.length), 'final evidence records', 'Lessons 1–10 all have learning evidence.', { lessonsWithEvidence: ids.filter((id) => final.lessons?.[id]?.evidence?.length).length });
+    const ids = Array.from({ length: 15 }, (_, i) => `early-lesson-${String(i + 1).padStart(2, '0')}`);
+    assertStep(ids.every((id) => final.lessons?.[id]?.completed), 'final records', 'Lessons 1–15 all have completion records.', { lessonCount: Object.keys(final.lessons || {}).length });
+    assertStep(ids.every((id) => final.lessons?.[id]?.evidence?.length), 'final evidence records', 'Lessons 1–15 all have learning evidence.', { lessonsWithEvidence: ids.filter((id) => final.lessons?.[id]?.evidence?.length).length });
     assertStep(ids.every((id) => final.lessons?.[id]?.progression?.eligible === false), 'separate progression eligibility', 'Progression eligibility remains distinct and configurable; completion does not set it true.');
 
     const other = await browser.newContext({ viewport: { width: 390, height: 844 } });
     await other.addInitScript(({ selected }) => sessionStorage.setItem('lexoraSelectedProfile', selected), { selected: otherProfile });
     const otherPage = await other.newPage();
     await otherPage.goto(`${BASE_URL}/child-home-early.html`, { waitUntil: 'networkidle' });
-    assertStep((await otherPage.locator('#lessonSummary').textContent()).includes('Lesson 1 of 10'), 'profile isolation', 'A second child profile starts independently at Lesson 1.');
+    assertStep((await otherPage.locator('#lessonSummary').textContent()).includes('Lesson 1 of 15'), 'profile isolation', 'A second child profile starts independently at Lesson 1.');
     await other.close();
-    record('journey summary', 'PASS', 'Fresh profile completed Lessons 1–10 with persistence, retry, fallback, replay, and isolation checks.');
+    record('journey summary', 'PASS', 'Fresh profile completed Lessons 1–15 with persistence, retry, fallback, replay, and isolation checks.');
   } catch (error) {
     record('journey summary', 'FAIL', error.message);
     console.error(JSON.stringify({ status: 'FAIL', results }, null, 2));
