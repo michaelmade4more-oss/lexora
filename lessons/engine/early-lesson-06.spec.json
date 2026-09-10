@@ -1,0 +1,14 @@
+{
+  "id": "early-lesson-06",
+  "sequence": 6,
+  "track": "early-learner",
+  "stage": "discover",
+  "strand": "listening-and-attention",
+  "title": "Hear and match",
+  "objective": "Match a heard chime to the same sound source.",
+  "instruction": "Listen. Find the same sound.",
+  "activity": {"type": "sound-match", "prompt": "Tap the same sound", "choices": [{"id":"chime","visual":"🔔","label":"Chime","position":"left"},{"id":"clap","visual":"👏","label":"Clap","position":"right"}], "correctAnswerId":"chime", "visibleTextLabels":false, "targetSound":"chime"},
+  "audio": {"instruction":"assets/audio/early-instruction-same-sound.wav","target":"synthetic:chime","retry":"assets/audio/lesson-retry.wav","success":"assets/audio/lesson-success.wav"},
+  "feedback": {"incorrect":"Let’s listen again.","correct":"Yes! Same sound!","complete":"Yay, you matched the sound!"},
+  "progress": {"totalLessons":10,"position":6}
+}

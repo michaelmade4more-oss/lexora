@@ -1,0 +1,14 @@
+{
+  "id": "early-lesson-10",
+  "sequence": 10,
+  "track": "early-learner",
+  "stage": "join",
+  "strand": "phonological-awareness",
+  "title": "Clap the word",
+  "objective": "Notice that banana has three spoken parts.",
+  "instruction": "Listen. Find the word with three claps.",
+  "activity": {"type": "syllable-clap", "prompt": "Tap the three-part word", "choices": [{"id":"banana","visual":"🍌 🍌 🍌","label":"Banana","position":"right"},{"id":"sun","visual":"☀️","label":"Sun","position":"left"}], "correctAnswerId":"banana", "visibleTextLabels":false, "targetSound":"chime"},
+  "audio": {"instruction":"assets/audio/early-instruction-same-sound.wav","target":"synthetic:chime","retry":"assets/audio/lesson-retry.wav","success":"assets/audio/lesson-success.wav"},
+  "feedback": {"incorrect":"Let’s clap it again.","correct":"Yes! Ba-na-na has three parts!","complete":"Yay, you found the three claps!"},
+  "progress": {"totalLessons":10,"position":10}
+}
