@@ -7,22 +7,62 @@ window.LexoraCurriculumEngine = (function () {
   function tone(kind) {
     try {
       var context = tone.context || (tone.context = new (window.AudioContext || window.webkitAudioContext)());
-      var oscillator = context.createOscillator();
-      var gain = context.createGain();
+      if (context.state === 'suspended') context.resume();
       var now = context.currentTime;
-      var frequency = kind === 'chime' ? 880 : 520;
-      oscillator.type = kind === 'chime' ? 'sine' : 'triangle';
-      oscillator.frequency.setValueAtTime(frequency, now);
-      if (kind === 'chime') oscillator.frequency.exponentialRampToValueAtTime(1320, now + .18);
-      gain.gain.setValueAtTime(.0001, now);
-      gain.gain.exponentialRampToValueAtTime(.12, now + .015);
-      gain.gain.exponentialRampToValueAtTime(.0001, now + .32);
-      oscillator.connect(gain).connect(context.destination);
-      oscillator.start(now);
-      oscillator.stop(now + .34);
+      if (kind === 'drum') {
+        var drumOsc = context.createOscillator();
+        var drumGain = context.createGain();
+        drumOsc.type = 'sine';
+        drumOsc.frequency.setValueAtTime(145, now);
+        drumOsc.frequency.exponentialRampToValueAtTime(58, now + .18);
+        drumGain.gain.setValueAtTime(.0001, now);
+        drumGain.gain.exponentialRampToValueAtTime(.34, now + .006);
+        drumGain.gain.exponentialRampToValueAtTime(.0001, now + .24);
+        drumOsc.connect(drumGain).connect(context.destination);
+        drumOsc.start(now);
+        drumOsc.stop(now + .25);
+        return;
+      }
+      if (kind === 'clap' || kind === 'tap-tap' || kind === 'tap-hold') {
+        var count = kind === 'tap-tap' ? 2 : 1;
+        for (var beat = 0; beat < count; beat += 1) {
+          var offset = beat * .16;
+          var buffer = context.createBuffer(1, Math.floor(context.sampleRate * .12), context.sampleRate);
+          var data = buffer.getChannelData(0);
+          for (var i = 0; i < data.length; i += 1) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 5);
+          var source = context.createBufferSource();
+          var filter = context.createBiquadFilter();
+          var clapGain = context.createGain();
+          source.buffer = buffer;
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(1500, now + offset);
+          filter.Q.setValueAtTime(.8, now + offset);
+          clapGain.gain.setValueAtTime(.0001, now + offset);
+          clapGain.gain.exponentialRampToValueAtTime(.22, now + offset + .004);
+          clapGain.gain.exponentialRampToValueAtTime(.0001, now + offset + .12);
+          source.connect(filter).connect(clapGain).connect(context.destination);
+          source.start(now + offset);
+        }
+        return;
+      }
+      var chimeGain = context.createGain();
+      chimeGain.gain.setValueAtTime(.0001, now);
+      chimeGain.gain.exponentialRampToValueAtTime(.13, now + .012);
+      chimeGain.gain.exponentialRampToValueAtTime(.0001, now + .62);
+      chimeGain.connect(context.destination);
+      [880, 1320, 1760].forEach(function (frequency, index) {
+        var oscillator = context.createOscillator();
+        oscillator.type = index === 0 ? 'sine' : 'triangle';
+        oscillator.frequency.setValueAtTime(frequency, now);
+        oscillator.connect(chimeGain);
+        oscillator.start(now);
+        oscillator.stop(now + .64);
+      });
     } catch (error) {}
   }
-
+  function soundDuration(kind) {
+    return kind === 'drum' ? 420 : (kind === 'chime' ? 700 : (kind === 'tap-tap' ? 520 : 360));
+  }
   var pathCache = {};
   function preloadPath(path) {
     if (!path || path.indexOf('synthetic:') === 0 || pathCache[path]) return;
@@ -56,11 +96,11 @@ window.LexoraCurriculumEngine = (function () {
       preloadPath(spec.audio.instruction);
       preloadPath(spec.audio.retry);
       preloadPath(spec.audio.success);
-      function playTarget() { if (muted) return; tone(activity.targetSound); audioLabel.textContent = 'Listening…'; listen.classList.add('playing'); setTimeout(function () { listen.classList.remove('playing'); audioLabel.textContent = 'Listen again'; choices.classList.remove('hidden'); prompt.classList.remove('hidden'); }, 360); }
+      function playTarget() { if (muted) return; tone(activity.targetSound); audioLabel.textContent = 'Listening…'; listen.classList.add('playing'); setTimeout(function () { listen.classList.remove('playing'); audioLabel.textContent = 'Listen again'; choices.classList.remove('hidden'); prompt.classList.remove('hidden'); }, soundDuration(activity.targetSound)); }
       function playRetry() { if (muted) return; playPath(spec.audio.retry); tone('clap'); }
       listen.addEventListener('click', function () { playPath(spec.audio.instruction); playTarget(); });
       qs(root, '#engineMute').addEventListener('click', function (event) { muted = !muted; event.currentTarget.setAttribute('aria-label', muted ? 'Audio off' : 'Audio on'); audioLabel.textContent = muted ? 'Audio is off' : 'Listen'; });
-      Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (choice) { choice.addEventListener('click', function () { Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (item) { item.disabled = true; }); if (choice.dataset.answer === activity.correctAnswerId) { choice.classList.add('correct'); feedback.textContent = spec.feedback.correct; feedback.classList.add('success'); cont.classList.remove('hidden'); cont.classList.add('attention'); playPath(spec.audio.success); } else { choice.classList.add('wrong'); feedback.textContent = spec.feedback.incorrect; feedback.classList.add('retry-state'); retry.classList.remove('hidden'); retry.classList.add('attention'); playRetry(); setTimeout(function () { choice.classList.remove('wrong'); Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (item) { item.disabled = false; }); }, 500); } }); });
+      Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (choice) { choice.addEventListener('click', function () { Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (item) { item.disabled = true; }); tone(choice.dataset.answer); if (choice.dataset.answer === activity.correctAnswerId) { choice.classList.add('correct'); feedback.textContent = spec.feedback.correct; feedback.classList.add('success'); cont.classList.remove('hidden'); cont.classList.add('attention'); playPath(spec.audio.success); } else { choice.classList.add('wrong'); feedback.textContent = spec.feedback.incorrect; feedback.classList.add('retry-state'); retry.classList.remove('hidden'); retry.classList.add('attention'); playRetry(); setTimeout(function () { choice.classList.remove('wrong'); Array.prototype.forEach.call(root.querySelectorAll('.engine-choice'), function (item) { item.disabled = false; }); }, 500); } }); });
       retry.addEventListener('click', function () { retry.classList.add('hidden'); retry.classList.remove('attention'); playTarget(); });
       cont.addEventListener('click', function () { cont.classList.remove('attention'); complete.classList.add('open'); });
       qs(root, '#engineBack').addEventListener('click', function () { location.href = 'child-home-early.html'; });
