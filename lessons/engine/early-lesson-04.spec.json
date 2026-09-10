@@ -1,0 +1,54 @@
+{
+  "id": "early-lesson-04",
+  "sequence": 4,
+  "track": "early-learner",
+  "stage": "discover",
+  "strand": "concept-knowledge",
+  "title": "Count the stars",
+  "objective": "Recognise a group of three objects.",
+  "instruction": "Count the stars. Find the group with three.",
+  "activity": {
+    "type": "visual-choice",
+    "prompt": "Count the stars. Find the group with three.",
+    "choices": [
+      {
+        "id": "three",
+        "visual": "\u2605\u2605\u2605",
+        "label": "Three stars",
+        "position": "left"
+      },
+      {
+        "id": "two",
+        "visual": "\u2605\u2605",
+        "label": "Two stars",
+        "position": "right"
+      }
+    ],
+    "correctAnswerId": "three",
+    "visibleTextLabels": false
+  },
+  "audio": {
+    "instruction": "assets/audio/early-instruction-count-three.wav",
+    "target": "assets/audio/count-three.wav",
+    "retry": "assets/audio/lesson-retry.wav",
+    "success": "assets/audio/lesson-success.wav"
+  },
+  "feedback": {
+    "incorrect": "Let\u2019s listen again.",
+    "correct": "Yes! Three stars!",
+    "complete": "Yay, you counted three!"
+  },
+  "progress": {
+    "totalLessons": 10,
+    "position": 4
+  },
+  "validation": {
+    "forbiddenPhrases": [
+      "Blue ball",
+      "Red ball",
+      "Small star",
+      "Big star",
+      "choose the red ball"
+    ]
+  }
+}

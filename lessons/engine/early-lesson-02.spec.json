@@ -1,0 +1,54 @@
+{
+  "id": "early-lesson-02",
+  "sequence": 2,
+  "track": "early-learner",
+  "stage": "discover",
+  "strand": "oral-language",
+  "title": "Find the ball",
+  "objective": "Recognise a familiar object from its spoken name.",
+  "instruction": "Listen, then find the ball.",
+  "activity": {
+    "type": "visual-choice",
+    "prompt": "Listen, then find the ball.",
+    "choices": [
+      {
+        "id": "ball",
+        "visual": "\ud83d\udd34",
+        "label": "Ball",
+        "position": "right"
+      },
+      {
+        "id": "star",
+        "visual": "\u2b50",
+        "label": "Star",
+        "position": "left"
+      }
+    ],
+    "correctAnswerId": "ball",
+    "visibleTextLabels": false
+  },
+  "audio": {
+    "instruction": "assets/audio/early-instruction-find-ball.wav",
+    "target": "assets/audio/word-ball.wav",
+    "retry": "assets/audio/lesson-retry.wav",
+    "success": "assets/audio/lesson-success.wav"
+  },
+  "feedback": {
+    "incorrect": "Let\u2019s listen again.",
+    "correct": "Yes! Ball!",
+    "complete": "Yay, you found it!"
+  },
+  "progress": {
+    "totalLessons": 10,
+    "position": 2
+  },
+  "validation": {
+    "forbiddenPhrases": [
+      "Blue ball",
+      "Red ball",
+      "Small star",
+      "Big star",
+      "choose the red ball"
+    ]
+  }
+}

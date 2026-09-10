@@ -28,15 +28,22 @@ window.LexoraEarlyAudio = (function () {
   }
 
   function play(key) {
-    if (muted) return Promise.resolve();
+    if (muted) return Promise.resolve(false);
     var clip = audioFor(key);
-    if (!clip) return Promise.resolve();
+    if (!clip) return Promise.resolve(false);
     try {
       clip.currentTime = 0;
       var result = clip.play();
-      return result && result.catch ? result.catch(function () {}) : Promise.resolve();
+      var finished = new Promise(function (resolve) {
+        var done = function (value) { clip.removeEventListener('ended', onEnded); clip.removeEventListener('error', onError); resolve(value); };
+        var onEnded = function () { done(true); };
+        var onError = function () { done(false); };
+        clip.addEventListener('ended', onEnded, { once: true }); clip.addEventListener('error', onError, { once: true });
+        setTimeout(function () { done(true); }, 5000);
+      });
+      return result && result.then ? result.then(function () { return finished; }).catch(function () { return false; }) : finished;
     } catch (error) {
-      return Promise.resolve();
+      return Promise.resolve(false);
     }
   }
 

@@ -1,0 +1,54 @@
+{
+  "id": "early-lesson-05",
+  "sequence": 5,
+  "track": "early-learner",
+  "stage": "discover",
+  "strand": "oral-language",
+  "title": "Find the cat",
+  "objective": "Recognise a familiar animal from its spoken name.",
+  "instruction": "Listen, then find the cat.",
+  "activity": {
+    "type": "visual-choice",
+    "prompt": "Listen, then find the cat.",
+    "choices": [
+      {
+        "id": "cat",
+        "visual": "\ud83d\udc31",
+        "label": "Cat",
+        "position": "right"
+      },
+      {
+        "id": "dog",
+        "visual": "\ud83d\udc36",
+        "label": "Dog",
+        "position": "left"
+      }
+    ],
+    "correctAnswerId": "cat",
+    "visibleTextLabels": false
+  },
+  "audio": {
+    "instruction": "assets/audio/early-instruction-find-cat.wav",
+    "target": "assets/audio/word-cat.wav",
+    "retry": "assets/audio/lesson-retry.wav",
+    "success": "assets/audio/lesson-success.wav"
+  },
+  "feedback": {
+    "incorrect": "Let\u2019s listen again.",
+    "correct": "Yes! Cat!",
+    "complete": "Yay, you found the cat!"
+  },
+  "progress": {
+    "totalLessons": 10,
+    "position": 5
+  },
+  "validation": {
+    "forbiddenPhrases": [
+      "Blue ball",
+      "Red ball",
+      "Small star",
+      "Big star",
+      "choose the red ball"
+    ]
+  }
+}

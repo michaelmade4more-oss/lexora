@@ -1,0 +1,48 @@
+{
+  "id": "early-lesson-01",
+  "sequence": 1,
+  "track": "early-learner",
+  "stage": "discover",
+  "strand": "concept-knowledge",
+  "title": "Big feelings",
+  "objective": "Recognise a happy feeling from a spoken prompt.",
+  "instruction": "Tap the sound, then find the happy face.",
+  "activity": {
+    "type": "visual-choice",
+    "prompt": "Tap the sound, then find the happy face.",
+    "choices": [
+      {
+        "id": "happy",
+        "visual": "\ud83d\ude04",
+        "label": "Happy",
+        "position": "left"
+      },
+      {
+        "id": "sad",
+        "visual": "\ud83d\ude1f",
+        "label": "Not happy",
+        "position": "right"
+      }
+    ],
+    "correctAnswerId": "happy",
+    "visibleTextLabels": false
+  },
+  "audio": {
+    "instruction": "assets/audio/early-instruction.wav",
+    "target": "assets/audio/word-happy.wav",
+    "retry": "assets/audio/lesson-retry.wav",
+    "success": "assets/audio/lesson-success.wav"
+  },
+  "feedback": {
+    "incorrect": "Let\u2019s listen again.",
+    "correct": "Yes! Happy!",
+    "complete": "Yay, you found happy!"
+  },
+  "progress": {
+    "totalLessons": 10,
+    "position": 1
+  },
+  "validation": {
+    "forbiddenPhrases": []
+  }
+}

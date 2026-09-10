@@ -1,0 +1,48 @@
+{
+  "id": "early-lesson-03",
+  "sequence": 3,
+  "track": "early-learner",
+  "stage": "discover",
+  "strand": "concept-knowledge",
+  "title": "Find the size",
+  "objective": "Recognise the smaller object from a spoken concept.",
+  "instruction": "Listen, then find the small star.",
+  "activity": {
+    "type": "visual-choice",
+    "prompt": "Listen, then find the small star.",
+    "choices": [
+      {
+        "id": "small",
+        "visual": "\u25cf",
+        "label": "Small star",
+        "position": "left"
+      },
+      {
+        "id": "big",
+        "visual": "\u2b24",
+        "label": "Big star",
+        "position": "right"
+      }
+    ],
+    "correctAnswerId": "small",
+    "visibleTextLabels": false
+  },
+  "audio": {
+    "instruction": "assets/audio/early-instruction.wav",
+    "target": "assets/audio/word-small.wav",
+    "retry": "assets/audio/lesson-retry.wav",
+    "success": "assets/audio/lesson-success.wav"
+  },
+  "feedback": {
+    "incorrect": "Let\u2019s listen again.",
+    "correct": "Yes! Small!",
+    "complete": "Yay, you found small!"
+  },
+  "progress": {
+    "totalLessons": 10,
+    "position": 3
+  },
+  "validation": {
+    "forbiddenPhrases": []
+  }
+}
