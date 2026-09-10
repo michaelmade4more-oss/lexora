@@ -130,7 +130,7 @@ The profile picker remains the place where Lexora branding is most prominent. Th
 
 ### Progress feedback
 
-The lesson-room progress indicator must respond to meaningful learning states rather than remain decorative. The five-lesson Early Learner slice uses the following state model: initial lesson entry at 1 of 5, after listening and revealing the activity at 2 of 5, after a correct choice at 3 of 5, and completion at 5 of 5. The indicator must update in the same interaction that changes the lesson state and must never imply completion before the activity is complete.
+The top lesson-room progress indicator represents **curriculum position**, not interaction state. In the five-lesson foundation slice, Lesson 1 shows 1 of 5 and 20%, Lesson 2 shows 2 of 5 and 40%, Lesson 3 shows 3 of 5 and 60%, Lesson 4 shows 4 of 5 and 80%, and Lesson 5 shows 5 of 5 and 100%. The value remains stable while a child listens, retries, answers, and celebrates within that lesson. In-lesson state is communicated through the visible audio label, choice states, retry cue, success cue, and Keep going animation. Mixing curriculum position with interaction progress makes the bar move at a different pace from the lesson and is prohibited.
 
 ## 9. Parent and safety boundaries
 
