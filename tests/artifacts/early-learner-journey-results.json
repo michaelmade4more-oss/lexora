@@ -2,7 +2,7 @@
   "status": "PASS",
   "passed": 182,
   "failed": 0,
-  "baseUrl": "https://michaelmade4more-oss.github.io/lexora",
+  "baseUrl": "http://127.0.0.1:8000",
   "profile": "Harness Child",
   "results": [
     {
@@ -12,7 +12,7 @@
       "evidence": {
         "profile": "Harness Child"
       },
-      "at": "2026-09-10T23:02:29.183Z"
+      "at": "2026-09-10T23:38:45.446Z"
     },
     {
       "step": "lesson 1 position",
@@ -21,7 +21,7 @@
       "evidence": {
         "stepText": "1 of 15"
       },
-      "at": "2026-09-10T23:02:29.930Z"
+      "at": "2026-09-10T23:38:46.043Z"
     },
     {
       "step": "lesson 1 reveal",
@@ -30,14 +30,14 @@
       "evidence": {
         "audioMode": "muted/fallback"
       },
-      "at": "2026-09-10T23:02:30.038Z"
+      "at": "2026-09-10T23:38:46.145Z"
     },
     {
       "step": "lesson 1 visual fallback",
       "status": "PASS",
       "detail": "Visual fallback is visible when audio is unavailable or muted.",
       "evidence": {},
-      "at": "2026-09-10T23:02:30.041Z"
+      "at": "2026-09-10T23:38:46.147Z"
     },
     {
       "step": "lesson 1 answer key",
@@ -46,44 +46,44 @@
       "evidence": {
         "correctId": "happy"
       },
-      "at": "2026-09-10T23:02:30.041Z"
+      "at": "2026-09-10T23:38:46.147Z"
     },
     {
       "step": "lesson 1 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:02:30.097Z"
+      "at": "2026-09-10T23:38:46.193Z"
     },
     {
       "step": "lesson 1 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:02:33.279Z"
+      "at": "2026-09-10T23:38:49.376Z"
     },
     {
       "step": "lesson 1 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:02:33.327Z"
+      "at": "2026-09-10T23:38:49.425Z"
     },
     {
       "step": "lesson 1 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:02:37.796Z"
+      "at": "2026-09-10T23:38:53.907Z"
     },
     {
       "step": "lesson 1 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-02.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-02.html"
       },
-      "at": "2026-09-10T23:02:38.790Z"
+      "at": "2026-09-10T23:38:54.503Z"
     },
     {
       "step": "lesson 1 completion persistence",
@@ -100,14 +100,14 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:02:30.090Z",
+              "at": "2026-09-10T23:38:46.187Z",
               "attempt": true,
               "correct": false,
               "replay": true,
               "supportLevel": "supported"
             },
             {
-              "at": "2026-09-10T23:02:33.321Z",
+              "at": "2026-09-10T23:38:49.419Z",
               "attempt": true,
               "correct": true,
               "supportLevel": "independent"
@@ -124,11 +124,11 @@
           },
           "strand": "concept-knowledge",
           "stage": "discover",
-          "introducedAt": "2026-09-10T23:02:29.270Z",
-          "completedAt": "2026-09-10T23:02:37.837Z"
+          "introducedAt": "2026-09-10T23:38:45.472Z",
+          "completedAt": "2026-09-10T23:38:53.950Z"
         }
       },
-      "at": "2026-09-10T23:02:38.797Z"
+      "at": "2026-09-10T23:38:54.510Z"
     },
     {
       "step": "lesson 1 evidence persistence",
@@ -137,14 +137,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:02:38.797Z"
+      "at": "2026-09-10T23:38:54.510Z"
     },
     {
       "step": "lesson 1 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 2.",
       "evidence": {},
-      "at": "2026-09-10T23:02:39.906Z"
+      "at": "2026-09-10T23:38:55.646Z"
     },
     {
       "step": "lesson 2 position",
@@ -153,7 +153,7 @@
       "evidence": {
         "stepText": "2 of 15"
       },
-      "at": "2026-09-10T23:02:40.476Z"
+      "at": "2026-09-10T23:38:56.215Z"
     },
     {
       "step": "lesson 2 reveal",
@@ -162,7 +162,7 @@
       "evidence": {
         "audioMode": "normal"
       },
-      "at": "2026-09-10T23:02:40.709Z"
+      "at": "2026-09-10T23:38:56.441Z"
     },
     {
       "step": "lesson 2 answer key",
@@ -171,44 +171,44 @@
       "evidence": {
         "correctId": "ball"
       },
-      "at": "2026-09-10T23:02:40.709Z"
+      "at": "2026-09-10T23:38:56.441Z"
     },
     {
       "step": "lesson 2 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:02:40.750Z"
+      "at": "2026-09-10T23:38:56.494Z"
     },
     {
       "step": "lesson 2 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:02:43.929Z"
+      "at": "2026-09-10T23:38:59.675Z"
     },
     {
       "step": "lesson 2 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:02:43.980Z"
+      "at": "2026-09-10T23:38:59.726Z"
     },
     {
       "step": "lesson 2 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:02:48.462Z"
+      "at": "2026-09-10T23:39:04.207Z"
     },
     {
       "step": "lesson 2 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-03.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-03.html"
       },
-      "at": "2026-09-10T23:02:49.087Z"
+      "at": "2026-09-10T23:39:04.801Z"
     },
     {
       "step": "lesson 2 completion persistence",
@@ -225,14 +225,14 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:02:40.743Z",
+              "at": "2026-09-10T23:38:56.488Z",
               "attempt": true,
               "correct": false,
               "replay": true,
               "supportLevel": "supported"
             },
             {
-              "at": "2026-09-10T23:02:43.972Z",
+              "at": "2026-09-10T23:38:59.717Z",
               "attempt": true,
               "correct": true,
               "supportLevel": "independent"
@@ -249,11 +249,11 @@
           },
           "strand": "oral-language",
           "stage": "discover",
-          "introducedAt": "2026-09-10T23:02:39.926Z",
-          "completedAt": "2026-09-10T23:02:48.503Z"
+          "introducedAt": "2026-09-10T23:38:55.666Z",
+          "completedAt": "2026-09-10T23:39:04.249Z"
         }
       },
-      "at": "2026-09-10T23:02:49.095Z"
+      "at": "2026-09-10T23:39:04.807Z"
     },
     {
       "step": "lesson 2 evidence persistence",
@@ -262,14 +262,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:02:49.095Z"
+      "at": "2026-09-10T23:39:04.807Z"
     },
     {
       "step": "lesson 2 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 3.",
       "evidence": {},
-      "at": "2026-09-10T23:02:50.231Z"
+      "at": "2026-09-10T23:39:05.947Z"
     },
     {
       "step": "lesson 3 position",
@@ -278,7 +278,7 @@
       "evidence": {
         "stepText": "3 of 15"
       },
-      "at": "2026-09-10T23:02:50.809Z"
+      "at": "2026-09-10T23:39:06.517Z"
     },
     {
       "step": "lesson 3 reveal",
@@ -287,7 +287,7 @@
       "evidence": {
         "audioMode": "normal"
       },
-      "at": "2026-09-10T23:02:51.045Z"
+      "at": "2026-09-10T23:39:06.741Z"
     },
     {
       "step": "lesson 3 answer key",
@@ -296,44 +296,44 @@
       "evidence": {
         "correctId": "small"
       },
-      "at": "2026-09-10T23:02:51.045Z"
+      "at": "2026-09-10T23:39:06.741Z"
     },
     {
       "step": "lesson 3 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:02:51.102Z"
+      "at": "2026-09-10T23:39:06.791Z"
     },
     {
       "step": "lesson 3 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:02:54.279Z"
+      "at": "2026-09-10T23:39:09.973Z"
     },
     {
       "step": "lesson 3 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:02:54.329Z"
+      "at": "2026-09-10T23:39:10.024Z"
     },
     {
       "step": "lesson 3 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:02:58.808Z"
+      "at": "2026-09-10T23:39:14.504Z"
     },
     {
       "step": "lesson 3 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-04.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-04.html"
       },
-      "at": "2026-09-10T23:02:59.408Z"
+      "at": "2026-09-10T23:39:15.086Z"
     },
     {
       "step": "lesson 3 completion persistence",
@@ -350,14 +350,14 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:02:51.094Z",
+              "at": "2026-09-10T23:39:06.786Z",
               "attempt": true,
               "correct": false,
               "replay": true,
               "supportLevel": "supported"
             },
             {
-              "at": "2026-09-10T23:02:54.322Z",
+              "at": "2026-09-10T23:39:10.017Z",
               "attempt": true,
               "correct": true,
               "supportLevel": "independent"
@@ -374,11 +374,11 @@
           },
           "strand": "concept-knowledge",
           "stage": "discover",
-          "introducedAt": "2026-09-10T23:02:50.253Z",
-          "completedAt": "2026-09-10T23:02:58.835Z"
+          "introducedAt": "2026-09-10T23:39:05.965Z",
+          "completedAt": "2026-09-10T23:39:14.531Z"
         }
       },
-      "at": "2026-09-10T23:02:59.415Z"
+      "at": "2026-09-10T23:39:15.093Z"
     },
     {
       "step": "lesson 3 evidence persistence",
@@ -387,14 +387,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:02:59.415Z"
+      "at": "2026-09-10T23:39:15.093Z"
     },
     {
       "step": "lesson 3 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 4.",
       "evidence": {},
-      "at": "2026-09-10T23:03:00.519Z"
+      "at": "2026-09-10T23:39:16.223Z"
     },
     {
       "step": "lesson 4 position",
@@ -403,7 +403,7 @@
       "evidence": {
         "stepText": "4 of 15"
       },
-      "at": "2026-09-10T23:03:01.092Z"
+      "at": "2026-09-10T23:39:16.792Z"
     },
     {
       "step": "lesson 4 reveal",
@@ -412,7 +412,7 @@
       "evidence": {
         "audioMode": "normal"
       },
-      "at": "2026-09-10T23:03:01.326Z"
+      "at": "2026-09-10T23:39:17.022Z"
     },
     {
       "step": "lesson 4 answer key",
@@ -421,44 +421,44 @@
       "evidence": {
         "correctId": "three"
       },
-      "at": "2026-09-10T23:03:01.326Z"
+      "at": "2026-09-10T23:39:17.022Z"
     },
     {
       "step": "lesson 4 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:03:01.361Z"
+      "at": "2026-09-10T23:39:17.066Z"
     },
     {
       "step": "lesson 4 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:03:04.543Z"
+      "at": "2026-09-10T23:39:20.240Z"
     },
     {
       "step": "lesson 4 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:03:04.597Z"
+      "at": "2026-09-10T23:39:20.290Z"
     },
     {
       "step": "lesson 4 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:03:09.076Z"
+      "at": "2026-09-10T23:39:24.773Z"
     },
     {
       "step": "lesson 4 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-05.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-05.html"
       },
-      "at": "2026-09-10T23:03:09.672Z"
+      "at": "2026-09-10T23:39:25.352Z"
     },
     {
       "step": "lesson 4 completion persistence",
@@ -475,14 +475,14 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:03:01.356Z",
+              "at": "2026-09-10T23:39:17.058Z",
               "attempt": true,
               "correct": false,
               "replay": true,
               "supportLevel": "supported"
             },
             {
-              "at": "2026-09-10T23:03:04.588Z",
+              "at": "2026-09-10T23:39:20.283Z",
               "attempt": true,
               "correct": true,
               "supportLevel": "independent"
@@ -499,11 +499,11 @@
           },
           "strand": "concept-knowledge",
           "stage": "discover",
-          "introducedAt": "2026-09-10T23:03:00.539Z",
-          "completedAt": "2026-09-10T23:03:09.102Z"
+          "introducedAt": "2026-09-10T23:39:16.242Z",
+          "completedAt": "2026-09-10T23:39:24.797Z"
         }
       },
-      "at": "2026-09-10T23:03:09.678Z"
+      "at": "2026-09-10T23:39:25.358Z"
     },
     {
       "step": "lesson 4 evidence persistence",
@@ -512,14 +512,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:03:09.678Z"
+      "at": "2026-09-10T23:39:25.358Z"
     },
     {
       "step": "lesson 4 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 5.",
       "evidence": {},
-      "at": "2026-09-10T23:03:10.794Z"
+      "at": "2026-09-10T23:39:26.481Z"
     },
     {
       "step": "lesson 5 position",
@@ -528,7 +528,7 @@
       "evidence": {
         "stepText": "5 of 15"
       },
-      "at": "2026-09-10T23:03:11.373Z"
+      "at": "2026-09-10T23:39:27.051Z"
     },
     {
       "step": "lesson 5 reveal",
@@ -537,7 +537,7 @@
       "evidence": {
         "audioMode": "normal"
       },
-      "at": "2026-09-10T23:03:11.591Z"
+      "at": "2026-09-10T23:39:27.271Z"
     },
     {
       "step": "lesson 5 answer key",
@@ -546,44 +546,44 @@
       "evidence": {
         "correctId": "cat"
       },
-      "at": "2026-09-10T23:03:11.591Z"
+      "at": "2026-09-10T23:39:27.271Z"
     },
     {
       "step": "lesson 5 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:03:11.649Z"
+      "at": "2026-09-10T23:39:27.307Z"
     },
     {
       "step": "lesson 5 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:03:14.827Z"
+      "at": "2026-09-10T23:39:30.491Z"
     },
     {
       "step": "lesson 5 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:03:14.878Z"
+      "at": "2026-09-10T23:39:30.540Z"
     },
     {
       "step": "lesson 5 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:03:19.359Z"
+      "at": "2026-09-10T23:39:35.023Z"
     },
     {
       "step": "lesson 5 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-06.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-06.html"
       },
-      "at": "2026-09-10T23:03:19.996Z"
+      "at": "2026-09-10T23:39:35.639Z"
     },
     {
       "step": "lesson 5 completion persistence",
@@ -600,14 +600,14 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:03:11.643Z",
+              "at": "2026-09-10T23:39:27.302Z",
               "attempt": true,
               "correct": false,
               "replay": true,
               "supportLevel": "supported"
             },
             {
-              "at": "2026-09-10T23:03:14.870Z",
+              "at": "2026-09-10T23:39:30.533Z",
               "attempt": true,
               "correct": true,
               "supportLevel": "independent"
@@ -624,11 +624,11 @@
           },
           "strand": "oral-language",
           "stage": "discover",
-          "introducedAt": "2026-09-10T23:03:10.815Z",
-          "completedAt": "2026-09-10T23:03:19.386Z"
+          "introducedAt": "2026-09-10T23:39:26.501Z",
+          "completedAt": "2026-09-10T23:39:35.064Z"
         }
       },
-      "at": "2026-09-10T23:03:20.004Z"
+      "at": "2026-09-10T23:39:35.646Z"
     },
     {
       "step": "lesson 5 evidence persistence",
@@ -637,14 +637,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:03:20.005Z"
+      "at": "2026-09-10T23:39:35.646Z"
     },
     {
       "step": "lesson 5 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 6.",
       "evidence": {},
-      "at": "2026-09-10T23:03:21.107Z"
+      "at": "2026-09-10T23:39:36.781Z"
     },
     {
       "step": "lesson 6 position",
@@ -653,7 +653,7 @@
       "evidence": {
         "stepText": "6 of 15"
       },
-      "at": "2026-09-10T23:03:21.673Z"
+      "at": "2026-09-10T23:39:37.345Z"
     },
     {
       "step": "lesson 6 reveal",
@@ -662,14 +662,14 @@
       "evidence": {
         "audioMode": "muted/fallback"
       },
-      "at": "2026-09-10T23:03:21.773Z"
+      "at": "2026-09-10T23:39:37.436Z"
     },
     {
       "step": "lesson 6 visual fallback",
       "status": "PASS",
       "detail": "Visual fallback is visible when audio is unavailable or muted.",
       "evidence": {},
-      "at": "2026-09-10T23:03:21.775Z"
+      "at": "2026-09-10T23:39:37.437Z"
     },
     {
       "step": "lesson 6 answer key",
@@ -678,44 +678,44 @@
       "evidence": {
         "correctId": "chime"
       },
-      "at": "2026-09-10T23:03:21.775Z"
+      "at": "2026-09-10T23:39:37.437Z"
     },
     {
       "step": "lesson 6 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:03:21.824Z"
+      "at": "2026-09-10T23:39:37.470Z"
     },
     {
       "step": "lesson 6 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:03:24.991Z"
+      "at": "2026-09-10T23:39:40.639Z"
     },
     {
       "step": "lesson 6 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:03:25.024Z"
+      "at": "2026-09-10T23:39:40.687Z"
     },
     {
       "step": "lesson 6 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:03:30.023Z"
+      "at": "2026-09-10T23:39:45.686Z"
     },
     {
       "step": "lesson 6 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-07.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-07.html"
       },
-      "at": "2026-09-10T23:03:30.676Z"
+      "at": "2026-09-10T23:39:46.262Z"
     },
     {
       "step": "lesson 6 completion persistence",
@@ -732,18 +732,22 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:03:21.819Z",
+              "at": "2026-09-10T23:39:37.466Z",
               "attempt": true,
               "correct": false,
               "replay": true,
-              "supportLevel": "supported"
+              "supportLevel": "supported",
+              "rendererId": "sound-attention",
+              "unitId": "sound-attention"
             },
             {
-              "at": "2026-09-10T23:03:25.019Z",
+              "at": "2026-09-10T23:39:40.682Z",
               "attempt": true,
               "correct": true,
               "replay": false,
-              "supportLevel": "independent"
+              "supportLevel": "independent",
+              "rendererId": "sound-attention",
+              "unitId": "sound-attention"
             }
           ],
           "revisit": {
@@ -757,11 +761,11 @@
           },
           "strand": "listening-and-attention",
           "stage": "discover",
-          "introducedAt": "2026-09-10T23:03:21.134Z",
-          "completedAt": "2026-09-10T23:03:30.051Z"
+          "introducedAt": "2026-09-10T23:39:36.804Z",
+          "completedAt": "2026-09-10T23:39:45.715Z"
         }
       },
-      "at": "2026-09-10T23:03:30.685Z"
+      "at": "2026-09-10T23:39:46.271Z"
     },
     {
       "step": "lesson 6 evidence persistence",
@@ -770,14 +774,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:03:30.685Z"
+      "at": "2026-09-10T23:39:46.271Z"
     },
     {
       "step": "lesson 6 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 7.",
       "evidence": {},
-      "at": "2026-09-10T23:03:31.777Z"
+      "at": "2026-09-10T23:39:47.391Z"
     },
     {
       "step": "lesson 7 position",
@@ -786,7 +790,7 @@
       "evidence": {
         "stepText": "7 of 15"
       },
-      "at": "2026-09-10T23:03:32.345Z"
+      "at": "2026-09-10T23:39:47.955Z"
     },
     {
       "step": "lesson 7 reveal",
@@ -795,14 +799,14 @@
       "evidence": {
         "audioMode": "muted/fallback"
       },
-      "at": "2026-09-10T23:03:32.421Z"
+      "at": "2026-09-10T23:39:48.035Z"
     },
     {
       "step": "lesson 7 visual fallback",
       "status": "PASS",
       "detail": "Visual fallback is visible when audio is unavailable or muted.",
       "evidence": {},
-      "at": "2026-09-10T23:03:32.423Z"
+      "at": "2026-09-10T23:39:48.036Z"
     },
     {
       "step": "lesson 7 answer key",
@@ -811,44 +815,44 @@
       "evidence": {
         "correctId": "tap-tap"
       },
-      "at": "2026-09-10T23:03:32.423Z"
+      "at": "2026-09-10T23:39:48.036Z"
     },
     {
       "step": "lesson 7 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:03:32.457Z"
+      "at": "2026-09-10T23:39:48.069Z"
     },
     {
       "step": "lesson 7 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:03:35.624Z"
+      "at": "2026-09-10T23:39:51.238Z"
     },
     {
       "step": "lesson 7 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:03:35.656Z"
+      "at": "2026-09-10T23:39:51.287Z"
     },
     {
       "step": "lesson 7 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:03:40.656Z"
+      "at": "2026-09-10T23:39:56.285Z"
     },
     {
       "step": "lesson 7 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-08.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-08.html"
       },
-      "at": "2026-09-10T23:03:41.271Z"
+      "at": "2026-09-10T23:39:56.865Z"
     },
     {
       "step": "lesson 7 completion persistence",
@@ -865,18 +869,22 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:03:32.452Z",
+              "at": "2026-09-10T23:39:48.064Z",
               "attempt": true,
               "correct": false,
               "replay": true,
-              "supportLevel": "supported"
+              "supportLevel": "supported",
+              "rendererId": "sound-attention",
+              "unitId": "sound-attention"
             },
             {
-              "at": "2026-09-10T23:03:35.652Z",
+              "at": "2026-09-10T23:39:51.282Z",
               "attempt": true,
               "correct": true,
               "replay": false,
-              "supportLevel": "independent"
+              "supportLevel": "independent",
+              "rendererId": "sound-attention",
+              "unitId": "sound-attention"
             }
           ],
           "revisit": {
@@ -890,11 +898,11 @@
           },
           "strand": "listening-and-attention",
           "stage": "discover",
-          "introducedAt": "2026-09-10T23:03:31.804Z",
-          "completedAt": "2026-09-10T23:03:40.685Z"
+          "introducedAt": "2026-09-10T23:39:47.414Z",
+          "completedAt": "2026-09-10T23:39:56.313Z"
         }
       },
-      "at": "2026-09-10T23:03:41.280Z"
+      "at": "2026-09-10T23:39:56.874Z"
     },
     {
       "step": "lesson 7 evidence persistence",
@@ -903,14 +911,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:03:41.280Z"
+      "at": "2026-09-10T23:39:56.874Z"
     },
     {
       "step": "lesson 7 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 8.",
       "evidence": {},
-      "at": "2026-09-10T23:03:42.379Z"
+      "at": "2026-09-10T23:39:57.997Z"
     },
     {
       "step": "lesson 8 position",
@@ -919,7 +927,7 @@
       "evidence": {
         "stepText": "8 of 15"
       },
-      "at": "2026-09-10T23:03:42.949Z"
+      "at": "2026-09-10T23:39:58.559Z"
     },
     {
       "step": "lesson 8 reveal",
@@ -928,14 +936,14 @@
       "evidence": {
         "audioMode": "muted/fallback"
       },
-      "at": "2026-09-10T23:03:43.021Z"
+      "at": "2026-09-10T23:39:58.634Z"
     },
     {
       "step": "lesson 8 visual fallback",
       "status": "PASS",
       "detail": "Visual fallback is visible when audio is unavailable or muted.",
       "evidence": {},
-      "at": "2026-09-10T23:03:43.022Z"
+      "at": "2026-09-10T23:39:58.635Z"
     },
     {
       "step": "lesson 8 answer key",
@@ -944,44 +952,44 @@
       "evidence": {
         "correctId": "drum"
       },
-      "at": "2026-09-10T23:03:43.022Z"
+      "at": "2026-09-10T23:39:58.635Z"
     },
     {
       "step": "lesson 8 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:03:43.056Z"
+      "at": "2026-09-10T23:39:58.668Z"
     },
     {
       "step": "lesson 8 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:03:46.225Z"
+      "at": "2026-09-10T23:40:01.836Z"
     },
     {
       "step": "lesson 8 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:03:46.273Z"
+      "at": "2026-09-10T23:40:01.869Z"
     },
     {
       "step": "lesson 8 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:03:51.272Z"
+      "at": "2026-09-10T23:40:06.869Z"
     },
     {
       "step": "lesson 8 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-09.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-09.html"
       },
-      "at": "2026-09-10T23:03:51.876Z"
+      "at": "2026-09-10T23:40:07.442Z"
     },
     {
       "step": "lesson 8 completion persistence",
@@ -998,18 +1006,22 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:03:43.051Z",
+              "at": "2026-09-10T23:39:58.664Z",
               "attempt": true,
               "correct": false,
               "replay": true,
-              "supportLevel": "supported"
+              "supportLevel": "supported",
+              "rendererId": "sound-attention",
+              "unitId": "sound-attention"
             },
             {
-              "at": "2026-09-10T23:03:46.268Z",
+              "at": "2026-09-10T23:40:01.864Z",
               "attempt": true,
               "correct": true,
               "replay": false,
-              "supportLevel": "independent"
+              "supportLevel": "independent",
+              "rendererId": "sound-attention",
+              "unitId": "sound-attention"
             }
           ],
           "revisit": {
@@ -1023,11 +1035,11 @@
           },
           "strand": "listening-and-attention",
           "stage": "discover",
-          "introducedAt": "2026-09-10T23:03:42.407Z",
-          "completedAt": "2026-09-10T23:03:51.301Z"
+          "introducedAt": "2026-09-10T23:39:58.019Z",
+          "completedAt": "2026-09-10T23:40:06.896Z"
         }
       },
-      "at": "2026-09-10T23:03:51.885Z"
+      "at": "2026-09-10T23:40:07.452Z"
     },
     {
       "step": "lesson 8 evidence persistence",
@@ -1036,14 +1048,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:03:51.885Z"
+      "at": "2026-09-10T23:40:07.452Z"
     },
     {
       "step": "lesson 8 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 9.",
       "evidence": {},
-      "at": "2026-09-10T23:03:52.980Z"
+      "at": "2026-09-10T23:40:08.572Z"
     },
     {
       "step": "lesson 9 position",
@@ -1052,7 +1064,7 @@
       "evidence": {
         "stepText": "9 of 15"
       },
-      "at": "2026-09-10T23:03:53.549Z"
+      "at": "2026-09-10T23:40:09.141Z"
     },
     {
       "step": "lesson 9 reveal",
@@ -1061,14 +1073,14 @@
       "evidence": {
         "audioMode": "muted/fallback"
       },
-      "at": "2026-09-10T23:03:53.621Z"
+      "at": "2026-09-10T23:40:09.218Z"
     },
     {
       "step": "lesson 9 visual fallback",
       "status": "PASS",
       "detail": "Visual fallback is visible when audio is unavailable or muted.",
       "evidence": {},
-      "at": "2026-09-10T23:03:53.623Z"
+      "at": "2026-09-10T23:40:09.219Z"
     },
     {
       "step": "lesson 9 answer key",
@@ -1077,44 +1089,44 @@
       "evidence": {
         "correctId": "hat"
       },
-      "at": "2026-09-10T23:03:53.623Z"
+      "at": "2026-09-10T23:40:09.219Z"
     },
     {
       "step": "lesson 9 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:03:53.655Z"
+      "at": "2026-09-10T23:40:09.251Z"
     },
     {
       "step": "lesson 9 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:03:56.825Z"
+      "at": "2026-09-10T23:40:12.419Z"
     },
     {
       "step": "lesson 9 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:03:56.874Z"
+      "at": "2026-09-10T23:40:12.451Z"
     },
     {
       "step": "lesson 9 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:04:01.872Z"
+      "at": "2026-09-10T23:40:17.452Z"
     },
     {
       "step": "lesson 9 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-10.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-10.html"
       },
-      "at": "2026-09-10T23:04:02.494Z"
+      "at": "2026-09-10T23:40:18.026Z"
     },
     {
       "step": "lesson 9 completion persistence",
@@ -1131,18 +1143,22 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:03:53.651Z",
+              "at": "2026-09-10T23:40:09.246Z",
               "attempt": true,
               "correct": false,
               "replay": true,
-              "supportLevel": "supported"
+              "supportLevel": "supported",
+              "rendererId": "rhyming-syllables",
+              "unitId": "rhyming-and-syllables"
             },
             {
-              "at": "2026-09-10T23:03:56.868Z",
+              "at": "2026-09-10T23:40:12.447Z",
               "attempt": true,
               "correct": true,
               "replay": false,
-              "supportLevel": "independent"
+              "supportLevel": "independent",
+              "rendererId": "rhyming-syllables",
+              "unitId": "rhyming-and-syllables"
             }
           ],
           "revisit": {
@@ -1156,11 +1172,11 @@
           },
           "strand": "phonological-awareness",
           "stage": "join",
-          "introducedAt": "2026-09-10T23:03:53.006Z",
-          "completedAt": "2026-09-10T23:04:01.899Z"
+          "introducedAt": "2026-09-10T23:40:08.597Z",
+          "completedAt": "2026-09-10T23:40:17.479Z"
         }
       },
-      "at": "2026-09-10T23:04:02.503Z"
+      "at": "2026-09-10T23:40:18.040Z"
     },
     {
       "step": "lesson 9 evidence persistence",
@@ -1169,14 +1185,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:04:02.503Z"
+      "at": "2026-09-10T23:40:18.040Z"
     },
     {
       "step": "lesson 9 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 10.",
       "evidence": {},
-      "at": "2026-09-10T23:04:03.605Z"
+      "at": "2026-09-10T23:40:19.178Z"
     },
     {
       "step": "lesson 10 position",
@@ -1185,7 +1201,7 @@
       "evidence": {
         "stepText": "10 of 15"
       },
-      "at": "2026-09-10T23:04:04.189Z"
+      "at": "2026-09-10T23:40:19.754Z"
     },
     {
       "step": "lesson 10 reveal",
@@ -1194,14 +1210,14 @@
       "evidence": {
         "audioMode": "muted/fallback"
       },
-      "at": "2026-09-10T23:04:04.275Z"
+      "at": "2026-09-10T23:40:19.834Z"
     },
     {
       "step": "lesson 10 visual fallback",
       "status": "PASS",
       "detail": "Visual fallback is visible when audio is unavailable or muted.",
       "evidence": {},
-      "at": "2026-09-10T23:04:04.279Z"
+      "at": "2026-09-10T23:40:19.836Z"
     },
     {
       "step": "lesson 10 answer key",
@@ -1210,44 +1226,44 @@
       "evidence": {
         "correctId": "tap-tap"
       },
-      "at": "2026-09-10T23:04:04.279Z"
+      "at": "2026-09-10T23:40:19.836Z"
     },
     {
       "step": "lesson 10 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:04:04.323Z"
+      "at": "2026-09-10T23:40:19.869Z"
     },
     {
       "step": "lesson 10 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:04:07.493Z"
+      "at": "2026-09-10T23:40:23.050Z"
     },
     {
       "step": "lesson 10 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:04:07.539Z"
+      "at": "2026-09-10T23:40:23.086Z"
     },
     {
       "step": "lesson 10 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:04:12.537Z"
+      "at": "2026-09-10T23:40:28.084Z"
     },
     {
       "step": "lesson 10 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-11.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-11.html"
       },
-      "at": "2026-09-10T23:04:13.148Z"
+      "at": "2026-09-10T23:40:28.659Z"
     },
     {
       "step": "lesson 10 completion persistence",
@@ -1264,18 +1280,22 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:04:04.318Z",
+              "at": "2026-09-10T23:40:19.864Z",
               "attempt": true,
               "correct": false,
               "replay": true,
-              "supportLevel": "supported"
+              "supportLevel": "supported",
+              "rendererId": "rhyming-syllables",
+              "unitId": "rhyming-and-syllables"
             },
             {
-              "at": "2026-09-10T23:04:07.534Z",
+              "at": "2026-09-10T23:40:23.081Z",
               "attempt": true,
               "correct": true,
               "replay": false,
-              "supportLevel": "independent"
+              "supportLevel": "independent",
+              "rendererId": "rhyming-syllables",
+              "unitId": "rhyming-and-syllables"
             }
           ],
           "revisit": {
@@ -1289,11 +1309,11 @@
           },
           "strand": "listening-and-attention",
           "stage": "discover",
-          "introducedAt": "2026-09-10T23:04:03.633Z",
-          "completedAt": "2026-09-10T23:04:12.566Z"
+          "introducedAt": "2026-09-10T23:40:19.202Z",
+          "completedAt": "2026-09-10T23:40:28.112Z"
         }
       },
-      "at": "2026-09-10T23:04:13.158Z"
+      "at": "2026-09-10T23:40:28.670Z"
     },
     {
       "step": "lesson 10 evidence persistence",
@@ -1302,14 +1322,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:04:13.158Z"
+      "at": "2026-09-10T23:40:28.670Z"
     },
     {
       "step": "lesson 10 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 11.",
       "evidence": {},
-      "at": "2026-09-10T23:04:14.258Z"
+      "at": "2026-09-10T23:40:29.795Z"
     },
     {
       "step": "lesson 11 position",
@@ -1318,7 +1338,7 @@
       "evidence": {
         "stepText": "11 of 15"
       },
-      "at": "2026-09-10T23:04:14.823Z"
+      "at": "2026-09-10T23:40:30.359Z"
     },
     {
       "step": "lesson 11 reveal",
@@ -1327,14 +1347,14 @@
       "evidence": {
         "audioMode": "muted/fallback"
       },
-      "at": "2026-09-10T23:04:14.903Z"
+      "at": "2026-09-10T23:40:30.451Z"
     },
     {
       "step": "lesson 11 visual fallback",
       "status": "PASS",
       "detail": "Visual fallback is visible when audio is unavailable or muted.",
       "evidence": {},
-      "at": "2026-09-10T23:04:14.905Z"
+      "at": "2026-09-10T23:40:30.452Z"
     },
     {
       "step": "lesson 11 answer key",
@@ -1343,44 +1363,44 @@
       "evidence": {
         "correctId": "hat"
       },
-      "at": "2026-09-10T23:04:14.905Z"
+      "at": "2026-09-10T23:40:30.452Z"
     },
     {
       "step": "lesson 11 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:04:14.937Z"
+      "at": "2026-09-10T23:40:30.485Z"
     },
     {
       "step": "lesson 11 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:04:18.106Z"
+      "at": "2026-09-10T23:40:33.652Z"
     },
     {
       "step": "lesson 11 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:04:18.145Z"
+      "at": "2026-09-10T23:40:33.684Z"
     },
     {
       "step": "lesson 11 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:04:23.156Z"
+      "at": "2026-09-10T23:40:38.683Z"
     },
     {
       "step": "lesson 11 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-12.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-12.html"
       },
-      "at": "2026-09-10T23:04:23.784Z"
+      "at": "2026-09-10T23:40:39.259Z"
     },
     {
       "step": "lesson 11 completion persistence",
@@ -1397,18 +1417,22 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:04:14.933Z",
+              "at": "2026-09-10T23:40:30.480Z",
               "attempt": true,
               "correct": false,
               "replay": true,
-              "supportLevel": "supported"
+              "supportLevel": "supported",
+              "rendererId": "rhyming-syllables",
+              "unitId": "rhyming-and-syllables"
             },
             {
-              "at": "2026-09-10T23:04:18.135Z",
+              "at": "2026-09-10T23:40:33.680Z",
               "attempt": true,
               "correct": true,
               "replay": false,
-              "supportLevel": "independent"
+              "supportLevel": "independent",
+              "rendererId": "rhyming-syllables",
+              "unitId": "rhyming-and-syllables"
             }
           ],
           "revisit": {
@@ -1422,11 +1446,11 @@
           },
           "strand": "phonological-awareness",
           "stage": "join",
-          "introducedAt": "2026-09-10T23:04:14.282Z",
-          "completedAt": "2026-09-10T23:04:23.199Z"
+          "introducedAt": "2026-09-10T23:40:29.818Z",
+          "completedAt": "2026-09-10T23:40:38.711Z"
         }
       },
-      "at": "2026-09-10T23:04:23.797Z"
+      "at": "2026-09-10T23:40:39.269Z"
     },
     {
       "step": "lesson 11 evidence persistence",
@@ -1435,14 +1459,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:04:23.797Z"
+      "at": "2026-09-10T23:40:39.269Z"
     },
     {
       "step": "lesson 11 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 12.",
       "evidence": {},
-      "at": "2026-09-10T23:04:24.894Z"
+      "at": "2026-09-10T23:40:40.395Z"
     },
     {
       "step": "lesson 12 position",
@@ -1451,7 +1475,7 @@
       "evidence": {
         "stepText": "12 of 15"
       },
-      "at": "2026-09-10T23:04:25.465Z"
+      "at": "2026-09-10T23:40:40.964Z"
     },
     {
       "step": "lesson 12 reveal",
@@ -1460,14 +1484,14 @@
       "evidence": {
         "audioMode": "muted/fallback"
       },
-      "at": "2026-09-10T23:04:25.537Z"
+      "at": "2026-09-10T23:40:41.032Z"
     },
     {
       "step": "lesson 12 visual fallback",
       "status": "PASS",
       "detail": "Visual fallback is visible when audio is unavailable or muted.",
       "evidence": {},
-      "at": "2026-09-10T23:04:25.539Z"
+      "at": "2026-09-10T23:40:41.033Z"
     },
     {
       "step": "lesson 12 answer key",
@@ -1476,44 +1500,44 @@
       "evidence": {
         "correctId": "log"
       },
-      "at": "2026-09-10T23:04:25.539Z"
+      "at": "2026-09-10T23:40:41.033Z"
     },
     {
       "step": "lesson 12 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:04:25.589Z"
+      "at": "2026-09-10T23:40:41.066Z"
     },
     {
       "step": "lesson 12 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:04:28.755Z"
+      "at": "2026-09-10T23:40:44.235Z"
     },
     {
       "step": "lesson 12 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:04:28.787Z"
+      "at": "2026-09-10T23:40:44.267Z"
     },
     {
       "step": "lesson 12 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:04:33.788Z"
+      "at": "2026-09-10T23:40:49.266Z"
     },
     {
       "step": "lesson 12 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-13.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-13.html"
       },
-      "at": "2026-09-10T23:04:34.396Z"
+      "at": "2026-09-10T23:40:49.840Z"
     },
     {
       "step": "lesson 12 completion persistence",
@@ -1530,18 +1554,22 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:04:25.583Z",
+              "at": "2026-09-10T23:40:41.061Z",
               "attempt": true,
               "correct": false,
               "replay": true,
-              "supportLevel": "supported"
+              "supportLevel": "supported",
+              "rendererId": "oral-blending",
+              "unitId": "oral-blending"
             },
             {
-              "at": "2026-09-10T23:04:28.783Z",
+              "at": "2026-09-10T23:40:44.262Z",
               "attempt": true,
               "correct": true,
               "replay": false,
-              "supportLevel": "independent"
+              "supportLevel": "independent",
+              "rendererId": "oral-blending",
+              "unitId": "oral-blending"
             }
           ],
           "revisit": {
@@ -1555,11 +1583,11 @@
           },
           "strand": "phonological-awareness",
           "stage": "join",
-          "introducedAt": "2026-09-10T23:04:24.920Z",
-          "completedAt": "2026-09-10T23:04:33.817Z"
+          "introducedAt": "2026-09-10T23:40:40.421Z",
+          "completedAt": "2026-09-10T23:40:49.294Z"
         }
       },
-      "at": "2026-09-10T23:04:34.409Z"
+      "at": "2026-09-10T23:40:49.850Z"
     },
     {
       "step": "lesson 12 evidence persistence",
@@ -1568,14 +1596,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:04:34.409Z"
+      "at": "2026-09-10T23:40:49.850Z"
     },
     {
       "step": "lesson 12 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 13.",
       "evidence": {},
-      "at": "2026-09-10T23:04:35.516Z"
+      "at": "2026-09-10T23:40:50.979Z"
     },
     {
       "step": "lesson 13 position",
@@ -1584,7 +1612,7 @@
       "evidence": {
         "stepText": "13 of 15"
       },
-      "at": "2026-09-10T23:04:36.076Z"
+      "at": "2026-09-10T23:40:51.551Z"
     },
     {
       "step": "lesson 13 reveal",
@@ -1593,14 +1621,14 @@
       "evidence": {
         "audioMode": "muted/fallback"
       },
-      "at": "2026-09-10T23:04:36.151Z"
+      "at": "2026-09-10T23:40:51.632Z"
     },
     {
       "step": "lesson 13 visual fallback",
       "status": "PASS",
       "detail": "Visual fallback is visible when audio is unavailable or muted.",
       "evidence": {},
-      "at": "2026-09-10T23:04:36.153Z"
+      "at": "2026-09-10T23:40:51.633Z"
     },
     {
       "step": "lesson 13 answer key",
@@ -1609,44 +1637,44 @@
       "evidence": {
         "correctId": "apple"
       },
-      "at": "2026-09-10T23:04:36.153Z"
+      "at": "2026-09-10T23:40:51.633Z"
     },
     {
       "step": "lesson 13 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:04:36.187Z"
+      "at": "2026-09-10T23:40:51.669Z"
     },
     {
       "step": "lesson 13 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:04:39.357Z"
+      "at": "2026-09-10T23:40:54.852Z"
     },
     {
       "step": "lesson 13 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:04:39.404Z"
+      "at": "2026-09-10T23:40:54.902Z"
     },
     {
       "step": "lesson 13 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:04:44.405Z"
+      "at": "2026-09-10T23:40:59.901Z"
     },
     {
       "step": "lesson 13 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-14.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-14.html"
       },
-      "at": "2026-09-10T23:04:45.111Z"
+      "at": "2026-09-10T23:41:00.484Z"
     },
     {
       "step": "lesson 13 completion persistence",
@@ -1663,18 +1691,22 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:04:36.182Z",
+              "at": "2026-09-10T23:40:51.664Z",
               "attempt": true,
               "correct": false,
               "replay": true,
-              "supportLevel": "supported"
+              "supportLevel": "supported",
+              "rendererId": "oral-blending",
+              "unitId": "oral-blending"
             },
             {
-              "at": "2026-09-10T23:04:39.399Z",
+              "at": "2026-09-10T23:40:54.896Z",
               "attempt": true,
               "correct": true,
               "replay": false,
-              "supportLevel": "independent"
+              "supportLevel": "independent",
+              "rendererId": "oral-blending",
+              "unitId": "oral-blending"
             }
           ],
           "revisit": {
@@ -1688,11 +1720,11 @@
           },
           "strand": "phonological-awareness",
           "stage": "join",
-          "introducedAt": "2026-09-10T23:04:35.538Z",
-          "completedAt": "2026-09-10T23:04:44.506Z"
+          "introducedAt": "2026-09-10T23:40:51.006Z",
+          "completedAt": "2026-09-10T23:40:59.929Z"
         }
       },
-      "at": "2026-09-10T23:04:45.125Z"
+      "at": "2026-09-10T23:41:00.497Z"
     },
     {
       "step": "lesson 13 evidence persistence",
@@ -1701,14 +1733,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:04:45.125Z"
+      "at": "2026-09-10T23:41:00.497Z"
     },
     {
       "step": "lesson 13 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 14.",
       "evidence": {},
-      "at": "2026-09-10T23:04:46.225Z"
+      "at": "2026-09-10T23:41:01.635Z"
     },
     {
       "step": "lesson 14 position",
@@ -1717,7 +1749,7 @@
       "evidence": {
         "stepText": "14 of 15"
       },
-      "at": "2026-09-10T23:04:46.793Z"
+      "at": "2026-09-10T23:41:02.213Z"
     },
     {
       "step": "lesson 14 reveal",
@@ -1726,14 +1758,14 @@
       "evidence": {
         "audioMode": "muted/fallback"
       },
-      "at": "2026-09-10T23:04:46.868Z"
+      "at": "2026-09-10T23:41:02.283Z"
     },
     {
       "step": "lesson 14 visual fallback",
       "status": "PASS",
       "detail": "Visual fallback is visible when audio is unavailable or muted.",
       "evidence": {},
-      "at": "2026-09-10T23:04:46.869Z"
+      "at": "2026-09-10T23:41:02.284Z"
     },
     {
       "step": "lesson 14 answer key",
@@ -1742,44 +1774,44 @@
       "evidence": {
         "correctId": "banana"
       },
-      "at": "2026-09-10T23:04:46.869Z"
+      "at": "2026-09-10T23:41:02.284Z"
     },
     {
       "step": "lesson 14 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:04:46.903Z"
+      "at": "2026-09-10T23:41:02.335Z"
     },
     {
       "step": "lesson 14 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:04:50.071Z"
+      "at": "2026-09-10T23:41:05.501Z"
     },
     {
       "step": "lesson 14 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:04:50.103Z"
+      "at": "2026-09-10T23:41:05.534Z"
     },
     {
       "step": "lesson 14 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:04:55.101Z"
+      "at": "2026-09-10T23:41:10.534Z"
     },
     {
       "step": "lesson 14 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/early-lesson-15.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/early-lesson-15.html"
       },
-      "at": "2026-09-10T23:04:55.705Z"
+      "at": "2026-09-10T23:41:11.106Z"
     },
     {
       "step": "lesson 14 completion persistence",
@@ -1796,18 +1828,22 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:04:46.898Z",
+              "at": "2026-09-10T23:41:02.330Z",
               "attempt": true,
               "correct": false,
               "replay": true,
-              "supportLevel": "supported"
+              "supportLevel": "supported",
+              "rendererId": "oral-blending",
+              "unitId": "oral-blending"
             },
             {
-              "at": "2026-09-10T23:04:50.099Z",
+              "at": "2026-09-10T23:41:05.529Z",
               "attempt": true,
               "correct": true,
               "replay": false,
-              "supportLevel": "independent"
+              "supportLevel": "independent",
+              "rendererId": "oral-blending",
+              "unitId": "oral-blending"
             }
           ],
           "revisit": {
@@ -1821,11 +1857,11 @@
           },
           "strand": "phonological-awareness",
           "stage": "join",
-          "introducedAt": "2026-09-10T23:04:46.250Z",
-          "completedAt": "2026-09-10T23:04:55.130Z"
+          "introducedAt": "2026-09-10T23:41:01.666Z",
+          "completedAt": "2026-09-10T23:41:10.560Z"
         }
       },
-      "at": "2026-09-10T23:04:55.717Z"
+      "at": "2026-09-10T23:41:11.118Z"
     },
     {
       "step": "lesson 14 evidence persistence",
@@ -1834,14 +1870,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:04:55.717Z"
+      "at": "2026-09-10T23:41:11.118Z"
     },
     {
       "step": "lesson 14 home resume",
       "status": "PASS",
       "detail": "Child Home offers Lesson 15.",
       "evidence": {},
-      "at": "2026-09-10T23:04:56.818Z"
+      "at": "2026-09-10T23:41:12.250Z"
     },
     {
       "step": "lesson 15 position",
@@ -1850,7 +1886,7 @@
       "evidence": {
         "stepText": "15 of 15"
       },
-      "at": "2026-09-10T23:04:57.386Z"
+      "at": "2026-09-10T23:41:12.818Z"
     },
     {
       "step": "lesson 15 reveal",
@@ -1859,14 +1895,14 @@
       "evidence": {
         "audioMode": "muted/fallback"
       },
-      "at": "2026-09-10T23:04:57.452Z"
+      "at": "2026-09-10T23:41:12.897Z"
     },
     {
       "step": "lesson 15 visual fallback",
       "status": "PASS",
       "detail": "Visual fallback is visible when audio is unavailable or muted.",
       "evidence": {},
-      "at": "2026-09-10T23:04:57.453Z"
+      "at": "2026-09-10T23:41:12.899Z"
     },
     {
       "step": "lesson 15 answer key",
@@ -1875,44 +1911,44 @@
       "evidence": {
         "correctId": "sun"
       },
-      "at": "2026-09-10T23:04:57.453Z"
+      "at": "2026-09-10T23:41:12.899Z"
     },
     {
       "step": "lesson 15 retry",
       "status": "PASS",
       "detail": "Incorrect response reveals a visible replay action.",
       "evidence": {},
-      "at": "2026-09-10T23:04:57.485Z"
+      "at": "2026-09-10T23:41:12.932Z"
     },
     {
       "step": "lesson 15 replay",
       "status": "PASS",
       "detail": "Replay returns to an answerable choice state.",
       "evidence": {},
-      "at": "2026-09-10T23:05:00.654Z"
+      "at": "2026-09-10T23:41:16.100Z"
     },
     {
       "step": "lesson 15 correct",
       "status": "PASS",
       "detail": "Correct response reveals the continuation action.",
       "evidence": {},
-      "at": "2026-09-10T23:05:00.686Z"
+      "at": "2026-09-10T23:41:16.132Z"
     },
     {
       "step": "lesson 15 completion",
       "status": "PASS",
       "detail": "Completion state is visible without implying mastery.",
       "evidence": {},
-      "at": "2026-09-10T23:05:05.686Z"
+      "at": "2026-09-10T23:41:21.133Z"
     },
     {
       "step": "lesson 15 next route",
       "status": "PASS",
       "detail": "Completion routes to the next lesson or home.",
       "evidence": {
-        "afterFinishUrl": "https://michaelmade4more-oss.github.io/lexora/child-home-early.html"
+        "afterFinishUrl": "http://127.0.0.1:8000/child-home-early.html"
       },
-      "at": "2026-09-10T23:05:06.235Z"
+      "at": "2026-09-10T23:41:21.696Z"
     },
     {
       "step": "lesson 15 completion persistence",
@@ -1929,18 +1965,22 @@
           "supportLevel": "independent",
           "evidence": [
             {
-              "at": "2026-09-10T23:04:57.481Z",
+              "at": "2026-09-10T23:41:12.928Z",
               "attempt": true,
               "correct": false,
               "replay": true,
-              "supportLevel": "supported"
+              "supportLevel": "supported",
+              "rendererId": "oral-blending",
+              "unitId": "oral-blending"
             },
             {
-              "at": "2026-09-10T23:05:00.681Z",
+              "at": "2026-09-10T23:41:16.127Z",
               "attempt": true,
               "correct": true,
               "replay": false,
-              "supportLevel": "independent"
+              "supportLevel": "independent",
+              "rendererId": "oral-blending",
+              "unitId": "oral-blending"
             }
           ],
           "revisit": {
@@ -1954,11 +1994,11 @@
           },
           "strand": "oral-language",
           "stage": "join",
-          "introducedAt": "2026-09-10T23:04:56.841Z",
-          "completedAt": "2026-09-10T23:05:05.713Z"
+          "introducedAt": "2026-09-10T23:41:12.277Z",
+          "completedAt": "2026-09-10T23:41:21.160Z"
         }
       },
-      "at": "2026-09-10T23:05:06.248Z"
+      "at": "2026-09-10T23:41:21.713Z"
     },
     {
       "step": "lesson 15 evidence persistence",
@@ -1967,14 +2007,14 @@
       "evidence": {
         "evidenceCount": 2
       },
-      "at": "2026-09-10T23:05:06.248Z"
+      "at": "2026-09-10T23:41:21.713Z"
     },
     {
       "step": "lesson 15 home completion",
       "status": "PASS",
       "detail": "Child Home reflects completion of the fifteen-lesson spine.",
       "evidence": {},
-      "at": "2026-09-10T23:05:07.338Z"
+      "at": "2026-09-10T23:41:22.832Z"
     },
     {
       "step": "final records",
@@ -1983,7 +2023,7 @@
       "evidence": {
         "lessonCount": 15
       },
-      "at": "2026-09-10T23:05:07.350Z"
+      "at": "2026-09-10T23:41:22.844Z"
     },
     {
       "step": "final evidence records",
@@ -1992,28 +2032,28 @@
       "evidence": {
         "lessonsWithEvidence": 15
       },
-      "at": "2026-09-10T23:05:07.350Z"
+      "at": "2026-09-10T23:41:22.844Z"
     },
     {
       "step": "separate progression eligibility",
       "status": "PASS",
       "detail": "Progression eligibility remains distinct and configurable; completion does not set it true.",
       "evidence": {},
-      "at": "2026-09-10T23:05:07.350Z"
+      "at": "2026-09-10T23:41:22.844Z"
     },
     {
       "step": "profile isolation",
       "status": "PASS",
       "detail": "A second child profile starts independently at Lesson 1.",
       "evidence": {},
-      "at": "2026-09-10T23:05:08.138Z"
+      "at": "2026-09-10T23:41:23.582Z"
     },
     {
       "step": "journey summary",
       "status": "PASS",
       "detail": "Fresh profile completed Lessons 1–15 with persistence, retry, fallback, replay, and isolation checks.",
       "evidence": {},
-      "at": "2026-09-10T23:05:08.151Z"
+      "at": "2026-09-10T23:41:23.593Z"
     }
   ]
 }

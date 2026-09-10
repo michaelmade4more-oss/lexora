@@ -4,7 +4,7 @@
 
 - Passed: 182
 - Failed: 0
-- Base URL: https://michaelmade4more-oss.github.io/lexora
+- Base URL: http://127.0.0.1:8000
 
 | Step | Result | Detail |
 |---|---|---|

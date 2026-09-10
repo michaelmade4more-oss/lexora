@@ -1,5 +1,5 @@
 {
-  "engineVersion": "1.1.0",
+  "engineVersion": "3.0.0",
   "track": "early-learner",
   "totalLessons": 15,
   "units": [
@@ -7,129 +7,224 @@
       "id": "foundation",
       "title": "Listening, objects, concepts, and counting",
       "stage": "discover",
+      "rendererId": "foundation",
       "lessons": [
         "early-lesson-01",
         "early-lesson-02",
         "early-lesson-03",
         "early-lesson-04",
         "early-lesson-05"
-      ]
+      ],
+      "lessonCount": 5
     },
     {
       "id": "sound-attention",
-      "title": "Sound attention and matching",
+      "title": "Sound attention and sound matching",
       "stage": "discover",
+      "rendererId": "sound-attention",
       "lessons": [
         "early-lesson-06",
         "early-lesson-07",
-        "early-lesson-08",
-        "early-lesson-09",
-        "early-lesson-10"
-      ]
+        "early-lesson-08"
+      ],
+      "lessonCount": 3
     },
     {
       "id": "rhyming-and-syllables",
-      "title": "Rhyming, syllables, and oral blending",
+      "title": "Rhyming and syllables",
       "stage": "join",
+      "rendererId": "rhyming-syllables",
       "lessons": [
-        "early-lesson-11",
+        "early-lesson-09",
+        "early-lesson-10",
+        "early-lesson-11"
+      ],
+      "lessonCount": 3
+    },
+    {
+      "id": "oral-blending",
+      "title": "Oral word blending",
+      "stage": "join",
+      "rendererId": "oral-blending",
+      "lessons": [
         "early-lesson-12",
         "early-lesson-13",
         "early-lesson-14",
         "early-lesson-15"
-      ]
+      ],
+      "lessonCount": 4
     }
   ],
   "lessons": [
     {
       "id": "early-lesson-01",
       "sequence": 1,
+      "unitId": "foundation",
+      "rendererId": "foundation",
       "source": "../../early-lesson-01.html",
-      "status": "foundation"
+      "status": "foundation",
+      "title": "Big feelings",
+      "stage": "discover"
     },
     {
       "id": "early-lesson-02",
       "sequence": 2,
+      "unitId": "foundation",
+      "rendererId": "foundation",
       "source": "../../early-lesson-02.html",
-      "status": "foundation"
+      "status": "foundation",
+      "title": "Find the ball",
+      "stage": "discover"
     },
     {
       "id": "early-lesson-03",
       "sequence": 3,
+      "unitId": "foundation",
+      "rendererId": "foundation",
       "source": "../../early-lesson-03.html",
-      "status": "foundation"
+      "status": "foundation",
+      "title": "Find the size",
+      "stage": "discover"
     },
     {
       "id": "early-lesson-04",
       "sequence": 4,
+      "unitId": "foundation",
+      "rendererId": "foundation",
       "source": "../../early-lesson-04.html",
-      "status": "foundation"
+      "status": "foundation",
+      "title": "Count the stars",
+      "stage": "discover"
     },
     {
       "id": "early-lesson-05",
       "sequence": 5,
+      "unitId": "foundation",
+      "rendererId": "foundation",
       "source": "../../early-lesson-05.html",
-      "status": "foundation"
+      "status": "foundation",
+      "title": "Find the cat",
+      "stage": "discover"
     },
     {
       "id": "early-lesson-06",
       "sequence": 6,
+      "unitId": "sound-attention",
+      "rendererId": "sound-attention",
       "source": "early-lesson-06.spec.json",
-      "status": "engine-rendered"
+      "status": "engine-rendered",
+      "title": "Hear and match",
+      "stage": "discover",
+      "strand": "listening-and-attention",
+      "contentRenderer": "sound-attention"
     },
     {
       "id": "early-lesson-07",
       "sequence": 7,
+      "unitId": "sound-attention",
+      "rendererId": "sound-attention",
       "source": "early-lesson-07.spec.json",
-      "status": "engine-rendered"
+      "status": "engine-rendered",
+      "title": "Copy the rhythm",
+      "stage": "discover",
+      "strand": "listening-and-attention",
+      "contentRenderer": "sound-attention"
     },
     {
       "id": "early-lesson-08",
       "sequence": 8,
+      "unitId": "sound-attention",
+      "rendererId": "sound-attention",
       "source": "early-lesson-08.spec.json",
-      "status": "engine-rendered"
+      "status": "engine-rendered",
+      "title": "Hear the sound",
+      "stage": "discover",
+      "strand": "listening-and-attention",
+      "contentRenderer": "sound-attention"
     },
     {
       "id": "early-lesson-09",
       "sequence": 9,
+      "unitId": "rhyming-and-syllables",
+      "rendererId": "rhyming-syllables",
       "source": "early-lesson-09.spec.json",
-      "status": "engine-rendered"
+      "status": "engine-rendered",
+      "title": "Find the rhyme",
+      "stage": "join",
+      "strand": "phonological-awareness",
+      "contentRenderer": "rhyming-syllables"
     },
     {
       "id": "early-lesson-10",
       "sequence": 10,
+      "unitId": "rhyming-and-syllables",
+      "rendererId": "rhyming-syllables",
       "source": "early-lesson-10.spec.json",
-      "status": "engine-rendered"
+      "status": "engine-rendered",
+      "title": "Notice the pattern",
+      "stage": "discover",
+      "strand": "listening-and-attention",
+      "contentRenderer": "rhyming-syllables"
     },
     {
       "id": "early-lesson-11",
       "sequence": 11,
+      "unitId": "rhyming-and-syllables",
+      "rendererId": "rhyming-syllables",
       "source": "early-lesson-11.spec.json",
-      "status": "engine-rendered"
+      "status": "engine-rendered",
+      "title": "Find the rhyme",
+      "stage": "join",
+      "strand": "phonological-awareness",
+      "contentRenderer": "rhyming-syllables"
     },
     {
       "id": "early-lesson-12",
       "sequence": 12,
+      "unitId": "oral-blending",
+      "rendererId": "oral-blending",
       "source": "early-lesson-12.spec.json",
-      "status": "engine-rendered"
+      "status": "engine-rendered",
+      "title": "Match the rhyme",
+      "stage": "join",
+      "strand": "phonological-awareness",
+      "contentRenderer": "oral-blending"
     },
     {
       "id": "early-lesson-13",
       "sequence": 13,
+      "unitId": "oral-blending",
+      "rendererId": "oral-blending",
       "source": "early-lesson-13.spec.json",
-      "status": "engine-rendered"
+      "status": "engine-rendered",
+      "title": "Hear the parts",
+      "stage": "join",
+      "strand": "phonological-awareness",
+      "contentRenderer": "oral-blending"
     },
     {
       "id": "early-lesson-14",
       "sequence": 14,
+      "unitId": "oral-blending",
+      "rendererId": "oral-blending",
       "source": "early-lesson-14.spec.json",
-      "status": "engine-rendered"
+      "status": "engine-rendered",
+      "title": "Count the parts",
+      "stage": "join",
+      "strand": "phonological-awareness",
+      "contentRenderer": "oral-blending"
     },
     {
       "id": "early-lesson-15",
       "sequence": 15,
+      "unitId": "oral-blending",
+      "rendererId": "oral-blending",
       "source": "early-lesson-15.spec.json",
-      "status": "engine-rendered"
+      "status": "engine-rendered",
+      "title": "Put the sounds together",
+      "stage": "join",
+      "strand": "oral-language",
+      "contentRenderer": "oral-blending"
     }
   ]
 }

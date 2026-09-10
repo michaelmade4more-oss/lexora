@@ -49,7 +49,8 @@ async function localRecords(page, keyProfile = profile) {
 
   try {
     await page.goto(`${BASE_URL}/child-home-early.html`, { waitUntil: 'networkidle' });
-    assertStep(await page.locator('#lessonSummary').textContent() === 'Lesson 1 of 15', '01 fresh profile', 'Fresh isolated child profile starts at Lesson 1.', { profile });
+    await page.waitForFunction(() => document.querySelector('#lessonSummary')?.textContent?.includes('Lesson 1 of 15'), null, { timeout: 7000 });
+    assertStep((await page.locator('#lessonSummary').textContent()).includes('Lesson 1 of 15'), '01 fresh profile', 'Fresh isolated child profile starts at Lesson 1.', { profile });
 
     for (let lesson = 1; lesson <= 15; lesson += 1) {
       const pageUrl = `${BASE_URL}/early-lesson-${String(lesson).padStart(2, '0')}.html`;
@@ -100,9 +101,11 @@ async function localRecords(page, keyProfile = profile) {
       await page.reload({ waitUntil: 'networkidle' });
       if (lesson < 15) {
         await page.goto(`${BASE_URL}/child-home-early.html`, { waitUntil: 'networkidle' });
+        await page.waitForFunction((n) => document.querySelector('#lessonSummary')?.textContent?.includes(`Lesson ${n} of 15`), expectedNext, { timeout: 7000 });
         assertStep((await page.locator('#lessonSummary').textContent()).includes(`Lesson ${expectedNext} of 15`), `lesson ${lesson} home resume`, `Child Home offers Lesson ${expectedNext}.`);
       } else {
         await page.goto(`${BASE_URL}/child-home-early.html`, { waitUntil: 'networkidle' });
+        await page.waitForFunction(() => document.querySelector('#lessonSummary')?.textContent?.includes('You can play again'), null, { timeout: 7000 });
         assertStep((await page.locator('#lessonSummary').textContent()).includes('You can play again'), 'lesson 15 home completion', 'Child Home reflects completion of the fifteen-lesson spine.');
       }
     }
@@ -117,6 +120,7 @@ async function localRecords(page, keyProfile = profile) {
     await other.addInitScript(({ selected }) => sessionStorage.setItem('lexoraSelectedProfile', selected), { selected: otherProfile });
     const otherPage = await other.newPage();
     await otherPage.goto(`${BASE_URL}/child-home-early.html`, { waitUntil: 'networkidle' });
+    await otherPage.waitForFunction(() => document.querySelector('#lessonSummary')?.textContent?.includes('Lesson 1 of 15'), null, { timeout: 7000 });
     assertStep((await otherPage.locator('#lessonSummary').textContent()).includes('Lesson 1 of 15'), 'profile isolation', 'A second child profile starts independently at Lesson 1.');
     await other.close();
     record('journey summary', 'PASS', 'Fresh profile completed Lessons 1–15 with persistence, retry, fallback, replay, and isolation checks.');
