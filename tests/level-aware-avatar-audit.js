@@ -10,6 +10,9 @@ const base=process.env.LEXORA_BASE_URL||'http://127.0.0.1:8000';
     await p.locator('#childName').fill('Level Test');
     await p.locator('#toAge').click();
     await p.waitForFunction(()=>document.querySelectorAll('#avatarChoices .avatar-choice').length===8);
+    if(await p.locator('#ageOptions').evaluate(el=>el.getBoundingClientRect().height)!==0)throw Error(`Step 2 did not start collapsed at ${viewport.width}`);
+    await p.locator('#levelSummary').click();
+    await p.waitForTimeout(450);
     results.push(`collection:Early Learner:${viewport.width}=PASS`);
     for(let i=0;i<8;i++){await p.locator('#avatarChoices .avatar-choice').nth(i).click();if(await p.locator('#avatarChoices .avatar-choice').nth(i).getAttribute('aria-pressed')!=='true')throw Error(`Early Learner avatar ${i+1} not selectable`);}
     results.push('early-learner-all-8-selectable=PASS');
