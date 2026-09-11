@@ -55,6 +55,20 @@ The full local persistence and interaction regression also passed:
 
 The checks covered Lesson 1–15 routing, positions, retry, replay, fallback, completion, learning evidence, profile isolation, and separate progression eligibility.
 
+## Explicit interaction-contract correction
+
+The renderer contract now contains both `rendererId` and an executable `interactionContract`. The engine uses `rendererId` as the authoritative renderer selector and rejects a specification that lacks an interaction contract. `activity.type` remains curriculum metadata and no longer selects the child interaction.
+
+The approved contracts are:
+
+| Renderer | Contract sequence | Response model |
+|---|---|---|
+| `sound-attention` | listen → replay/compare → identify sound source or pattern → feedback | sound identification |
+| `rhyming-syllables` | hear spoken words → identify rhyme or show beat units → feedback | spoken-word or beat-unit response |
+| `oral-blending` | hear separated parts → show parts joining → hear whole word → identify whole-word picture → feedback | whole-word picture |
+
+The deployed browser audit passed after this correction. Renderer evidence passed for Lessons 6, 9, and 12, the identity guard passed, and the full Lessons 1–15 regression passed with **182 passed and 0 failed**.
+
 ## Remaining content blockers
 
 Architecture correction does not make existing lesson content curriculum-correct. The following existing specifications require a later content-authoring decision:
