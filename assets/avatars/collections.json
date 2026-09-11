@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "collections": {
+    "Early Learner": {
+      "id": "early-learner",
+      "label": "Early Learner characters",
+      "manifest": "assets/avatars/early-learner/manifest.json",
+      "available": true
+    },
+    "Foundation": {
+      "id": "foundation",
+      "label": "Foundation characters",
+      "manifest": null,
+      "available": false
+    },
+    "Developing Reader": {
+      "id": "developing-reader",
+      "label": "Developing Reader characters",
+      "manifest": null,
+      "available": false
+    },
+    "Teen": {
+      "id": "teen",
+      "label": "Teen characters",
+      "manifest": null,
+      "available": false
+    }
+  }
+}
