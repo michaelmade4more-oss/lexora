@@ -21,27 +21,27 @@
       "label": "Early Learner avatar 3"
     },
     {
+      "id": "early-learner-07",
+      "role": "girl",
+      "src": "assets/avatars/early-learner/early-learner-07.png",
+      "label": "Early Learner avatar 4"
+    },
+    {
       "id": "early-learner-04",
       "role": "boy",
       "src": "assets/avatars/early-learner/early-learner-04.png",
-      "label": "Early Learner avatar 4"
+      "label": "Early Learner avatar 5"
     },
     {
       "id": "early-learner-05",
       "role": "boy",
       "src": "assets/avatars/early-learner/early-learner-05.png",
-      "label": "Early Learner avatar 5"
+      "label": "Early Learner avatar 6"
     },
     {
       "id": "early-learner-06",
       "role": "boy",
       "src": "assets/avatars/early-learner/early-learner-06.png",
-      "label": "Early Learner avatar 6"
-    },
-    {
-      "id": "early-learner-07",
-      "role": "girl",
-      "src": "assets/avatars/early-learner/early-learner-07.png",
       "label": "Early Learner avatar 7"
     },
     {
