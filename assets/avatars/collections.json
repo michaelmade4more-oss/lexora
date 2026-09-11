@@ -10,8 +10,8 @@
     "Foundation": {
       "id": "foundation",
       "label": "Foundation characters",
-      "manifest": null,
-      "available": false
+      "manifest": "assets/avatars/foundation/manifest.json",
+      "available": true
     },
     "Developing Reader": {
       "id": "developing-reader",

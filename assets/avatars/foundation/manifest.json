@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "collection": "foundation",
+  "label": "Foundation characters",
+  "avatars": [
+    {
+      "id": "foundation-01",
+      "label": "Foundation character 1",
+      "src": "assets/avatars/foundation/foundation-01.png"
+    },
+    {
+      "id": "foundation-02",
+      "label": "Foundation character 2",
+      "src": "assets/avatars/foundation/foundation-02.png"
+    },
+    {
+      "id": "foundation-03",
+      "label": "Foundation character 3",
+      "src": "assets/avatars/foundation/foundation-03.png"
+    },
+    {
+      "id": "foundation-04",
+      "label": "Foundation character 4",
+      "src": "assets/avatars/foundation/foundation-04.png"
+    },
+    {
+      "id": "foundation-05",
+      "label": "Foundation character 5",
+      "src": "assets/avatars/foundation/foundation-05.png"
+    },
+    {
+      "id": "foundation-06",
+      "label": "Foundation character 6",
+      "src": "assets/avatars/foundation/foundation-06.png"
+    },
+    {
+      "id": "foundation-07",
+      "label": "Foundation character 7",
+      "src": "assets/avatars/foundation/foundation-07.png"
+    },
+    {
+      "id": "foundation-08",
+      "label": "Foundation character 8",
+      "src": "assets/avatars/foundation/foundation-08.png"
+    }
+  ]
+}

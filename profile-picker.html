@@ -222,7 +222,7 @@
         backdrop.setAttribute('aria-hidden', 'false');
         requestAnimationFrame(() => (modalContent.querySelector('input') || modalActions.querySelector('button')).focus());
       }
-      function addProfileCard(name, avatarClass) {
+      function addProfileCard(name, avatarClass, ageBand) {
         const addCard = document.getElementById('addProfileButton');
         const card = document.createElement('button');
         const safeName = name.replace(/[&<>"']/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[character]));
@@ -230,12 +230,12 @@
         card.type = 'button';
         card.dataset.profile = name;
         card.dataset.role = 'Child learning';
-        const avatarMarkup = String(avatarClass || '').startsWith('early-learner-') ? `<img src="assets/avatars/early-learner/${avatarClass}.png" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">` : `<span class="avatar">${safeName.charAt(0).toUpperCase()}</span>`; card.innerHTML = `<span class="avatar-ring ${String(avatarClass || '').startsWith('early-learner-') ? 'avatar-image' : avatarClass}" aria-hidden="true">${avatarMarkup}</span><span class="profile-name">${safeName}</span><span class="profile-meta">Child learning</span>`;
+        const collection = String(avatarClass || '').startsWith('foundation-') ? 'foundation' : String(avatarClass || '').startsWith('early-learner-') ? 'early-learner' : ''; const isImage = Boolean(collection); const avatarMarkup = isImage ? `<img src="assets/avatars/${collection}/${avatarClass}.png" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">` : `<span class="avatar">${safeName.charAt(0).toUpperCase()}</span>`; card.innerHTML = `<span class="avatar-ring ${isImage ? 'avatar-image' : avatarClass}" aria-hidden="true">${avatarMarkup}</span><span class="profile-name">${safeName}</span><span class="profile-meta">${ageBand || 'Child learning'}</span>`;
         card.addEventListener('click', () => { sessionStorage.setItem('lexoraSelectedProfile', name); window.location.href = 'child-home-early.html'; });
         addCard.parentNode.insertBefore(card, addCard);
       }
       function loadSavedProfiles() {
-        try { (JSON.parse(localStorage.getItem('lexoraChildProfiles') || '[]')).forEach(profile => addProfileCard(profile.name, profile.avatar)); } catch (error) { /* Ignore unavailable storage. */ }
+        try { (JSON.parse(localStorage.getItem('lexoraChildProfiles') || '[]')).forEach(profile => addProfileCard(profile.name, profile.avatar, profile.ageBand)); } catch (error) { /* Ignore unavailable storage. */ }
       }
       function showProfileSetup() {
         modalTitle.textContent = 'Create a child profile';
@@ -252,7 +252,7 @@
           const profiles = JSON.parse(localStorage.getItem('lexoraChildProfiles') || '[]');
           profiles.push({ name, avatar: selectedAvatar, ageBand });
           localStorage.setItem('lexoraChildProfiles', JSON.stringify(profiles));
-          addProfileCard(name, selectedAvatar);
+          addProfileCard(name, selectedAvatar, ageBand);
           closeModal(); showToast(`${name}'s profile is ready to learn.`);
         });
         document.getElementById('cancelModal').addEventListener('click', closeModal);
