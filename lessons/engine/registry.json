@@ -15,7 +15,17 @@
         "early-lesson-04",
         "early-lesson-05"
       ],
-      "lessonCount": 5
+      "lessonCount": 5,
+      "interactionContract": {
+        "id": "foundation-choice",
+        "sequence": [
+          "listen",
+          "visual-choice",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "visual-choice"
+      }
     },
     {
       "id": "sound-attention",
@@ -27,7 +37,18 @@
         "early-lesson-07",
         "early-lesson-08"
       ],
-      "lessonCount": 3
+      "lessonCount": 3,
+      "interactionContract": {
+        "id": "sound-attention-compare",
+        "sequence": [
+          "listen",
+          "replay-or-compare",
+          "identify-sound-source-or-pattern",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "sound-identification"
+      }
     },
     {
       "id": "rhyming-and-syllables",
@@ -39,7 +60,17 @@
         "early-lesson-10",
         "early-lesson-11"
       ],
-      "lessonCount": 3
+      "lessonCount": 3,
+      "interactionContract": {
+        "id": "rhyming-syllables-awareness",
+        "sequence": [
+          "hear-spoken-words",
+          "identify-rhyme-or-show-beat-units",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "spoken-word-or-beat-unit"
+      }
     },
     {
       "id": "oral-blending",
@@ -52,7 +83,19 @@
         "early-lesson-14",
         "early-lesson-15"
       ],
-      "lessonCount": 4
+      "lessonCount": 4,
+      "interactionContract": {
+        "id": "oral-blending-join",
+        "sequence": [
+          "hear-separated-parts",
+          "show-parts-joining",
+          "hear-whole-word",
+          "identify-whole-word-picture",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "whole-word-picture"
+      }
     }
   ],
   "lessons": [
@@ -64,7 +107,17 @@
       "source": "../../early-lesson-01.html",
       "status": "foundation",
       "title": "Big feelings",
-      "stage": "discover"
+      "stage": "discover",
+      "interactionContract": {
+        "id": "foundation-choice",
+        "sequence": [
+          "listen",
+          "visual-choice",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "visual-choice"
+      }
     },
     {
       "id": "early-lesson-02",
@@ -74,7 +127,17 @@
       "source": "../../early-lesson-02.html",
       "status": "foundation",
       "title": "Find the ball",
-      "stage": "discover"
+      "stage": "discover",
+      "interactionContract": {
+        "id": "foundation-choice",
+        "sequence": [
+          "listen",
+          "visual-choice",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "visual-choice"
+      }
     },
     {
       "id": "early-lesson-03",
@@ -84,7 +147,17 @@
       "source": "../../early-lesson-03.html",
       "status": "foundation",
       "title": "Find the size",
-      "stage": "discover"
+      "stage": "discover",
+      "interactionContract": {
+        "id": "foundation-choice",
+        "sequence": [
+          "listen",
+          "visual-choice",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "visual-choice"
+      }
     },
     {
       "id": "early-lesson-04",
@@ -94,7 +167,17 @@
       "source": "../../early-lesson-04.html",
       "status": "foundation",
       "title": "Count the stars",
-      "stage": "discover"
+      "stage": "discover",
+      "interactionContract": {
+        "id": "foundation-choice",
+        "sequence": [
+          "listen",
+          "visual-choice",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "visual-choice"
+      }
     },
     {
       "id": "early-lesson-05",
@@ -104,7 +187,17 @@
       "source": "../../early-lesson-05.html",
       "status": "foundation",
       "title": "Find the cat",
-      "stage": "discover"
+      "stage": "discover",
+      "interactionContract": {
+        "id": "foundation-choice",
+        "sequence": [
+          "listen",
+          "visual-choice",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "visual-choice"
+      }
     },
     {
       "id": "early-lesson-06",
@@ -116,7 +209,18 @@
       "title": "Hear and match",
       "stage": "discover",
       "strand": "listening-and-attention",
-      "contentRenderer": "sound-attention"
+      "contentRenderer": "sound-attention",
+      "interactionContract": {
+        "id": "sound-attention-compare",
+        "sequence": [
+          "listen",
+          "replay-or-compare",
+          "identify-sound-source-or-pattern",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "sound-identification"
+      }
     },
     {
       "id": "early-lesson-07",
@@ -128,7 +232,18 @@
       "title": "Copy the rhythm",
       "stage": "discover",
       "strand": "listening-and-attention",
-      "contentRenderer": "sound-attention"
+      "contentRenderer": "sound-attention",
+      "interactionContract": {
+        "id": "sound-attention-compare",
+        "sequence": [
+          "listen",
+          "replay-or-compare",
+          "identify-sound-source-or-pattern",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "sound-identification"
+      }
     },
     {
       "id": "early-lesson-08",
@@ -140,7 +255,18 @@
       "title": "Hear the sound",
       "stage": "discover",
       "strand": "listening-and-attention",
-      "contentRenderer": "sound-attention"
+      "contentRenderer": "sound-attention",
+      "interactionContract": {
+        "id": "sound-attention-compare",
+        "sequence": [
+          "listen",
+          "replay-or-compare",
+          "identify-sound-source-or-pattern",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "sound-identification"
+      }
     },
     {
       "id": "early-lesson-09",
@@ -152,7 +278,17 @@
       "title": "Find the rhyme",
       "stage": "join",
       "strand": "phonological-awareness",
-      "contentRenderer": "rhyming-syllables"
+      "contentRenderer": "rhyming-syllables",
+      "interactionContract": {
+        "id": "rhyming-syllables-awareness",
+        "sequence": [
+          "hear-spoken-words",
+          "identify-rhyme-or-show-beat-units",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "spoken-word-or-beat-unit"
+      }
     },
     {
       "id": "early-lesson-10",
@@ -164,7 +300,17 @@
       "title": "Notice the pattern",
       "stage": "discover",
       "strand": "listening-and-attention",
-      "contentRenderer": "rhyming-syllables"
+      "contentRenderer": "rhyming-syllables",
+      "interactionContract": {
+        "id": "rhyming-syllables-awareness",
+        "sequence": [
+          "hear-spoken-words",
+          "identify-rhyme-or-show-beat-units",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "spoken-word-or-beat-unit"
+      }
     },
     {
       "id": "early-lesson-11",
@@ -176,7 +322,17 @@
       "title": "Find the rhyme",
       "stage": "join",
       "strand": "phonological-awareness",
-      "contentRenderer": "rhyming-syllables"
+      "contentRenderer": "rhyming-syllables",
+      "interactionContract": {
+        "id": "rhyming-syllables-awareness",
+        "sequence": [
+          "hear-spoken-words",
+          "identify-rhyme-or-show-beat-units",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "spoken-word-or-beat-unit"
+      }
     },
     {
       "id": "early-lesson-12",
@@ -188,7 +344,19 @@
       "title": "Match the rhyme",
       "stage": "join",
       "strand": "phonological-awareness",
-      "contentRenderer": "oral-blending"
+      "contentRenderer": "oral-blending",
+      "interactionContract": {
+        "id": "oral-blending-join",
+        "sequence": [
+          "hear-separated-parts",
+          "show-parts-joining",
+          "hear-whole-word",
+          "identify-whole-word-picture",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "whole-word-picture"
+      }
     },
     {
       "id": "early-lesson-13",
@@ -200,7 +368,19 @@
       "title": "Hear the parts",
       "stage": "join",
       "strand": "phonological-awareness",
-      "contentRenderer": "oral-blending"
+      "contentRenderer": "oral-blending",
+      "interactionContract": {
+        "id": "oral-blending-join",
+        "sequence": [
+          "hear-separated-parts",
+          "show-parts-joining",
+          "hear-whole-word",
+          "identify-whole-word-picture",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "whole-word-picture"
+      }
     },
     {
       "id": "early-lesson-14",
@@ -212,7 +392,19 @@
       "title": "Count the parts",
       "stage": "join",
       "strand": "phonological-awareness",
-      "contentRenderer": "oral-blending"
+      "contentRenderer": "oral-blending",
+      "interactionContract": {
+        "id": "oral-blending-join",
+        "sequence": [
+          "hear-separated-parts",
+          "show-parts-joining",
+          "hear-whole-word",
+          "identify-whole-word-picture",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "whole-word-picture"
+      }
     },
     {
       "id": "early-lesson-15",
@@ -224,7 +416,19 @@
       "title": "Put the sounds together",
       "stage": "join",
       "strand": "oral-language",
-      "contentRenderer": "oral-blending"
+      "contentRenderer": "oral-blending",
+      "interactionContract": {
+        "id": "oral-blending-join",
+        "sequence": [
+          "hear-separated-parts",
+          "show-parts-joining",
+          "hear-whole-word",
+          "identify-whole-word-picture",
+          "feedback",
+          "retry-or-continue"
+        ],
+        "responseModel": "whole-word-picture"
+      }
     }
   ]
 }

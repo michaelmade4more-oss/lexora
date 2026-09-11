@@ -11,7 +11,7 @@ for n in range(1,16):
     if n >= 10:
         required_keys += ['supportLevel','learningEvidence','readinessSignals']
     if n >= 6:
-        required_keys += ['unitId','unitTitle','rendererId']
+        required_keys += ['unitId','unitTitle','rendererId','interactionContract','interactionMode']
     for key in required_keys:
         if key not in s: fail.append(f'Lesson {n}: missing {key}')
     a=s.get('activity',{})
@@ -21,6 +21,7 @@ for n in range(1,16):
     if a.get('correctAnswerId') not in {c.get('id') for c in choices}: fail.append(f'Lesson {n}: answer not in choices')
     approved = ('foundation' if n <= 5 else 'sound-attention' if n <= 8 else 'rhyming-and-syllables' if n <= 11 else 'oral-blending')
     if n >= 6 and s.get('unitId') != approved: fail.append(f'Lesson {n}: unitId {s.get("unitId")} does not match approved unit {approved}')
+    if n >= 6 and not s.get('interactionContract',{}).get('id'): fail.append(f'Lesson {n}: missing interaction contract ID')
     html_path=root/f'early-lesson-{n:02d}.html'
     html=html_path.read_text() if html_path.exists() else ''
     if n <= 5:
@@ -35,7 +36,7 @@ for n in range(1,16):
         if phrase.lower() in html.lower(): fail.append(f'Lesson {n}: forbidden phrase in rendered lesson: {phrase}')
 progress=(root/'lexora-progress.js').read_text()
 engine=(root/'engine'/'curriculum-engine.js').read_text()
-checks=[('separate records','lessons' in progress and 'evidence' in progress and 'revisit' in progress and 'progression' in progress),('randomised choices','shuffle(choices)' in engine),('visual fallback','engineFallback' in engine),('family renderers','sound-attention' in engine and 'rhyming-syllables' in engine and 'oral-blending' in engine),('stable position legacy','textContent=\'' in progress or True)]
+checks=[('separate records','lessons' in progress and 'evidence' in progress and 'revisit' in progress and 'progression' in progress),('randomised choices','shuffle(choices)' in engine),('visual fallback','engineFallback' in engine),('family renderers','sound-attention' in engine and 'rhyming-syllables' in engine and 'oral-blending' in engine),('rendererId authority',"spec.rendererId" in engine and "spec.rendererId||" not in engine and "activity.type" not in engine),('interaction contracts','interactionContract' in engine and 'executable interaction contract' in engine),('stable position legacy','textContent=\'' in progress or True)]
 for name,ok in checks:
     if not ok: fail.append('Implementation check failed: '+name)
 if fail:
