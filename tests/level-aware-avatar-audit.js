@@ -17,10 +17,12 @@ const base=process.env.LEXORA_BASE_URL||'http://127.0.0.1:8000';
     await p.waitForFunction(()=>document.querySelectorAll('#avatarChoices .avatar-choice').length===8);
     const foundationSrcs=await p.locator('#avatarChoices img').evaluateAll(xs=>xs.map(x=>x.getAttribute('src')));
     if(!foundationSrcs.every(src=>src.includes('assets/avatars/foundation/foundation-')))throw Error('Foundation collection path mismatch');
+    if(!(await p.locator('#avatarPreviewImage').getAttribute('src')).includes('assets/avatars/foundation/foundation-01.png'))throw Error('Foundation preview missing');
     results.push('foundation-all-8-rendered=PASS');
     for(let i=0;i<8;i++){await p.locator('#avatarChoices .avatar-choice').nth(i).click();if(await p.locator('#avatarChoices .avatar-choice').nth(i).getAttribute('aria-pressed')!=='true')throw Error(`Foundation avatar ${i+1} not selectable`);}
     results.push('foundation-all-8-selectable=PASS');
     await p.locator('#avatarChoices .avatar-choice').nth(7).click();
+    if(!(await p.locator('#avatarPreviewImage').getAttribute('src')).includes('foundation-08.png'))throw Error('Foundation preview did not update');
     await p.locator('#toReview').click();
     if(!(await p.locator('#reviewCard img').getAttribute('src')).includes('foundation-08'))throw Error('Foundation review preview mismatch');
     if((await p.locator('body').evaluate(()=>document.body.scrollWidth))>viewport.width)throw Error('responsive overflow');
