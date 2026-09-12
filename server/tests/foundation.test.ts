@@ -69,7 +69,8 @@ test('Removing delegated access revokes access', async () => {
   const relationship = store.guardian(delegated.id, child.id);
   store.grant(relationship.id, 'child:read');
   assert.equal((await request(delegated.id, { method: 'GET', url: `/v1/child-profiles/${child.id}` })).statusCode, 200);
-  assert.equal((await request(guardian.id, { method: 'POST', url: `/v1/guardian-relationships/${relationship.id}/revoke` })).statusCode, 200);
+  const verification = await request(guardian.id, { method: 'POST', url: '/v1/step-up/complete', payload: { targetId: relationship.id, action: 'guardian_relationship:revoke', proof: 'test-approved-proof' } });
+  assert.equal((await request(guardian.id, { method: 'POST', url: `/v1/guardian-relationships/${relationship.id}/revoke`, payload: { verificationEventId: verification.json().verificationEventId } })).statusCode, 200);
   assert.equal((await request(delegated.id, { method: 'GET', url: `/v1/child-profiles/${child.id}` })).statusCode, 403);
   assert.equal(store.childProfiles.has(child.id), true);
 });
@@ -108,7 +109,8 @@ test('Child deletion does not delete the Adult Account', async () => {
 
 test('Relationship removal does not delete Child Profile data', async () => {
   const relationship = store.guardian(delegated.id, child.id);
-  await request(guardian.id, { method: 'POST', url: `/v1/guardian-relationships/${relationship.id}/revoke` });
+  const verification = await request(guardian.id, { method: 'POST', url: '/v1/step-up/complete', payload: { targetId: relationship.id, action: 'guardian_relationship:revoke', proof: 'test-approved-proof' } });
+  await request(guardian.id, { method: 'POST', url: `/v1/guardian-relationships/${relationship.id}/revoke`, payload: { verificationEventId: verification.json().verificationEventId } });
   assert.equal(store.childProfiles.has(child.id), true);
   assert.equal(store.childProfiles.get(child.id)?.displayName, 'Ava');
 });
@@ -137,4 +139,33 @@ test('API routes expose schema-safe health and current account context', async (
   assert.equal((await app.inject({ method: 'GET', url: '/health' })).statusCode, 200);
   const response = await request(guardian.id, { method: 'GET', url: '/v1/me' });
   assert.deepEqual(response.json().account.id, guardian.id);
+});
+
+test('Unresolved permission grants and class-membership approvals fail closed', async () => {
+  const relationship = store.guardian(delegated.id, child.id);
+  const grant = await request(guardian.id, { method: 'POST', url: `/v1/guardian-relationships/${relationship.id}/permission-grants`, payload: { capability: 'child:read' } });
+  assert.equal(grant.statusCode, 403);
+  assert.equal(store.grants.size, 0);
+  const classAdd = await request(teacher.id, { method: 'POST', url: `/v1/classes/${group.id}/memberships`, payload: { childProfileId: child.id } });
+  assert.equal(classAdd.statusCode, 403);
+  assert.equal(store.classMemberships.size, 0);
+});
+
+test('Test authentication is unavailable in production mode', async () => {
+  const productionApp = buildApp({ store: new MemoryStore(), testAuth: true, });
+  const previous = process.env.NODE_ENV;
+  process.env.NODE_ENV = 'production';
+  try {
+    const response = await productionApp.app.inject({ method: 'POST', url: '/v1/auth/test-login', payload: { accountId: guardian.id } });
+    assert.equal(response.statusCode, 404);
+  } finally {
+    if (previous === undefined) delete process.env.NODE_ENV; else process.env.NODE_ENV = previous;
+  }
+});
+
+test('Logout revokes the server-side session', async () => {
+  const cookie = await login(guardian.id);
+  assert.equal((await app.inject({ method: 'GET', url: '/v1/me', headers: { cookie } })).statusCode, 200);
+  assert.equal((await app.inject({ method: 'POST', url: '/v1/auth/logout', headers: { cookie } })).statusCode, 200);
+  assert.equal((await app.inject({ method: 'GET', url: '/v1/me', headers: { cookie } })).statusCode, 401);
 });

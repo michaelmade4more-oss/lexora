@@ -21,7 +21,7 @@ This document describes the first-milestone command/query boundaries. It is not 
 
 - `POST /v1/child-profiles/{childProfileId}/guardian-invitations`
 - `GET /v1/child-profiles/{childProfileId}/guardian-relationships`
-- `POST /v1/guardian-relationships/{relationshipId}/permission-grants`
+- `POST /v1/guardian-relationships/{relationshipId}/permission-grants` — currently fail-closed until the product capability catalogue and step-up policy are configured.
 - `POST /v1/guardian-relationships/{relationshipId}/revoke`
 - `POST /v1/permission-grants/{grantId}/revoke`
 
@@ -32,7 +32,7 @@ Capability names and delegation scope remain policy/configuration boundaries unt
 - `POST /v1/teacher-workspaces`
 - `GET /v1/teacher-workspaces`
 - `POST /v1/teacher-workspaces/{workspaceId}/classes`
-- `POST /v1/classes/{classId}/memberships`
+- `POST /v1/classes/{classId}/memberships` — currently fail-closed until the teacher class-membership approver policy is configured.
 - `POST /v1/class-memberships/{membershipId}/remove`
 - `GET /v1/child-profiles/{childProfileId}` — teaching projection only when Workspace Membership and active Class Membership both authorize it.
 

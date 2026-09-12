@@ -1,7 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import Fastify, { type FastifyInstance, type FastifyRequest } from 'fastify';
 import cookie from '@fastify/cookie';
-import { MemoryStore, type AuthContext, type Capability, canAccessChild, canTeachChild } from './domain/store.js';
+import { MemoryStore, type AuthContext, type Capability, canTeachChild } from './domain/store.js';
+import { authorizeChildRead, isPrimaryGuardian } from './policies/authorization.js';
 
 export interface AppOptions { store?: MemoryStore; testAuth?: boolean; }
 
@@ -38,13 +39,13 @@ export function buildApp(options: AppOptions = {}): { app: FastifyInstance; stor
   app.get('/health', async () => ({ status: 'ok', service: 'lexora-foundation-api' }));
 
   app.post('/v1/auth/test-login', async (request, reply) => {
-    if (!options.testAuth) return reply.code(404).send({ error: 'not_found' });
+    if (!options.testAuth || process.env.NODE_ENV === 'production') return reply.code(404).send({ error: 'not_found' });
     const accountId = String((request.body as Body)?.accountId || '');
     const account = store.accounts.get(accountId);
     if (!account || account.status !== 'active') return reply.code(401).send({ error: 'invalid_account' });
     const session = store.session(account.id);
-    reply.setCookie('lexora_session', session.id, { httpOnly: true, sameSite: 'lax', path: '/', secure: false });
-    return { accountId: account.id, sessionId: session.id };
+    reply.setCookie('lexora_session', session.id, { httpOnly: true, sameSite: 'lax', path: '/', secure: process.env.NODE_ENV === 'production' });
+    return { accountId: account.id };
   });
 
   app.post('/v1/auth/logout', async (request, reply) => { const ctx = auth(request); if (ctx) ctx.session.revoked = true; reply.clearCookie('lexora_session', { path: '/' }); return { ok: true }; });
@@ -63,38 +64,32 @@ export function buildApp(options: AppOptions = {}): { app: FastifyInstance; stor
     const ctx = auth(request); if (!ctx) return sendUnauthorized(reply);
     if (ctx.account.kind !== 'adult') return reply.code(403).send(deny(ctx, 'child_created', 'child_profile', 'new'));
     const body = request.body as Body;
-    const child = store.child(ctx.account.id, String(body.displayName || ''), String(body.learningLevel || 'Early Learner'), String(body.avatar || ''));
-    if (!child.displayName) return reply.code(400).send({ error: 'displayName_required' });
+    const displayName = String(body.displayName || '').trim();
+    if (!displayName) return reply.code(400).send({ error: 'displayName_required' });
+    const child = store.child(ctx.account.id, displayName, String(body.learningLevel || 'Early Learner'), String(body.avatar || ''));
     store.auditEvent({ actorAccountId: ctx.account.id, eventType: 'child_created', targetType: 'child_profile', targetId: child.id, result: 'success' });
     return reply.code(201).send({ childProfile: child });
   });
 
   app.get('/v1/child-profiles/:childId', async (request: FastifyRequest<{ Params: Params }>, reply) => {
     const ctx = auth(request); if (!ctx) return sendUnauthorized(reply);
-    const id = request.params.childId; const child = store.childProfiles.get(id);
-    if (!child || (!canAccessChild(store, ctx.account.id, id, 'child:read') && !canTeachChild(store, ctx.account.id, id))) return reply.code(403).send(deny(ctx, 'child_read', 'child_profile', id));
-    const teaching = canTeachChild(store, ctx.account.id, id);
+    const id = request.params.childId; const decision = authorizeChildRead(store, ctx.account.id, id);
+    if (!decision.allowed) return reply.code(403).send(deny(ctx, 'child_read', 'child_profile', id));
+    const child = store.childProfiles.get(id)!;
+    const teaching = decision.scope === 'teaching';
     return { childProfile: teaching ? { id: child.id, displayName: child.displayName, learningLevel: child.learningLevel } : child, scope: teaching ? 'teaching' : 'family' };
   });
 
   app.post('/v1/guardian-relationships/:relationshipId/permission-grants', async (request: FastifyRequest<{ Params: Params }>, reply) => {
     const ctx = auth(request); if (!ctx) return sendUnauthorized(reply);
-    const relationship = store.guardians.get(request.params.relationshipId);
-    if (!relationship || relationship.status !== 'active' || relationship.childProfileId === '' || relationship.delegatedAdultAccountId === ctx.account.id) return reply.code(403).send(deny(ctx, 'permission_grant_created', 'guardian_relationship', request.params.relationshipId));
-    const child = store.childProfiles.get(relationship.childProfileId);
-    if (!child || child.primaryGuardianAccountId !== ctx.account.id) return reply.code(403).send(deny(ctx, 'permission_grant_created', 'guardian_relationship', request.params.relationshipId));
-    const capability = String((request.body as Body)?.capability || '') as Capability;
-    const allowed: Capability[] = ['child:read', 'child:update', 'child:progress:read'];
-    if (!allowed.includes(capability)) return reply.code(400).send({ error: 'capability_requires_product_policy' });
-    const grant = store.grant(relationship.id, capability);
-    store.auditEvent({ actorAccountId: ctx.account.id, eventType: 'delegated_permission_granted', targetType: 'permission_grant', targetId: grant.id, result: 'success', scope: capability });
-    return reply.code(201).send({ permissionGrant: grant });
+    return reply.code(403).send(deny(ctx, 'permission_grant_created', 'guardian_relationship', request.params.relationshipId));
   });
 
   app.post('/v1/guardian-relationships/:relationshipId/revoke', async (request: FastifyRequest<{ Params: Params }>, reply) => {
     const ctx = auth(request); if (!ctx) return sendUnauthorized(reply);
     const relationship = store.guardians.get(request.params.relationshipId); const child = relationship && store.childProfiles.get(relationship.childProfileId);
-    if (!relationship || !child || child.primaryGuardianAccountId !== ctx.account.id) return reply.code(403).send(deny(ctx, 'guardian_relationship_revoked', 'guardian_relationship', request.params.relationshipId));
+    const verificationId = String((request.body as Body)?.verificationEventId || '');
+    if (!relationship || !child || !isPrimaryGuardian(store, ctx.account.id, child.id) || !verified(ctx, relationship.id, 'guardian_relationship:revoke', verificationId)) return reply.code(403).send(deny(ctx, 'guardian_relationship_revoked', 'guardian_relationship', request.params.relationshipId));
     relationship.status = 'revoked';
     for (const grant of store.grants.values()) if (grant.guardianRelationshipId === relationship.id) grant.status = 'revoked';
     store.auditEvent({ actorAccountId: ctx.account.id, eventType: 'guardian_relationship_revoked', targetType: 'guardian_relationship', targetId: relationship.id, result: 'success' });
@@ -112,18 +107,13 @@ export function buildApp(options: AppOptions = {}): { app: FastifyInstance; stor
 
   app.post('/v1/classes/:classId/memberships', async (request: FastifyRequest<{ Params: Params }>, reply) => {
     const ctx = auth(request); if (!ctx) return sendUnauthorized(reply);
-    const group = store.classes.get(request.params.classId); const member = group && [...store.workspaceMemberships.values()].find(x => x.workspaceId === group.workspaceId && x.accountId === ctx.account.id && x.status === 'active');
-    const childId = String((request.body as Body)?.childProfileId || '');
-    if (!group || !member || ctx.account.kind !== 'teacher' || !store.childProfiles.has(childId)) return reply.code(403).send(deny(ctx, 'class_membership_added', 'class', request.params.classId));
-    const cm = store.classMember(group.id, childId);
-    store.auditEvent({ actorAccountId: ctx.account.id, eventType: 'class_membership_added', targetType: 'class_membership', targetId: cm.id, result: 'success' });
-    return reply.code(201).send({ classMembership: cm });
+    return reply.code(403).send(deny(ctx, 'class_membership_added', 'class', request.params.classId));
   });
 
   app.post('/v1/class-memberships/:membershipId/remove', async (request: FastifyRequest<{ Params: Params }>, reply) => {
     const ctx = auth(request); if (!ctx) return sendUnauthorized(reply);
     const cm = store.classMemberships.get(request.params.membershipId); const group = cm && store.classes.get(cm.classId); const member = group && [...store.workspaceMemberships.values()].find(x => x.workspaceId === group.workspaceId && x.accountId === ctx.account.id && x.status === 'active');
-    if (!cm || !member) return reply.code(403).send(deny(ctx, 'class_membership_removed', 'class_membership', request.params.membershipId));
+    if (!cm || !member || ctx.account.kind !== 'teacher' || !group || group.status !== 'active') return reply.code(403).send(deny(ctx, 'class_membership_removed', 'class_membership', request.params.membershipId));
     cm.status = 'removed';
     store.auditEvent({ actorAccountId: ctx.account.id, eventType: 'class_membership_removed', targetType: 'class_membership', targetId: cm.id, result: 'success' });
     return { classMembership: cm };
