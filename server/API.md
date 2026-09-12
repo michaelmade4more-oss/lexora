@@ -4,10 +4,16 @@ This document describes the first-milestone command/query boundaries. It is not 
 
 ## Authentication
 
+- `POST /v1/auth/signup` — creates an Adult Account with a password credential and durable session.
+- `POST /v1/auth/login` — verifies credentials, applies abuse controls, and creates or rotates a durable session.
+- `POST /v1/auth/recovery/request` — creates a time-limited one-time recovery token without disclosing account existence.
+- `POST /v1/auth/recovery/reset` — consumes a recovery token, updates the password, and revokes existing sessions.
 - `POST /v1/auth/test-login` — test-only account session bootstrap; unavailable in normal runtime.
 - `POST /v1/auth/logout` — revokes the current server-side session.
 - `GET /v1/me` — returns the authenticated account context.
-- `POST /v1/step-up/complete` — creates an action-bound Verification Event through the configured verification provider.
+- `POST /v1/step-up/complete` — creates an action-bound Verification Event through password re-authentication; unknown actions fail closed.
+
+The current production verification mechanism is password re-authentication. No external verification provider or delivery technology is selected by this milestone.
 
 ## Child profiles
 

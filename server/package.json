@@ -7,7 +7,7 @@
     "build": "tsc -p tsconfig.json",
     "migrate": "tsx src/db/migrate.ts",
     "start": "node dist/src/index.js",
-    "test": "NODE_ENV=test tsx --test tests/**/*.test.ts"
+    "test": "NODE_ENV=test tsx --test --test-concurrency=1 tests/**/*.test.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^10.0.1",

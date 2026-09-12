@@ -5,17 +5,27 @@ import { MemoryStore } from '../domain/store.js';
 
 export interface FoundationRepository {
   findAccount(id: string): Promise<Account | null>;
+  findAccountByEmail(email: string): Promise<Account | null>;
+  createAdultAccount(email: string, displayName: string, passwordHash: string): Promise<Account>;
+  getPasswordHash(accountId: string): Promise<string | null>;
+  updatePassword(accountId: string, passwordHash: string): Promise<void>;
+  setAccountStatus(accountId: string, status: Account['status']): Promise<void>;
+  createRecoveryToken(accountId: string, tokenHash: string, ttlMs: number): Promise<void>;
+  consumeRecoveryToken(tokenHash: string): Promise<{ accountId: string } | null>;
+  recordAuthenticationAttempt(email: string, ipHash: string, succeeded: boolean): Promise<void>;
+  countRecentAuthenticationFailures(email: string, ipHash: string, windowMs: number): Promise<number>;
   createSession(accountId: string, ttlMs?: number): Promise<Session>;
   findSession(id: string): Promise<Session | null>;
   revokeSession(id: string): Promise<void>;
+  rotateSession(id: string, accountId: string, ttlMs?: number): Promise<Session>;
   createChild(accountId: string, displayName: string, learningLevel: string, avatar: string): Promise<ChildProfile>;
   findChild(id: string): Promise<ChildProfile | null>;
   createGuardian(delegatedAdultAccountId: string, childProfileId: string): Promise<GuardianRelationship>;
   findGuardian(id: string): Promise<GuardianRelationship | null>;
   hasGrant(actorId: string, childId: string, capability: Capability): Promise<boolean>;
   revokeGuardian(id: string): Promise<void>;
-  createVerification(actorId: string, targetId: string, action: string, ttlMs?: number): Promise<VerificationEvent>;
-  consumeVerification(id: string, actorId: string, targetId: string, action: string): Promise<boolean>;
+  createVerification(actorId: string, targetId: string, action: string, ttlMs?: number, sessionId?: string): Promise<VerificationEvent>;
+  consumeVerification(id: string, actorId: string, targetId: string, action: string, sessionId?: string): Promise<boolean>;
   createAudit(event: Omit<AuditEvent, 'id'>): Promise<AuditEvent>;
   createDeletion(requesterAccountId: string, childId: string, verificationEventId: string): Promise<DeletionRequest>;
   markChildDeletionRequested(id: string): Promise<void>;
@@ -33,17 +43,27 @@ export interface FoundationRepository {
 export class MemoryRepository implements FoundationRepository {
   constructor(public store: MemoryStore) {}
   async findAccount(id: string) { return this.store.accounts.get(id) ?? null; }
+  async findAccountByEmail(email: string) { return [...this.store.accounts.values()].find(a => a.email === email) ?? null; }
+  async createAdultAccount(email: string, _displayName: string, _passwordHash: string) { return this.store.account('adult', email); }
+  async getPasswordHash(_accountId: string) { return null; }
+  async updatePassword(_accountId: string, _passwordHash: string) {}
+  async setAccountStatus(accountId: string, status: Account['status']) { const account = this.store.accounts.get(accountId); if (account) account.status = status; }
+  async createRecoveryToken(_accountId: string, _tokenHash: string, _ttlMs: number) {}
+  async consumeRecoveryToken(_tokenHash: string) { return null; }
+  async recordAuthenticationAttempt(_email: string, _ipHash: string, _succeeded: boolean) {}
+  async countRecentAuthenticationFailures(_email: string, _ipHash: string, _windowMs: number) { return 0; }
   async createSession(accountId: string, ttlMs = 60 * 60 * 1000) { return this.store.session(accountId, ttlMs); }
   async findSession(id: string) { const s = this.store.sessions.get(id); return s && !s.revoked && s.expiresAt > Date.now() ? s : null; }
   async revokeSession(id: string) { const s = this.store.sessions.get(id); if (s) s.revoked = true; }
+  async rotateSession(id: string, accountId: string, ttlMs = 60 * 60 * 1000) { await this.revokeSession(id); return this.createSession(accountId, ttlMs); }
   async createChild(accountId: string, displayName: string, learningLevel: string, avatar: string) { return this.store.child(accountId, displayName, learningLevel, avatar); }
   async findChild(id: string) { return this.store.childProfiles.get(id) ?? null; }
   async createGuardian(a: string, c: string) { return this.store.guardian(a, c); }
   async findGuardian(id: string) { return this.store.guardians.get(id) ?? null; }
   async hasGrant(actorId: string, childId: string, capability: Capability) { for (const r of this.store.guardians.values()) if (r.delegatedAdultAccountId === actorId && r.childProfileId === childId && r.status === 'active') for (const g of this.store.grants.values()) if (g.guardianRelationshipId === r.id && g.capability === capability && g.status === 'active') return true; return false; }
   async revokeGuardian(id: string) { const r = this.store.guardians.get(id); if (r) r.status = 'revoked'; for (const g of this.store.grants.values()) if (g.guardianRelationshipId === id) g.status = 'revoked'; }
-  async createVerification(a: string, t: string, action: string, ttlMs = 60_000) { return this.store.verification(a, t, action, ttlMs); }
-  async consumeVerification(id: string, actorId: string, targetId: string, action: string) { const v = this.store.verifications.get(id); if (!v || v.actorAccountId !== actorId || v.targetId !== targetId || v.action !== action || v.consumed || v.expiresAt <= Date.now()) return false; v.consumed = true; return true; }
+  async createVerification(a: string, t: string, action: string, ttlMs = 60_000, _sessionId?: string) { return this.store.verification(a, t, action, ttlMs); }
+  async consumeVerification(id: string, actorId: string, targetId: string, action: string, _sessionId?: string) { const v = this.store.verifications.get(id); if (!v || v.actorAccountId !== actorId || v.targetId !== targetId || v.action !== action || v.consumed || v.expiresAt <= Date.now()) return false; v.consumed = true; return true; }
   async createAudit(e: Omit<AuditEvent, 'id'>) { return this.store.auditEvent(e); }
   async createDeletion(a: string, c: string, v: string) { const d: DeletionRequest = { id: randomUUID(), requesterAccountId: a, targetType: 'child_profile', targetId: c, status: 'requested', verificationEventId: v }; this.store.deletions.set(d.id, d); return d; }
   async markChildDeletionRequested(id: string) { const c = this.store.childProfiles.get(id); if (c) c.status = 'deletion_requested'; }
@@ -62,17 +82,27 @@ export class PostgresRepository implements FoundationRepository {
   constructor(private pool: Pool, private client?: PoolClient) {}
   private async query<T extends QueryResultRow = any>(text: string, values: unknown[] = []) { return (this.client ?? this.pool).query<T>(text, values); }
   async findAccount(id: string) { const r = await this.query<Account>('SELECT id, kind, email, status FROM accounts WHERE id=$1', [id]); return r.rows[0] ?? null; }
+  async findAccountByEmail(email: string) { const r = await this.query<Account>('SELECT id, kind, email, status FROM accounts WHERE email=$1', [email]); return r.rows[0] ?? null; }
+  async createAdultAccount(email: string, displayName: string, passwordHash: string) { const accountResult = await this.query<Account>(`INSERT INTO accounts(email,kind,status,activated_at) VALUES($1,'adult','active',now()) RETURNING id,kind,email,status`, [email]); const account = accountResult.rows[0]; await this.query(`INSERT INTO adult_profiles(account_id,display_name) VALUES($1,$2)`, [account.id, displayName]); await this.query(`INSERT INTO authentication_identities(account_id,provider,provider_subject,password_hash,verified_at) VALUES($1,'password',$2,$3,now())`, [account.id, email, passwordHash]); return account; }
+  async getPasswordHash(accountId: string) { const r = await this.query<{ passwordHash: string }>(`SELECT password_hash as "passwordHash" FROM authentication_identities WHERE account_id=$1 AND provider='password' AND credential_state='active'`, [accountId]); return r.rows[0]?.passwordHash ?? null; }
+  async updatePassword(accountId: string, passwordHash: string) { await this.query(`UPDATE authentication_identities SET password_hash=$2, updated_at=now(), verified_at=now(), credential_state='active' WHERE account_id=$1 AND provider='password'`, [accountId, passwordHash]); await this.query(`UPDATE credential_recovery_tokens SET consumed_at=now() WHERE account_id=$1 AND consumed_at IS NULL`, [accountId]); await this.query(`UPDATE sessions SET revoked_at=now() WHERE account_id=$1 AND revoked_at IS NULL`, [accountId]); }
+  async setAccountStatus(accountId: string, status: Account['status']) { await this.query(`UPDATE accounts SET status=$2, updated_at=now() WHERE id=$1`, [accountId, status]); }
+  async createRecoveryToken(accountId: string, tokenHash: string, ttlMs: number) { await this.query(`INSERT INTO credential_recovery_tokens(account_id,token_hash,expires_at) VALUES($1,$2,now()+($3::bigint * interval '1 millisecond'))`, [accountId, tokenHash, ttlMs]); }
+  async consumeRecoveryToken(tokenHash: string) { const r = await this.query<{ accountId: string }>(`UPDATE credential_recovery_tokens SET consumed_at=now() WHERE token_hash=$1 AND consumed_at IS NULL AND expires_at>now() RETURNING account_id as "accountId"`, [tokenHash]); return r.rows[0] ?? null; }
+  async recordAuthenticationAttempt(email: string, ipHash: string, succeeded: boolean) { await this.query(`INSERT INTO authentication_attempts(normalized_email,ip_hash,succeeded) VALUES($1,$2,$3)`, [email, ipHash, succeeded]); }
+  async countRecentAuthenticationFailures(email: string, ipHash: string, windowMs: number) { const r = await this.query<{ count: string }>(`SELECT count(*)::text as count FROM authentication_attempts WHERE normalized_email=$1 AND ip_hash=$2 AND succeeded=false AND created_at>now()-($3::bigint * interval '1 millisecond')`, [email, ipHash, windowMs]); return Number(r.rows[0]?.count ?? 0); }
   async createSession(accountId: string, ttlMs = 60 * 60 * 1000) { const id = randomUUID(); const r = await this.query<Session>(`INSERT INTO sessions(id,account_id,expires_at) VALUES($1,$2,now()+($3::bigint * interval '1 millisecond')) RETURNING id, account_id as "accountId", extract(epoch from expires_at)*1000 as "expiresAt", (revoked_at IS NOT NULL) as revoked`, [id, accountId, ttlMs]); return r.rows[0]; }
   async findSession(id: string) { const r = await this.query<Session>(`SELECT id, account_id as "accountId", extract(epoch from expires_at)*1000 as "expiresAt", (revoked_at IS NOT NULL) as revoked FROM sessions WHERE id=$1 AND revoked_at IS NULL AND expires_at>now()`, [id]); return r.rows[0] ?? null; }
   async revokeSession(id: string) { await this.query('UPDATE sessions SET revoked_at=now() WHERE id=$1', [id]); }
+  async rotateSession(id: string, accountId: string, ttlMs = 60 * 60 * 1000) { await this.revokeSession(id); const next = await this.createSession(accountId, ttlMs); await this.query(`UPDATE sessions SET rotated_from=$2 WHERE id=$1`, [next.id, id]); return next; }
   async createChild(a: string, n: string, l: string, avatar: string) { const r = await this.query<ChildProfile>(`INSERT INTO child_profiles(primary_guardian_account_id,display_name,learning_level,avatar) VALUES($1,$2,$3,$4) RETURNING id, primary_guardian_account_id as "primaryGuardianAccountId", display_name as "displayName", learning_level as "learningLevel", avatar, status`, [a,n,l,avatar]); return r.rows[0]; }
   async findChild(id: string) { const r = await this.query<ChildProfile>(`SELECT id, primary_guardian_account_id as "primaryGuardianAccountId", display_name as "displayName", learning_level as "learningLevel", avatar, status FROM child_profiles WHERE id=$1`, [id]); return r.rows[0] ?? null; }
   async createGuardian(a: string, c: string) { const r = await this.query<GuardianRelationship>(`INSERT INTO guardian_relationships(id,delegated_adult_account_id,child_profile_id,status) VALUES($1,$2,$3,'active') RETURNING id, delegated_adult_account_id as "delegatedAdultAccountId", child_profile_id as "childProfileId", status`, [randomUUID(),a,c]); return r.rows[0]; }
   async findGuardian(id: string) { const r = await this.query<GuardianRelationship>(`SELECT id, delegated_adult_account_id as "delegatedAdultAccountId", child_profile_id as "childProfileId", status FROM guardian_relationships WHERE id=$1`, [id]); return r.rows[0] ?? null; }
   async hasGrant(a: string, c: string, cap: Capability) { const r = await this.query<{ok:boolean}>(`SELECT true as ok FROM guardian_relationships r JOIN permission_grants g ON g.guardian_relationship_id=r.id WHERE r.delegated_adult_account_id=$1 AND r.child_profile_id=$2 AND r.status='active' AND g.capability=$3 AND g.status='active' LIMIT 1`, [a,c,cap]); return !!r.rows[0]; }
   async revokeGuardian(id: string) { await this.query('UPDATE guardian_relationships SET status=\'revoked\' WHERE id=$1; UPDATE permission_grants SET status=\'revoked\' WHERE guardian_relationship_id=$1', [id]); }
-  async createVerification(a: string,t: string,action: string,ttlMs=60_000) { const r=await this.query<VerificationEvent>(`INSERT INTO verification_events(actor_account_id,target_id,action,method_category,expires_at,result) VALUES($1,$2,$3,'configured-provider',now()+($4::bigint * interval '1 millisecond'),'success') RETURNING id, actor_account_id as "actorAccountId", target_id as "targetId", action, extract(epoch from expires_at)*1000 as "expiresAt", false as consumed`,[a,t,action,ttlMs]); return r.rows[0]; }
-  async consumeVerification(id: string,a: string,t: string,action: string) { const r=await this.query(`UPDATE verification_events SET consumed_at=now() WHERE id=$1 AND actor_account_id=$2 AND target_id=$3 AND action=$4 AND consumed_at IS NULL AND expires_at>now() RETURNING id`,[id,a,t,action]); return r.rowCount === 1; }
+  async createVerification(a: string,t: string,action: string,ttlMs=60_000,sessionId?: string) { const r=await this.query<VerificationEvent>(`INSERT INTO verification_events(actor_account_id,target_id,action,method_category,expires_at,result,session_id) VALUES($1,$2,$3,'password-reauthentication',now()+($4::bigint * interval '1 millisecond'),'success',$5) RETURNING id, actor_account_id as "actorAccountId", target_id as "targetId", action, extract(epoch from expires_at)*1000 as "expiresAt", false as consumed`,[a,t,action,ttlMs,sessionId ?? null]); return r.rows[0]; }
+  async consumeVerification(id: string,a: string,t: string,action: string,sessionId?: string) { const r=await this.query(`UPDATE verification_events SET consumed_at=now() WHERE id=$1 AND actor_account_id=$2 AND target_id=$3 AND action=$4 AND consumed_at IS NULL AND expires_at>now() AND ($5::uuid IS NULL OR session_id=$5) RETURNING id`,[id,a,t,action,sessionId ?? null]); return r.rowCount === 1; }
   async createAudit(e: Omit<AuditEvent,'id'>) { const r=await this.query<AuditEvent>(`INSERT INTO audit_events(id,actor_account_id,event_type,target_type,target_id,scope,result) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING id, actor_account_id as "actorAccountId", event_type as "eventType", target_type as "targetType", target_id as "targetId", scope, result`,[randomUUID(),e.actorAccountId,e.eventType,e.targetType,e.targetId,e.scope ?? null,e.result]); return r.rows[0]; }
   async createDeletion(a:string,c:string,v:string) { const r=await this.query<DeletionRequest>(`INSERT INTO deletion_requests(id,requester_account_id,target_type,target_id,status,verification_event_id) VALUES($1,$2,'child_profile',$3,'requested',$4) RETURNING id, requester_account_id as "requesterAccountId", target_type as "targetType", target_id as "targetId", status, verification_event_id as "verificationEventId"`,[randomUUID(),a,c,v]); return r.rows[0]; }
   async markChildDeletionRequested(id:string) { await this.query(`UPDATE child_profiles SET status='deletion_requested',updated_at=now() WHERE id=$1`,[id]); }
