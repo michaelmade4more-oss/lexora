@@ -39,12 +39,12 @@ export function buildApp(options: AppOptions = {}): { app: FastifyInstance; stor
   app.get('/health', async () => ({ status: 'ok', service: 'lexora-foundation-api' }));
 
   app.post('/v1/auth/test-login', async (request, reply) => {
-    if (!options.testAuth || process.env.NODE_ENV === 'production') return reply.code(404).send({ error: 'not_found' });
+    if (!options.testAuth || process.env.NODE_ENV !== 'test') return reply.code(404).send({ error: 'not_found' });
     const accountId = String((request.body as Body)?.accountId || '');
     const account = store.accounts.get(accountId);
     if (!account || account.status !== 'active') return reply.code(401).send({ error: 'invalid_account' });
     const session = store.session(account.id);
-    reply.setCookie('lexora_session', session.id, { httpOnly: true, sameSite: 'lax', path: '/', secure: process.env.NODE_ENV === 'production' });
+    reply.setCookie('lexora_session', session.id, { httpOnly: true, sameSite: 'lax', path: '/', secure: String(process.env.NODE_ENV) === 'production' });
     return { accountId: account.id };
   });
 
