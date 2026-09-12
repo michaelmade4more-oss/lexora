@@ -70,3 +70,16 @@ test('PostgreSQL uniqueness and verification replay remain fail-closed under con
   const attempts = await Promise.allSettled([repo.createGuardian(delegated, concurrentChild), repo.createGuardian(delegated, concurrentChild)]); assert.equal(attempts.filter(x => x.status === 'fulfilled').length, 1); assert.equal(attempts.filter(x => x.status === 'rejected').length, 1);
   const verification = await repo.createVerification(guardian, concurrentChild, 'child_profile:delete'); const consumed = await Promise.all([repo.consumeVerification(verification.id, guardian, concurrentChild, 'child_profile:delete'), repo.consumeVerification(verification.id, guardian, concurrentChild, 'child_profile:delete')]); assert.deepEqual(consumed.sort(), [false, true]);
 });
+
+test('PostgreSQL role and duplicate-active constraints reject invalid relationships', async () => {
+  await assert.rejects(() => pool.query(`INSERT INTO guardian_relationships(delegated_adult_account_id,child_profile_id,status) VALUES ($1,$2,'active')`, [guardian, child]));
+  await assert.rejects(() => pool.query(`INSERT INTO workspace_memberships(workspace_id,account_id,role,status) VALUES ($1,$2,'teacher','active')`, [workspace, unrelated]));
+  const duplicateGrantRelationship = randomUUID(); const duplicateChild = randomUUID();
+  await pool.query(`INSERT INTO child_profiles(id,primary_guardian_account_id,display_name,learning_level,avatar) VALUES ($1,$2,'Constraint Child','Early Learner','x')`, [duplicateChild, guardian]);
+  await pool.query(`INSERT INTO guardian_relationships(id,delegated_adult_account_id,child_profile_id,status) VALUES ($1,$2,$3,'active')`, [duplicateGrantRelationship, delegated, duplicateChild]);
+  await pool.query(`INSERT INTO permission_grants(guardian_relationship_id,capability,status) VALUES ($1,'child:read','active')`, [duplicateGrantRelationship]);
+  await assert.rejects(() => pool.query(`INSERT INTO permission_grants(guardian_relationship_id,capability,status) VALUES ($1,'child:read','active')`, [duplicateGrantRelationship]));
+  const duplicateClass = randomUUID(); await pool.query(`INSERT INTO classes(id,workspace_id,name) VALUES ($1,$2,'Constraint Class')`, [duplicateClass, workspace]);
+  await pool.query(`INSERT INTO class_memberships(class_id,child_profile_id,status) VALUES ($1,$2,'active')`, [duplicateClass, child]);
+  await assert.rejects(() => pool.query(`INSERT INTO class_memberships(class_id,child_profile_id,status) VALUES ($1,$2,'active')`, [duplicateClass, child]));
+});
