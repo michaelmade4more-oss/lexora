@@ -1,0 +1,47 @@
+# Lexora Foundation API Boundaries
+
+This document describes the first-milestone command/query boundaries. It is not a public API commitment until the technical review is complete.
+
+## Authentication
+
+- `POST /v1/auth/test-login` — test-only account session bootstrap; unavailable in normal runtime.
+- `POST /v1/auth/logout` — revokes the current server-side session.
+- `GET /v1/me` — returns the authenticated account context.
+- `POST /v1/step-up/complete` — creates an action-bound Verification Event through the configured verification provider.
+
+## Child profiles
+
+- `GET /v1/child-profiles` — lists profiles visible to the authenticated actor.
+- `POST /v1/child-profiles` — Primary Guardian child-profile creation command.
+- `GET /v1/child-profiles/{childProfileId}` — family-scoped or teaching-scoped read.
+- `PATCH /v1/child-profiles/{childProfileId}` — authorized profile update boundary.
+- `POST /v1/child-profiles/{childProfileId}/deletion-requests` — verified child deletion request.
+
+## Guardian relationships and grants
+
+- `POST /v1/child-profiles/{childProfileId}/guardian-invitations`
+- `GET /v1/child-profiles/{childProfileId}/guardian-relationships`
+- `POST /v1/guardian-relationships/{relationshipId}/permission-grants`
+- `POST /v1/guardian-relationships/{relationshipId}/revoke`
+- `POST /v1/permission-grants/{grantId}/revoke`
+
+Capability names and delegation scope remain policy/configuration boundaries until product approval.
+
+## Teacher workspace and class membership
+
+- `POST /v1/teacher-workspaces`
+- `GET /v1/teacher-workspaces`
+- `POST /v1/teacher-workspaces/{workspaceId}/classes`
+- `POST /v1/classes/{classId}/memberships`
+- `POST /v1/class-memberships/{membershipId}/remove`
+- `GET /v1/child-profiles/{childProfileId}` — teaching projection only when Workspace Membership and active Class Membership both authorize it.
+
+There is no initial Teacher-Learner endpoint or entity. Class Membership is canonical.
+
+## Security and lifecycle
+
+- `GET /v1/audit-events` — restricted security/support query boundary.
+- `GET /v1/deletion-requests/{requestId}` — requester-scoped deletion status.
+- `POST /v1/deletion-requests` — generic future deletion command boundary.
+
+All protected commands use immutable resource IDs, server-side authorization, default deny, and audit outcomes for sensitive mutations.
