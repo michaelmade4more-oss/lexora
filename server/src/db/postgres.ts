@@ -9,16 +9,20 @@ export function createPool(connectionString = process.env.DATABASE_URL) {
 }
 
 export async function runMigrations(pool: Pool, migrationsDir = path.resolve(process.cwd(), 'migrations')) {
-  await pool.query('CREATE TABLE IF NOT EXISTS schema_migrations (version TEXT PRIMARY KEY, applied_at TIMESTAMPTZ NOT NULL DEFAULT now())');
-  const files = (await readdir(migrationsDir)).filter(name => name.endsWith('.sql')).sort();
-  for (const file of files) {
-    const version = file.replace(/\.sql$/, '');
-    const found = await pool.query('SELECT 1 FROM schema_migrations WHERE version = $1', [version]);
-    if (found.rowCount) continue;
-    const sql = await readFile(path.join(migrationsDir, file), 'utf8');
-    const client: PoolClient = await pool.connect();
-    try { await client.query('BEGIN'); await client.query(sql); await client.query('INSERT INTO schema_migrations(version) VALUES($1)', [version]); await client.query('COMMIT'); }
-    catch (error) { await client.query('ROLLBACK'); throw error; }
-    finally { client.release(); }
-  }
+  const client: PoolClient = await pool.connect();
+  try {
+    await client.query('SELECT pg_advisory_lock(hashtext($1))', ['lexora:migrations']);
+    await client.query('CREATE TABLE IF NOT EXISTS schema_migrations (version TEXT PRIMARY KEY, applied_at TIMESTAMPTZ NOT NULL DEFAULT now())');
+    const files = (await readdir(migrationsDir)).filter(name => name.endsWith('.sql')).sort();
+    for (const file of files) {
+      const version = file.replace(/\.sql$/, '');
+      const found = await client.query('SELECT 1 FROM schema_migrations WHERE version = $1', [version]);
+      if (found.rowCount) continue;
+      const sql = await readFile(path.join(migrationsDir, file), 'utf8');
+      await client.query('BEGIN');
+      try { await client.query(sql); await client.query('INSERT INTO schema_migrations(version) VALUES($1)', [version]); await client.query('COMMIT'); }
+      catch (error) { await client.query('ROLLBACK'); throw error; }
+    }
+    await client.query('SELECT pg_advisory_unlock(hashtext($1))', ['lexora:migrations']);
+  } finally { client.release(); }
 }

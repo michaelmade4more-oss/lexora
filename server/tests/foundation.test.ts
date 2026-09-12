@@ -169,3 +169,24 @@ test('Logout revokes the server-side session', async () => {
   assert.equal((await app.inject({ method: 'POST', url: '/v1/auth/logout', headers: { cookie } })).statusCode, 200);
   assert.equal((await app.inject({ method: 'GET', url: '/v1/me', headers: { cookie } })).statusCode, 401);
 });
+
+test('Malformed requests receive stable validation errors', async () => {
+  const response = await app.inject({ method: 'POST', url: '/v1/step-up/complete', headers: { cookie: await login(guardian.id), 'content-type': 'application/json' }, payload: '{invalid' });
+  assert.equal(response.statusCode, 400);
+  assert.deepEqual(response.json(), { error: 'invalid_request' });
+});
+
+test('Production cookie mutations reject cross-origin requests', async () => {
+  const previousMode = process.env.NODE_ENV; const previousOrigin = process.env.LEXORA_ALLOWED_ORIGIN;
+  process.env.NODE_ENV = 'production'; process.env.LEXORA_ALLOWED_ORIGIN = 'https://trusted.example';
+  try {
+    const secureApp = buildApp({ store, testAuth: false }).app; const session = store.session(guardian.id); const cookie = `lexora_session=${session.id}`;
+    const rejected = await secureApp.inject({ method: 'POST', url: '/v1/auth/logout', headers: { cookie, origin: 'https://attacker.example' } });
+    assert.equal(rejected.statusCode, 403);
+    const accepted = await secureApp.inject({ method: 'POST', url: '/v1/auth/logout', headers: { cookie, origin: 'https://trusted.example' } });
+    assert.equal(accepted.statusCode, 200);
+  } finally {
+    if (previousMode === undefined) delete process.env.NODE_ENV; else process.env.NODE_ENV = previousMode;
+    if (previousOrigin === undefined) delete process.env.LEXORA_ALLOWED_ORIGIN; else process.env.LEXORA_ALLOWED_ORIGIN = previousOrigin;
+  }
+});
