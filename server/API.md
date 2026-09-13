@@ -8,12 +8,15 @@ This document describes the first-milestone command/query boundaries. It is not 
 - `POST /v1/auth/login` — verifies credentials, applies abuse controls, and creates or rotates a durable session.
 - `POST /v1/auth/recovery/request` — creates a time-limited one-time recovery token without disclosing account existence.
 - `POST /v1/auth/recovery/reset` — consumes a recovery token, updates the password, and revokes existing sessions.
+- `POST /v1/webhooks/postmark/recovery` — authenticated, idempotent Postmark delivery and bounce webhook boundary.
 - `POST /v1/auth/test-login` — test-only account session bootstrap; unavailable in normal runtime.
 - `POST /v1/auth/logout` — revokes the current server-side session.
 - `GET /v1/me` — returns the authenticated account context.
 - `POST /v1/step-up/complete` — creates an action-bound Verification Event through password re-authentication; unknown actions fail closed.
 
-The current production verification mechanism is password re-authentication. No external verification provider or delivery technology is selected by this milestone.
+The current production verification mechanism is password re-authentication. Recovery delivery uses a provider-neutral interface with a Postmark adapter; production sending remains explicitly configuration-gated.
+
+Recovery delivery is provider-neutral at the application boundary. The current adapter is Postmark, and production sending remains disabled until `RECOVERY_DELIVERY_ENABLED=true` and all required environment-managed configuration is present. Postmark webhook protection uses HTTPS, HTTP Basic Authentication, payload validation, MessageID/trace-id idempotency, and non-2xx responses for retryable server failures.
 
 ## Child profiles
 

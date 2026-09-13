@@ -2,18 +2,26 @@ import { randomUUID } from 'node:crypto';
 import type { Pool, PoolClient, QueryResultRow } from 'pg';
 import type { Account, AdultProfile, AuditEvent, ChildProfile, ClassGroup, ClassMembership, DeletionRequest, GuardianRelationship, PermissionGrant, Session, TeacherWorkspace, VerificationEvent, WorkspaceMembership, Capability, AccountKind, RelationshipStatus } from '../domain/store.js';
 import { MemoryStore } from '../domain/store.js';
+import type { RecoveryDeliveryStatus, RecoveryFailureKind } from '../recovery/delivery.js';
 
 export interface FoundationRepository {
   findAccount(id: string): Promise<Account | null>;
   findAccountByEmail(email: string): Promise<Account | null>;
+  isRecoverySuppressed(email: string): Promise<boolean>;
   createAdultAccount(email: string, displayName: string, passwordHash: string): Promise<Account>;
   getPasswordHash(accountId: string): Promise<string | null>;
   updatePassword(accountId: string, passwordHash: string): Promise<void>;
   setAccountStatus(accountId: string, status: Account['status']): Promise<void>;
-  createRecoveryToken(accountId: string, tokenHash: string, ttlMs: number): Promise<void>;
+  createRecoveryToken(accountId: string, tokenHash: string, ttlMs: number): Promise<string>;
   consumeRecoveryToken(tokenHash: string): Promise<{ accountId: string } | null>;
   recordAuthenticationAttempt(email: string, ipHash: string, succeeded: boolean): Promise<void>;
   countRecentAuthenticationFailures(email: string, ipHash: string, windowMs: number): Promise<number>;
+  createRecoveryDelivery(accountId: string, recoveryTokenId: string, correlationId: string, provider: string): Promise<string>;
+  updateRecoveryDelivery(id: string, status: RecoveryDeliveryStatus | 'delivered' | 'bounced' | 'complaint', providerMessageId?: string, error?: string, retryAt?: Date): Promise<void>;
+  findRecoveryDeliveryByProviderMessage(provider: string, messageId: string): Promise<{ id: string; accountId: string; status: string } | null>;
+  recordRecoveryWebhook(provider: string, eventKey: string, messageId: string, recordType: string, payloadHash: string): Promise<boolean>;
+  addRecoverySuppression(email: string, reason: 'bounce' | 'complaint', provider: string, eventId?: string): Promise<void>;
+  recordRecoveryMetric(metricKey: string): Promise<void>;
   createSession(accountId: string, ttlMs?: number): Promise<Session>;
   findSession(id: string): Promise<Session | null>;
   revokeSession(id: string): Promise<void>;
@@ -44,14 +52,21 @@ export class MemoryRepository implements FoundationRepository {
   constructor(public store: MemoryStore) {}
   async findAccount(id: string) { return this.store.accounts.get(id) ?? null; }
   async findAccountByEmail(email: string) { return [...this.store.accounts.values()].find(a => a.email === email) ?? null; }
+  async isRecoverySuppressed(_email: string) { return false; }
   async createAdultAccount(email: string, _displayName: string, _passwordHash: string) { return this.store.account('adult', email); }
   async getPasswordHash(_accountId: string) { return null; }
   async updatePassword(_accountId: string, _passwordHash: string) {}
   async setAccountStatus(accountId: string, status: Account['status']) { const account = this.store.accounts.get(accountId); if (account) account.status = status; }
-  async createRecoveryToken(_accountId: string, _tokenHash: string, _ttlMs: number) {}
+  async createRecoveryToken(_accountId: string, _tokenHash: string, _ttlMs: number) { return randomUUID(); }
   async consumeRecoveryToken(_tokenHash: string) { return null; }
   async recordAuthenticationAttempt(_email: string, _ipHash: string, _succeeded: boolean) {}
   async countRecentAuthenticationFailures(_email: string, _ipHash: string, _windowMs: number) { return 0; }
+  async createRecoveryDelivery(_accountId: string, _recoveryTokenId: string, correlationId: string, _provider: string) { return correlationId; }
+  async updateRecoveryDelivery(_id: string, _status: RecoveryDeliveryStatus | 'delivered' | 'bounced' | 'complaint', _providerMessageId?: string, _error?: string, _retryAt?: Date) {}
+  async findRecoveryDeliveryByProviderMessage(_provider: string, _messageId: string) { return null; }
+  async recordRecoveryWebhook(_provider: string, _eventKey: string, _messageId: string, _recordType: string, _payloadHash: string) { return true; }
+  async addRecoverySuppression(_email: string, _reason: 'bounce' | 'complaint', _provider: string, _eventId?: string) {}
+  async recordRecoveryMetric(_metricKey: string) {}
   async createSession(accountId: string, ttlMs = 60 * 60 * 1000) { return this.store.session(accountId, ttlMs); }
   async findSession(id: string) { const s = this.store.sessions.get(id); return s && !s.revoked && s.expiresAt > Date.now() ? s : null; }
   async revokeSession(id: string) { const s = this.store.sessions.get(id); if (s) s.revoked = true; }
@@ -83,14 +98,21 @@ export class PostgresRepository implements FoundationRepository {
   private async query<T extends QueryResultRow = any>(text: string, values: unknown[] = []) { return (this.client ?? this.pool).query<T>(text, values); }
   async findAccount(id: string) { const r = await this.query<Account>('SELECT id, kind, email, status FROM accounts WHERE id=$1', [id]); return r.rows[0] ?? null; }
   async findAccountByEmail(email: string) { const r = await this.query<Account>('SELECT id, kind, email, status FROM accounts WHERE email=$1', [email]); return r.rows[0] ?? null; }
+  async isRecoverySuppressed(email: string) { const r = await this.query<{ exists: boolean }>('SELECT EXISTS(SELECT 1 FROM recovery_suppressions WHERE email=$1) as exists', [email]); return !!r.rows[0]?.exists; }
   async createAdultAccount(email: string, displayName: string, passwordHash: string) { const accountResult = await this.query<Account>(`INSERT INTO accounts(email,kind,status,activated_at) VALUES($1,'adult','active',now()) RETURNING id,kind,email,status`, [email]); const account = accountResult.rows[0]; await this.query(`INSERT INTO adult_profiles(account_id,display_name) VALUES($1,$2)`, [account.id, displayName]); await this.query(`INSERT INTO authentication_identities(account_id,provider,provider_subject,password_hash,verified_at) VALUES($1,'password',$2,$3,now())`, [account.id, email, passwordHash]); return account; }
   async getPasswordHash(accountId: string) { const r = await this.query<{ passwordHash: string }>(`SELECT password_hash as "passwordHash" FROM authentication_identities WHERE account_id=$1 AND provider='password' AND credential_state='active'`, [accountId]); return r.rows[0]?.passwordHash ?? null; }
   async updatePassword(accountId: string, passwordHash: string) { await this.query(`UPDATE authentication_identities SET password_hash=$2, updated_at=now(), verified_at=now(), credential_state='active' WHERE account_id=$1 AND provider='password'`, [accountId, passwordHash]); await this.query(`UPDATE credential_recovery_tokens SET consumed_at=now() WHERE account_id=$1 AND consumed_at IS NULL`, [accountId]); await this.query(`UPDATE sessions SET revoked_at=now() WHERE account_id=$1 AND revoked_at IS NULL`, [accountId]); }
   async setAccountStatus(accountId: string, status: Account['status']) { await this.query(`UPDATE accounts SET status=$2, updated_at=now() WHERE id=$1`, [accountId, status]); }
-  async createRecoveryToken(accountId: string, tokenHash: string, ttlMs: number) { await this.query(`INSERT INTO credential_recovery_tokens(account_id,token_hash,expires_at) VALUES($1,$2,now()+($3::bigint * interval '1 millisecond'))`, [accountId, tokenHash, ttlMs]); }
+  async createRecoveryToken(accountId: string, tokenHash: string, ttlMs: number) { const r = await this.query<{ id: string }>(`INSERT INTO credential_recovery_tokens(account_id,token_hash,expires_at) VALUES($1,$2,now()+($3::bigint * interval '1 millisecond')) RETURNING id`, [accountId, tokenHash, ttlMs]); return r.rows[0].id; }
   async consumeRecoveryToken(tokenHash: string) { const r = await this.query<{ accountId: string }>(`UPDATE credential_recovery_tokens SET consumed_at=now() WHERE token_hash=$1 AND consumed_at IS NULL AND expires_at>now() RETURNING account_id as "accountId"`, [tokenHash]); return r.rows[0] ?? null; }
   async recordAuthenticationAttempt(email: string, ipHash: string, succeeded: boolean) { await this.query(`INSERT INTO authentication_attempts(normalized_email,ip_hash,succeeded) VALUES($1,$2,$3)`, [email, ipHash, succeeded]); }
   async countRecentAuthenticationFailures(email: string, ipHash: string, windowMs: number) { const r = await this.query<{ count: string }>(`SELECT count(*)::text as count FROM authentication_attempts WHERE normalized_email=$1 AND ip_hash=$2 AND succeeded=false AND created_at>now()-($3::bigint * interval '1 millisecond')`, [email, ipHash, windowMs]); return Number(r.rows[0]?.count ?? 0); }
+  async createRecoveryDelivery(accountId: string, recoveryTokenId: string, correlationId: string, provider: string) { const r = await this.query<{ id: string }>(`INSERT INTO recovery_deliveries(account_id,recovery_token_id,correlation_id,provider,status) VALUES($1,$2,$3,$4,'pending') RETURNING id`, [accountId, recoveryTokenId, correlationId, provider]); return r.rows[0].id; }
+  async updateRecoveryDelivery(id: string, status: RecoveryDeliveryStatus | 'delivered' | 'bounced' | 'complaint', providerMessageId?: string, error?: string, retryAt?: Date) { await this.query(`UPDATE recovery_deliveries SET status=CASE WHEN status IN ('bounced','complaint') AND $2='delivered' THEN status ELSE $2 END, provider_message_id=COALESCE($3,provider_message_id), last_error=$4, next_attempt_at=$5, attempts=attempts+1, updated_at=now() WHERE id=$1`, [id,status,providerMessageId || null,error || null,retryAt || null]); }
+  async findRecoveryDeliveryByProviderMessage(provider: string, messageId: string) { const r = await this.query<{ id: string; accountId: string; status: string }>(`SELECT id, account_id as "accountId", status FROM recovery_deliveries WHERE provider=$1 AND provider_message_id=$2`, [provider,messageId]); return r.rows[0] ?? null; }
+  async recordRecoveryWebhook(provider: string, eventKey: string, messageId: string, recordType: string, payloadHash: string) { const r = await this.query(`INSERT INTO recovery_webhook_events(provider,event_key,message_id,record_type,payload_hash,processed_at) VALUES($1,$2,$3,$4,$5,now()) ON CONFLICT (provider,event_key) DO NOTHING RETURNING id`, [provider,eventKey,messageId,recordType,payloadHash]); return r.rowCount === 1; }
+  async addRecoverySuppression(email: string, reason: 'bounce' | 'complaint', provider: string, eventId?: string) { await this.query(`INSERT INTO recovery_suppressions(email,reason,provider,provider_event_id) VALUES($1,$2,$3,$4) ON CONFLICT (email) DO UPDATE SET reason=EXCLUDED.reason, provider=EXCLUDED.provider, provider_event_id=EXCLUDED.provider_event_id`, [email,reason,provider,eventId || null]); }
+  async recordRecoveryMetric(metricKey: string) { await this.query(`INSERT INTO recovery_operational_metrics(metric_key,bucket_start,count) VALUES($1,date_trunc('minute',now()),1) ON CONFLICT(metric_key,bucket_start) DO UPDATE SET count=recovery_operational_metrics.count+1, updated_at=now()`, [metricKey]); }
   async createSession(accountId: string, ttlMs = 60 * 60 * 1000) { const id = randomUUID(); const r = await this.query<Session>(`INSERT INTO sessions(id,account_id,expires_at) VALUES($1,$2,now()+($3::bigint * interval '1 millisecond')) RETURNING id, account_id as "accountId", extract(epoch from expires_at)*1000 as "expiresAt", (revoked_at IS NOT NULL) as revoked`, [id, accountId, ttlMs]); return r.rows[0]; }
   async findSession(id: string) { const r = await this.query<Session>(`SELECT id, account_id as "accountId", extract(epoch from expires_at)*1000 as "expiresAt", (revoked_at IS NOT NULL) as revoked FROM sessions WHERE id=$1 AND revoked_at IS NULL AND expires_at>now()`, [id]); return r.rows[0] ?? null; }
   async revokeSession(id: string) { await this.query('UPDATE sessions SET revoked_at=now() WHERE id=$1', [id]); }
