@@ -2,8 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="refresh" content="0; url=profile-picker.html">
-<script>window.location.replace('profile-picker.html');</script>
+<script>
+(async function () {
+  try {
+    const response = await fetch('https://lexora-web.onrender.com/v1/me', {
+      credentials: 'include'
+    });
+    window.location.replace(response.ok ? 'profile-picker.html' : 'auth.html');
+  } catch (error) {
+    window.location.replace('auth.html');
+  }
+})();
+</script>
 <title>Lexora</title>
 </head>
 <body><script>
