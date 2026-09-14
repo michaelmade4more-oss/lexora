@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#09090b">
 <title>Lexora: Sign In</title>
 <style>
@@ -27,7 +27,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
 body{min-height:100dvh;overflow-x:hidden}
 button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
 input{font:inherit;color:inherit}
-#app{min-height:100dvh;max-width:480px;margin:auto;background:var(--bg);display:flex;flex-direction:column;position:relative}
+#app{width:100%;min-height:100dvh;margin:auto;background:var(--bg);display:flex;flex-direction:column;position:relative}
 .ambient{position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:480px;height:420px;background:radial-gradient(circle,rgba(201,162,76,.2),transparent 65%);pointer-events:none}
 .heroZone{position:relative;padding:38px 20px 4px;text-align:center}
 .illusWrap{width:190px;height:284px;margin:0 auto;position:relative;animation:illusIn .6s cubic-bezier(.16,1,.3,1) both}
@@ -77,6 +77,29 @@ input{font:inherit;color:inherit}
 .status{min-height:20px;margin:12px 2px 0;text-align:center;font-size:12.5px;color:var(--muted)}
 .footNote{text-align:center;margin:22px 20px calc(28px + env(safe-area-inset-bottom));font-size:12px;color:var(--faint);line-height:1.6}
 .footNote b{color:var(--muted);font-weight:600}
+
+@media (min-width: 600px) and (max-width: 1199px){
+  #app{max-width:640px}
+  .heroZone{padding:clamp(38px,6vh,56px) clamp(24px,6vw,48px) 8px}
+  .illusWrap{width:clamp(190px,28vw,230px);height:clamp(284px,42vw,340px)}
+  .wordmark{font-size:clamp(24px,3.2vw,30px)}
+  .tagline{font-size:clamp(13.5px,1.7vw,16px)}
+  .switchZone,.formZone{padding-left:clamp(20px,6vw,48px);padding-right:clamp(20px,6vw,48px)}
+  .switchBtn{min-height:clamp(44px,5vw,52px);font-size:clamp(14.5px,1.7vw,16px)}
+  .fieldLabel{font-size:clamp(11.5px,1.35vw,13px)}
+  .inputBox{min-height:clamp(52px,6vw,60px);font-size:clamp(15px,1.8vw,17px)}
+  .submitBtn{min-height:clamp(56px,6.2vw,62px);font-size:clamp(16px,1.9vw,18px)}
+  .socialBtn{min-height:clamp(52px,5.8vw,58px);font-size:clamp(14.5px,1.7vw,16px)}
+  .footNote{font-size:clamp(12px,1.4vw,13px)}
+}
+
+@media (max-width: 380px){
+  .heroZone{padding-top:26px}
+  .illusWrap{width:160px;height:238px}
+  .wordmark{font-size:22px}
+  .tagline{font-size:13px}
+  .switchZone,.formZone{padding-left:16px;padding-right:16px}
+}
 </style>
 </head>
 <body>
