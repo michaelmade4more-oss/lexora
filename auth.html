@@ -25,7 +25,7 @@
   --ease:cubic-bezier(.2,.8,.2,1);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-width:280px;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html,body{margin:0;min-width:280px;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 body{min-height:100dvh;overflow-x:hidden}
 button,input{font:inherit}
 button{cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
@@ -90,6 +90,7 @@ button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);o
 .socialBtn{border:1px solid var(--line);background:var(--surface2);color:var(--text);font-weight:700}.socialBtn:hover{border-color:rgba(201,162,76,.48);background:#1b1b21}.socialBtn svg{width:18px;height:18px}
 .status{min-height:20px;margin:11px 2px 0;color:var(--muted);font-size:12px;line-height:1.4;text-align:center}.status:not(:empty){padding:9px 10px;border:1px solid rgba(201,162,76,.2);border-radius:11px;background:rgba(201,162,76,.06)}
 .footNote{margin:16px 10px 0;color:var(--faint);font-size:10px;line-height:1.55;text-align:center}.footNote b{color:var(--muted);font-weight:650}
+.brand-lockup,.brand-note,.signal-kicker,.signal-subtitle,.status-badge,.form-heading span,.switchBtn,.fieldLabel,.forgotLink,.dividerText,.status,.footNote{font-family:Roboto,-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif}
 @media (min-width:600px) and (max-width:1199px){
   .auth-shell{max-width:900px;padding-left:clamp(28px,6vw,72px);padding-right:clamp(28px,6vw,72px)}
   .auth-content{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(20px,4vw,52px);padding-top:clamp(34px,7vh,78px)}
