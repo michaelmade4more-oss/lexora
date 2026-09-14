@@ -31,9 +31,9 @@ button,input{font:inherit}
 button{cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
 input{color:inherit}
 button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);outline-offset:3px}
-.auth-page{position:relative;min-height:100dvh;isolation:isolate;overflow:hidden;background:radial-gradient(100% 45% at 50% 0%,rgba(201,162,76,.08),transparent 72%),var(--bg)}
+.auth-page{position:relative;min-height:100dvh;isolation:isolate;overflow:hidden;background:radial-gradient(100% 45% at 50% 0%,rgba(31,92,78,.1),transparent 72%),var(--bg)}
 .auth-page::before,.auth-page::after{content:"";position:absolute;z-index:-1;border-radius:50%;pointer-events:none;filter:blur(1px)}
-.auth-page::before{width:280px;height:280px;top:-190px;right:-120px;background:rgba(201,162,76,.11)}
+.auth-page::before{width:280px;height:280px;top:-190px;right:-120px;background:rgba(31,92,78,.15);filter:blur(16px)}
 .auth-page::after{width:300px;height:300px;bottom:-210px;left:-150px;background:rgba(201,162,76,.08)}
 .auth-shell{width:100%;max-width:560px;min-height:100dvh;margin:auto;padding:max(18px,env(safe-area-inset-top)) 18px max(22px,env(safe-area-inset-bottom));display:flex;flex-direction:column}
 .brand-bar{display:flex;align-items:center;justify-content:space-between;min-height:42px}
@@ -50,11 +50,11 @@ button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);o
 .signal-title em{color:var(--gold);font-style:normal}
 .signal-subtitle{margin:11px 0 0;max-width:250px;color:var(--muted);font-size:13px;line-height:1.45}
 .signal-art{position:relative;right:auto;bottom:auto;width:100%;height:148px;margin:8px 0 0;display:grid;place-items:center}
-.signal-art::before,.signal-art::after{content:"";position:absolute;border:1px solid rgba(201,162,76,.28);border-radius:50%;transform:rotate(-18deg);transform-origin:center;animation:orbitOuter 16s ease-in-out infinite}
-.signal-art::before{width:138px;height:112px}
-.signal-art::after{width:178px;height:88px;border-color:rgba(201,162,76,.17);transform:rotate(28deg);animation-name:orbitInner;animation-duration:12s;animation-direction:reverse}
-@keyframes orbitOuter{0%,100%{transform:rotate(-18deg) scale(1)}50%{transform:rotate(8deg) scale(1.035)}}
-@keyframes orbitInner{0%,100%{transform:rotate(28deg) scale(1)}50%{transform:rotate(-6deg) scale(.965)}}
+.signal-orbits{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.orbit-ring{fill:none;transform-box:fill-box;transform-origin:center;stroke-linecap:round;stroke-dasharray:720;stroke-dashoffset:720;animation:orbitReveal 9s ease-in-out infinite}
+.orbit-ring.outer{stroke:rgba(201,162,76,.34);transform:rotate(-18deg);animation-delay:.1s}
+.orbit-ring.inner{stroke:rgba(46,139,117,.42);transform:rotate(28deg);animation-delay:.7s;animation-duration:8.5s}
+@keyframes orbitReveal{0%{stroke-dashoffset:720;opacity:.2}34%{stroke-dashoffset:0;opacity:.8}45%{opacity:.8}55%{opacity:.54}66%{opacity:.8}100%{stroke-dashoffset:0;opacity:.2}}
 .orbit-dot{position:absolute;z-index:2;width:8px;height:8px;border-radius:50%;background:var(--gold-pale);box-shadow:0 0 0 5px rgba(201,162,76,.1),0 0 18px rgba(201,162,76,.7);top:17px;right:calc(50% - 70px)}
 .illusWrap{position:relative;z-index:1;width:145px;height:218px;animation:illusIn .7s var(--ease) both,floatCharacter 6s ease-in-out .7s infinite}
 @keyframes illusIn{from{opacity:0;transform:translateY(9px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
@@ -118,8 +118,7 @@ button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);o
   .signal-subtitle{max-width:230px;font-size:15px;line-height:1.45}
   .signal-art{position:absolute;right:-7%;bottom:8px;width:57%;height:100%;margin:0;place-items:center}
   .orbit-dot{top:13%;right:31%}
-  .signal-art::before{width:140px;height:210px}
-  .signal-art::after{width:168px;height:120px;border-color:rgba(46,139,117,.36)}
+  .signal-orbits{width:190px;height:255px}
   .illusWrap{width:clamp(128px,35vw,145px);height:clamp(190px,50vw,210px)}
   .status-badge{position:absolute;left:28px;bottom:18px;margin:0;font-size:11px}
 }
@@ -131,8 +130,7 @@ button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);o
   .signal-subtitle{font-size:12px}
   .signal-art{right:-7%;bottom:5px;width:58%;height:100%}
   .orbit-dot{top:13%;right:29%}
-  .signal-art::before{width:126px;height:192px}
-  .signal-art::after{width:150px;height:110px;border-color:rgba(46,139,117,.36)}
+  .signal-orbits{width:165px;height:230px}
   .illusWrap{width:122px;height:184px}
   .status-badge{left:16px;bottom:17px;font-size:10px}
   .form-panel{padding:16px 13px 14px}
@@ -158,6 +156,10 @@ button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);o
           <p class="signal-subtitle" id="tagline">A calm place to build language, confidence and momentum.</p>
         </div>
         <div class="signal-art" aria-hidden="true">
+          <svg class="signal-orbits" viewBox="0 0 200 280" preserveAspectRatio="xMidYMid meet">
+            <ellipse class="orbit-ring outer" cx="100" cy="140" rx="70" ry="112"></ellipse>
+            <ellipse class="orbit-ring inner" cx="100" cy="140" rx="88" ry="62"></ellipse>
+          </svg>
           <span class="orbit-dot"></span>
           <div class="illusWrap"><img class="illusImg" alt="Lexora character in Ankara-print top, waving in greeting" src="assets/characters/auth-01.png" onerror="this.classList.add('imgFallback');this.removeAttribute('src')"></div>
         </div>
