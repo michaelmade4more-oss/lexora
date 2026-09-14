@@ -6,6 +6,8 @@ This document describes the first-milestone command/query boundaries. It is not 
 
 - `POST /v1/auth/signup` — creates an Adult Account with a password credential and durable session.
 - `POST /v1/auth/login` — verifies credentials, applies abuse controls, and creates or rotates a durable session.
+- `GET /v1/auth/google` — starts the server-side Google OpenID Connect authorization-code flow with signed state and nonce protection.
+- `GET /v1/auth/google/callback` — validates the Google ID token, creates or finds the Google identity, and establishes the normal Lexora session.
 - `POST /v1/auth/recovery/request` — creates a time-limited one-time recovery token without disclosing account existence.
 - `POST /v1/auth/recovery/reset` — consumes a recovery token, updates the password, and revokes existing sessions.
 - `POST /v1/webhooks/postmark/recovery` — authenticated, idempotent Postmark delivery and bounce webhook boundary.

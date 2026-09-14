@@ -8,6 +8,7 @@ import { authorizeChildRead, canCreateClass, canDeleteChild, canRemoveClassMembe
 import { createHash, randomUUID, timingSafeEqual } from 'node:crypto';
 import { createRecoveryToken, hashRecoveryToken, hashPassword, normalizeEmail, validatePasswordPolicy, verifyPassword } from './security/credentials.js';
 import { createRecoveryDeliveryProvider, deliverRecoveryWithRetry, type RecoveryDeliveryProvider } from './recovery/delivery.js';
+import { createGoogleAuthorizationUrl, exchangeAndVerifyGoogleCode, createOAuthState, googleConfig, randomOAuthNonce, verifyOAuthState } from './security/google.js';
 
 export interface AppOptions { store?: MemoryStore; repository?: FoundationRepository; testAuth?: boolean; recoveryProvider?: RecoveryDeliveryProvider; }
 type Body = Record<string, unknown>; type Params = Record<string, string>;
@@ -46,9 +47,55 @@ export function buildApp(options: AppOptions = {}): { app: FastifyInstance; stor
   function bodySchema(properties: Record<string, unknown>) { return { type: 'object', properties, additionalProperties: false }; }
   function ipHash(request: FastifyRequest) { return hashRecoveryToken(request.ip || 'unknown'); }
   function authCookie(reply: any, session: { id: string }) { reply.setCookie('lexora_session', session.id, { httpOnly: true, sameSite: 'lax', path: '/', secure: String(process.env.NODE_ENV) === 'production' }); }
+  const frontendOrigin = () => process.env.LEXORA_ALLOWED_ORIGIN || 'https://lexora-15qy.onrender.com';
+  function googleErrorRedirect(code: string) { return `${frontendOrigin()}/auth.html?oauth_error=${encodeURIComponent(code)}`; }
   function webhookAuthorized(request: FastifyRequest) { const header = String(request.headers.authorization || ''); if (!header.startsWith('Basic ') || !process.env.POSTMARK_WEBHOOK_USERNAME || !process.env.POSTMARK_WEBHOOK_PASSWORD) return false; const expected = Buffer.from(`${process.env.POSTMARK_WEBHOOK_USERNAME}:${process.env.POSTMARK_WEBHOOK_PASSWORD}`).toString('base64'); const actual = Buffer.from(header.slice(6)); const wanted = Buffer.from(expected); return actual.length === wanted.length && timingSafeEqual(actual, wanted); }
 
   app.get('/health', async () => ({ status: 'ok', service: 'lexora-foundation-api' }));
+  app.get('/v1/auth/google', async (_request, reply) => {
+    try {
+      googleConfig();
+      const nonce = randomOAuthNonce();
+      const state = createOAuthState(nonce);
+      const url = await createGoogleAuthorizationUrl(state, nonce);
+      reply.setCookie('lexora_oauth_state', state, { httpOnly: true, sameSite: 'lax', path: '/v1/auth/google', secure: String(process.env.NODE_ENV) === 'production', maxAge: 600 });
+      return reply.redirect(url);
+    } catch { return reply.redirect(googleErrorRedirect('google_unavailable')); }
+  });
+  app.get('/v1/auth/google/callback', async (request, reply) => {
+    const query = request.query as { code?: string; state?: string; error?: string };
+    const stateCookie = request.cookies.lexora_oauth_state;
+    reply.clearCookie('lexora_oauth_state', { path: '/v1/auth/google' });
+    const state = stateCookie && query.state && stateCookie === query.state ? verifyOAuthState(query.state) : null;
+    if (!state || !query.code || query.error) return reply.redirect(googleErrorRedirect(query.error === 'access_denied' ? 'google_cancelled' : 'google_failed'));
+    try {
+      const identity = await exchangeAndVerifyGoogleCode(query.code, state.nonce);
+      let account = await repo.findAccountByIdentity('google', identity.subject);
+      if (!account) {
+        const existing = await repo.findAccountByEmail(identity.email);
+        if (existing) {
+          await repo.createAudit({ actorAccountId: existing.id, eventType: 'google_authentication_rejected_existing_password_account', targetType: 'adult_account', targetId: existing.id, result: 'failure', scope: 'google' });
+          return reply.redirect(googleErrorRedirect('google_email_exists'));
+        }
+        account = await repo.withTransaction(async tx => {
+          const created = await tx.createGoogleAccount(identity.email, identity.displayName, identity.subject);
+          await tx.createAudit({ actorAccountId: created.id, eventType: 'google_account_created', targetType: 'adult_account', targetId: created.id, result: 'success', scope: 'google' });
+          return created;
+        });
+      }
+      if (account.status !== 'active') {
+        await repo.createAudit({ actorAccountId: account.id, eventType: 'google_authentication_failed', targetType: 'adult_account', targetId: account.id, result: 'failure', scope: 'google' });
+        return reply.redirect(googleErrorRedirect('google_account_unavailable'));
+      }
+      const existingSession = await auth(request);
+      const session = existingSession ? await repo.rotateSession(existingSession.session.id, account.id, Number(process.env.SESSION_TTL_SECONDS || 28800) * 1000) : await repo.createSession(account.id, Number(process.env.SESSION_TTL_SECONDS || 28800) * 1000);
+      authCookie(reply, session);
+      await repo.createAudit({ actorAccountId: account.id, eventType: 'google_authentication_succeeded', targetType: 'adult_account', targetId: account.id, result: 'success', scope: 'google' });
+      return reply.redirect(`${frontendOrigin()}/profile-picker.html`);
+    } catch {
+      return reply.redirect(googleErrorRedirect('google_failed'));
+    }
+  });
   app.post('/v1/auth/signup', { config: { rateLimit: { max: 5, timeWindow: '15 minutes' } }, schema: { body: bodySchema({ email: { type: 'string', minLength: 3, maxLength: 320 }, password: { type: 'string', minLength: 12, maxLength: 128 }, displayName: { type: 'string', minLength: 1, maxLength: 120 } }) } }, async (request, reply) => {
     const body = request.body as Body; const email = normalizeEmail(String(body.email || '')); const password = String(body.password || ''); const displayName = String(body.displayName || '').trim();
     if (!email.includes('@') || validatePasswordPolicy(password) || !displayName) return reply.code(400).send({ error: 'invalid_request' });
