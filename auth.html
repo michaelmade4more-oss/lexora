@@ -50,12 +50,15 @@ button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);o
 .signal-title em{color:var(--gold);font-style:normal}
 .signal-subtitle{margin:11px 0 0;max-width:250px;color:var(--muted);font-size:13px;line-height:1.45}
 .signal-art{position:relative;right:auto;bottom:auto;width:100%;height:148px;margin:8px 0 0;display:grid;place-items:center}
-.signal-art::before,.signal-art::after{content:"";position:absolute;border:1px solid rgba(201,162,76,.28);border-radius:50%;transform:rotate(-18deg)}
+.signal-art::before,.signal-art::after{content:"";position:absolute;border:1px solid rgba(201,162,76,.28);border-radius:50%;transform:rotate(-18deg);transform-origin:center;animation:orbitOuter 16s ease-in-out infinite}
 .signal-art::before{width:138px;height:112px}
-.signal-art::after{width:178px;height:88px;border-color:rgba(201,162,76,.17);transform:rotate(28deg)}
+.signal-art::after{width:178px;height:88px;border-color:rgba(201,162,76,.17);transform:rotate(28deg);animation-name:orbitInner;animation-duration:12s;animation-direction:reverse}
+@keyframes orbitOuter{0%,100%{transform:rotate(-18deg) scale(1)}50%{transform:rotate(8deg) scale(1.035)}}
+@keyframes orbitInner{0%,100%{transform:rotate(28deg) scale(1)}50%{transform:rotate(-6deg) scale(.965)}}
 .orbit-dot{position:absolute;z-index:2;width:8px;height:8px;border-radius:50%;background:var(--gold-pale);box-shadow:0 0 0 5px rgba(201,162,76,.1),0 0 18px rgba(201,162,76,.7);top:17px;right:calc(50% - 70px)}
-.illusWrap{position:relative;z-index:1;width:145px;height:218px;animation:illusIn .7s var(--ease) both}
+.illusWrap{position:relative;z-index:1;width:145px;height:218px;animation:illusIn .7s var(--ease) both,floatCharacter 6s ease-in-out .7s infinite}
 @keyframes illusIn{from{opacity:0;transform:translateY(9px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes floatCharacter{0%,100%{translate:0 0}50%{translate:0 -5px}}
 .illusImg{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 24px rgba(0,0,0,.52))}
 .illusImg.imgFallback{background:var(--surface2);border:1px solid var(--line);border-radius:24px;filter:none;object-fit:none}
 .status-badge{position:relative;left:auto;bottom:auto;display:inline-flex;align-items:center;gap:7px;margin-top:2px;color:var(--muted);font-size:10px}
