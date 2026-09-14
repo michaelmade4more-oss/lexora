@@ -107,7 +107,33 @@ button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);o
   .submitBtn,.socialBtn{min-height:clamp(54px,6vw,62px);font-size:clamp(15px,1.8vw,17px)}
 }
 @media (max-height:620px) and (orientation:landscape) and (max-width:1199px){.auth-content{padding-top:18px}.signal-panel{min-height:260px}.auth-shell{padding-top:12px;padding-bottom:14px}.brand-note{display:none}}
-@media (max-width:380px){.auth-shell{padding-left:14px;padding-right:14px}.signal-panel{min-height:0;padding-left:16px;padding-right:16px}.signal-copy{max-width:185px}.signal-title{font-size:24px}.signal-subtitle{font-size:12px}.signal-art{width:100%;height:132px}.illusWrap{width:122px;height:184px}.form-panel{padding:16px 13px 14px}.form-heading{font-size:18px}.inputBox{min-height:50px}.submitBtn,.socialBtn{min-height:52px}}
+@media (max-width:599px){
+  .signal-panel{min-height:clamp(390px,112vw,458px);padding:28px 28px 22px}
+  .signal-copy{max-width:57%;z-index:2}
+  .signal-title{font-size:clamp(31px,8.8vw,41px);line-height:1.02}
+  .signal-subtitle{max-width:230px;font-size:15px;line-height:1.45}
+  .signal-art{position:absolute;right:-3%;bottom:9px;width:55%;height:88%;margin:0}
+  .signal-art::before{width:145px;height:245px}
+  .signal-art::after{width:175px;height:145px}
+  .illusWrap{width:clamp(135px,38vw,180px);height:clamp(205px,57vw,270px)}
+  .status-badge{position:absolute;left:28px;bottom:24px;margin:0;font-size:11px}
+}
+@media (max-width:380px){
+  .auth-shell{padding-left:14px;padding-right:14px}
+  .signal-panel{min-height:clamp(370px,112vw,420px);padding:24px 16px 20px}
+  .signal-copy{max-width:58%}
+  .signal-title{font-size:clamp(27px,8.5vw,31px)}
+  .signal-subtitle{font-size:12px}
+  .signal-art{right:-5%;bottom:4px;width:56%;height:88%}
+  .signal-art::before{width:120px;height:205px}
+  .signal-art::after{width:145px;height:120px}
+  .illusWrap{width:122px;height:184px}
+  .status-badge{left:16px;bottom:19px;font-size:10px}
+  .form-panel{padding:16px 13px 14px}
+  .form-heading{font-size:18px}
+  .inputBox{min-height:50px}
+  .submitBtn,.socialBtn{min-height:52px}
+}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
