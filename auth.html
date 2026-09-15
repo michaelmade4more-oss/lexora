@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#09090b">
 <title>Lexora: Sign In</title>
 <style>
@@ -13,163 +13,184 @@
   --line:#25242a;
   --text:#f1eee7;
   --muted:#9a98a0;
-  --faint:#666469;
+  --faint:#626067;
   --gold:#c9a24c;
   --gold2:#a9874e;
   --gold-pale:#e8d9b5;
   --green:#2e8b75;
-  --shadow-card:0 24px 50px -28px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.03);
+  --green-deep:#1f5c4e;
+  --danger:#e06b76;
+  --radius-xl:28px;
+  --radius-lg:19px;
+  --ease:cubic-bezier(.2,.8,.2,1);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
-  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html,body{margin:0;min-width:280px;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 body{min-height:100dvh;overflow-x:hidden}
-button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
-input{font:inherit;color:inherit}
-#app{min-height:100dvh;max-width:480px;margin:auto;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden}
-
-.ambient{position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:480px;height:420px;
-  background:radial-gradient(circle,rgba(201,162,76,.2),transparent 65%);pointer-events:none}
-
-.heroZone{position:relative;padding:38px 20px 4px;text-align:center}
-.illusWrap{width:190px;height:284px;margin:0 auto;position:relative;animation:illusIn .6s cubic-bezier(.16,1,.3,1) both}
-@keyframes illusIn{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
-.illusImg{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 30px rgba(0,0,0,.5))}
+button,input{font:inherit}
+button{cursor:pointer;touch-action:manipulation;background:none;border:0;color:inherit}
+input{color:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);outline-offset:3px}
+.auth-page{position:relative;min-height:100dvh;isolation:isolate;overflow:hidden;background:radial-gradient(100% 45% at 50% 0%,rgba(31,92,78,.1),transparent 72%),var(--bg)}
+.auth-page::before,.auth-page::after{content:"";position:absolute;z-index:-1;border-radius:50%;pointer-events:none;filter:blur(1px)}
+.auth-page::before{width:280px;height:280px;top:-190px;right:-120px;background:rgba(31,92,78,.15);filter:blur(16px)}
+.auth-page::after{width:300px;height:300px;bottom:-210px;left:-150px;background:rgba(201,162,76,.08)}
+.auth-shell{width:100%;max-width:560px;min-height:100dvh;margin:auto;padding:max(18px,env(safe-area-inset-top)) 18px max(22px,env(safe-area-inset-bottom));display:flex;flex-direction:column}
+.brand-bar{display:flex;align-items:center;justify-content:space-between;min-height:42px}
+.brand-lockup{display:inline-flex;align-items:center;gap:9px;color:var(--muted);font-size:12px;font-weight:750;letter-spacing:.12em}
+.brand-mark{width:28px;height:28px;display:grid;place-items:center;border-radius:9px;background:linear-gradient(145deg,var(--gold-pale),var(--gold2));color:#17130b;font-size:14px;font-weight:850;box-shadow:0 7px 22px rgba(201,162,76,.18)}
+.brand-note{color:var(--faint);font-size:10px;letter-spacing:.04em}
+.auth-content{display:flex;flex:1;flex-direction:column;justify-content:center;gap:18px;padding:clamp(22px,6vh,44px) 0 12px}
+.signal-panel{position:relative;min-height:0;padding:22px 20px 17px;border:1px solid rgba(201,162,76,.2);border-radius:var(--radius-xl);overflow:hidden;background:linear-gradient(145deg,rgba(23,23,28,.98),rgba(18,18,22,.88));box-shadow:0 24px 70px -42px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.05)}
+.signal-panel::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 25%,rgba(232,217,181,.05) 50%,transparent 75%);transform:translateX(-100%);animation:signalSweep 8s var(--ease) infinite;pointer-events:none}
+@keyframes signalSweep{55%,100%{transform:translateX(100%)}}
+.signal-copy{position:relative;z-index:1;max-width:270px}
+.signal-kicker{margin:0 0 9px;color:var(--gold-pale);font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.signal-title{margin:0;font-size:clamp(25px,7vw,34px);line-height:1.02;letter-spacing:-.055em;font-weight:800}
+.signal-title em{color:var(--gold);font-style:normal}
+.signal-subtitle{margin:11px 0 0;max-width:250px;color:var(--muted);font-size:13px;line-height:1.45}
+.signal-art{position:relative;right:auto;bottom:auto;width:100%;height:148px;margin:8px 0 0;display:grid;place-items:center}
+.signal-orbits{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.orbit-ring{fill:none;transform-box:fill-box;transform-origin:center;stroke-linecap:round;stroke-dasharray:720;stroke-dashoffset:720;animation:orbitReveal 9s ease-in-out infinite}
+.orbit-ring.outer{stroke:rgba(201,162,76,.34);transform:rotate(-18deg);animation-delay:.1s}
+.orbit-ring.inner{stroke:rgba(46,139,117,.42);transform:rotate(28deg);animation-delay:.7s;animation-duration:8.5s}
+@keyframes orbitReveal{0%{stroke-dashoffset:720;opacity:0}8%{opacity:.8}34%{stroke-dashoffset:0;opacity:.8}52%{stroke-dashoffset:0;opacity:.58}66%{stroke-dashoffset:0;opacity:.8}100%{stroke-dashoffset:720;opacity:0}}
+.orbit-dot{position:absolute;z-index:2;width:8px;height:8px;border-radius:50%;background:var(--gold-pale);box-shadow:0 0 0 5px rgba(201,162,76,.1),0 0 18px rgba(201,162,76,.7);top:17px;right:calc(50% - 70px)}
+.illusWrap{position:relative;z-index:1;width:145px;height:218px;animation:illusIn .7s var(--ease) both,floatCharacter 6s ease-in-out .7s infinite}
+@keyframes illusIn{from{opacity:0;transform:translateY(9px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes floatCharacter{0%,100%{translate:0 0}50%{translate:0 -5px}}
+.illusImg{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 24px rgba(0,0,0,.52))}
 .illusImg.imgFallback{background:var(--surface2);border:1px solid var(--line);border-radius:24px;filter:none;object-fit:none}
-
-.sparkle{position:absolute;color:var(--gold-pale);opacity:0;animation:sparkleIn 2.4s ease-in-out infinite}
-.sparkle svg{width:100%;height:100%;fill:currentColor}
-.sp1{width:15px;height:15px;top:2px;right:6px;animation-delay:.3s}
-.sp2{width:10px;height:10px;top:96px;left:-8px;animation-delay:1.1s}
-.sp3{width:12px;height:12px;bottom:36px;right:-6px;animation-delay:1.8s}
-@keyframes sparkleIn{0%,100%{opacity:0;transform:scale(.6)}50%{opacity:1;transform:scale(1)}}
-
-.wordmarkRow{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:18px}
-.wmStar{width:20px;height:20px;color:var(--gold)}
-.wmStar svg{width:100%;height:100%;fill:currentColor}
-.wordmark{font-size:24px;font-weight:800;letter-spacing:-.02em}
-.tagline{margin-top:5px;font-size:13.5px;color:var(--muted)}
-
-.switchZone{position:relative;padding:26px 20px 0}
-.switchTrack{position:relative;display:flex;background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:4px}
-.switchSlider{position:absolute;top:4px;bottom:4px;width:calc(50% - 4px);border-radius:10px;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));box-shadow:0 6px 16px -6px rgba(201,162,76,.55);
-  transition:transform .32s cubic-bezier(.2,.8,.2,1)}
-.switchBtn{position:relative;z-index:1;flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;
-  font-size:14.5px;font-weight:700;color:var(--muted);transition:color .3s}
+.status-badge{position:relative;left:auto;bottom:auto;display:inline-flex;align-items:center;gap:7px;margin-top:2px;color:var(--muted);font-size:10px}
+.status-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(46,139,117,.12)}
+.form-panel{padding:20px 16px 16px;border:1px solid var(--line);border-radius:var(--radius-xl);background:rgba(18,18,22,.88);box-shadow:0 24px 65px -45px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.035)}
+.form-heading{margin:0 0 14px;font-size:20px;letter-spacing:-.04em;font-weight:750}
+.form-heading span{display:block;margin-top:5px;color:var(--muted);font-size:12px;font-weight:500;letter-spacing:0}
+.switchTrack{position:relative;display:flex;padding:4px;border:1px solid var(--line);border-radius:14px;background:var(--surface2)}
+.switchSlider{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold2));box-shadow:0 7px 18px -8px rgba(201,162,76,.8);transition:transform .3s var(--ease)}
+.switchBtn{position:relative;z-index:1;flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px;font-weight:750;transition:color .2s}
 .switchBtn.active{color:#1a1408}
-
-.formZone{position:relative;padding:22px 20px 0}
-.fieldGroup{display:flex;flex-direction:column;gap:12px}
-.field{display:none}
-.field.show{display:block;animation:fieldIn .35s cubic-bezier(.2,.7,.2,1) both}
-@keyframes fieldIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.fieldLabel{font-size:11.5px;font-weight:650;color:var(--faint);margin:0 2px 6px;display:block}
+.formZone{position:relative;padding-top:18px}
+.fieldGroup{display:flex;flex-direction:column;gap:11px}
+.field{display:none}.field.show{display:block;animation:fieldIn .3s var(--ease) both}
+@keyframes fieldIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.fieldLabel{display:block;margin:0 2px 6px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.02em}
 .inputWrap{position:relative}
-.inputBox{width:100%;min-height:52px;border-radius:14px;background:var(--surface2);border:1px solid var(--line);
-  color:var(--text);padding:0 16px;font-size:15px;outline:none;transition:border-color .18s,box-shadow .18s}
+.inputBox{width:100%;min-height:52px;padding:0 15px;border:1px solid var(--line);border-radius:15px;background:rgba(23,23,28,.9);color:var(--text);font-size:15px;outline:none;transition:border-color .18s,background .18s,box-shadow .18s}
 .inputBox::placeholder{color:var(--faint)}
-.inputBox:focus{border-color:var(--gold2);box-shadow:0 0 0 3px rgba(201,162,76,.14)}
-.inputBox.pw{padding-right:46px}
-.eyeBtn{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:42px;height:42px;
-  display:grid;place-items:center;color:var(--faint)}
+.inputBox:hover{border-color:#3a3941}
+.inputBox:focus{border-color:var(--gold2);background:var(--surface2);box-shadow:0 0 0 4px rgba(201,162,76,.13)}
+.inputBox.pw{padding-right:48px}
+.eyeBtn{position:absolute;right:4px;top:50%;width:42px;height:42px;display:grid;place-items:center;transform:translateY(-50%);color:var(--faint)}
 .eyeBtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-
-.forgotRow{text-align:right;margin-top:8px}
-.forgotLink{font-size:12.5px;color:var(--gold-pale);font-weight:600}
-
-.submitBtn{width:100%;min-height:56px;border-radius:16px;font-size:16px;font-weight:700;letter-spacing:-.01em;
-  margin-top:20px;display:flex;align-items:center;justify-content:center;gap:8px;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1408;
-  box-shadow:0 10px 26px -10px rgba(201,162,76,.55);transition:transform .12s,filter .12s}
-.submitBtn:active{transform:scale(.98);filter:brightness(.95)}
-
-.dividerRow{display:flex;align-items:center;gap:12px;margin:22px 0}
-.dividerLine{flex:1;height:1px;background:var(--line)}
-.dividerText{font-size:11.5px;color:var(--faint);font-weight:600}
-
-.socialBtn{width:100%;min-height:52px;border-radius:14px;background:var(--surface2);border:1px solid var(--line);
-  display:flex;align-items:center;justify-content:center;gap:10px;font-size:14.5px;font-weight:650;color:var(--text);
-  transition:border-color .15s,transform .12s}
-.socialBtn:active{transform:scale(.98);border-color:var(--gold2)}
-.socialBtn svg{width:18px;height:18px}
-
-.footNote{text-align:center;margin:22px 20px calc(28px + env(safe-area-inset-bottom));font-size:12px;
-  color:var(--faint);line-height:1.6}
-.footNote b{color:var(--muted);font-weight:600}
-.status{min-height:20px;margin:10px 0 0;color:var(--muted);font-size:12px;line-height:1.4;text-align:center}.status:not(:empty){padding:9px 10px;border:1px solid rgba(201,162,76,.2);border-radius:11px;background:rgba(201,162,76,.06)}
-.status{min-height:20px;margin:10px 0 0;color:var(--muted);font-size:12px;line-height:1.4;text-align:center}.status:not(:empty){padding:9px 10px;border:1px solid rgba(201,162,76,.2);border-radius:11px;background:rgba(201,162,76,.06)}
+.forgotRow{margin-top:8px;text-align:right}.forgotLink{color:var(--gold-pale);font-size:12px;font-weight:650}
+.submitBtn,.socialBtn{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;min-height:54px;border-radius:15px;font-size:15px;font-weight:800;transition:transform .15s,filter .15s,border-color .15s,background .15s}
+.submitBtn{margin-top:18px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1408;box-shadow:0 12px 28px -13px rgba(201,162,76,.9)}
+.submitBtn:active,.socialBtn:active{transform:scale(.985)}
+.submitBtn:hover{filter:brightness(1.06)}
+.submitBtn:disabled{opacity:.62;cursor:wait}
+.dividerRow{display:flex;align-items:center;gap:11px;margin:18px 0}.dividerLine{height:1px;flex:1;background:var(--line)}.dividerText{color:var(--faint);font-size:10px;font-weight:800;letter-spacing:.15em}
+.socialBtn{border:1px solid var(--line);background:var(--surface2);color:var(--text);font-weight:700}.socialBtn:hover{border-color:rgba(201,162,76,.48);background:#1b1b21}.socialBtn svg{width:18px;height:18px}
+.status{min-height:20px;margin:11px 2px 0;color:var(--muted);font-size:12px;line-height:1.4;text-align:center}.status:not(:empty){padding:9px 10px;border:1px solid rgba(201,162,76,.2);border-radius:11px;background:rgba(201,162,76,.06)}
+.footNote{margin:16px 10px 0;color:var(--faint);font-size:10px;line-height:1.55;text-align:center}.footNote b{color:var(--muted);font-weight:650}
+.brand-lockup,.brand-note,.signal-kicker,.signal-subtitle,.status-badge,.form-heading span,.switchBtn,.fieldLabel,.forgotLink,.dividerText,.status,.footNote{font-family:Roboto,-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif}
+@media (min-width:600px) and (max-width:1199px){
+  .auth-shell{max-width:900px;padding-left:clamp(28px,6vw,72px);padding-right:clamp(28px,6vw,72px)}
+  .auth-content{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(20px,4vw,52px);padding-top:clamp(34px,7vh,78px)}
+  .signal-panel{min-height:clamp(300px,45vw,450px);padding:clamp(24px,4vw,42px)}
+  .signal-title{font-size:clamp(30px,4.5vw,45px)}
+  .signal-subtitle{font-size:clamp(13px,1.7vw,16px);max-width:245px}
+  .signal-art{position:absolute;right:0;bottom:-12px;width:49%;height:100%;margin:0}
+  .signal-art::before{width:155px;height:205px}
+  .signal-art::after{width:185px;height:120px;border-color:rgba(201,162,76,.2)}
+  .illusWrap{width:clamp(150px,22vw,220px);height:clamp(225px,33vw,330px)}
+  .status-badge{position:absolute;left:clamp(24px,4vw,42px);bottom:clamp(20px,3vw,32px);margin:0}
+  .form-panel{padding:clamp(22px,3vw,34px)}
+  .form-heading{font-size:clamp(20px,2.8vw,28px)}
+  .inputBox{min-height:clamp(52px,6vw,60px);font-size:clamp(15px,1.8vw,17px)}
+  .submitBtn,.socialBtn{min-height:clamp(54px,6vw,62px);font-size:clamp(15px,1.8vw,17px)}
+}
+@media (max-height:620px) and (orientation:landscape) and (max-width:1199px){.auth-content{padding-top:18px}.signal-panel{min-height:260px}.auth-shell{padding-top:12px;padding-bottom:14px}.brand-note{display:none}}
+@media (max-width:599px){
+  .signal-panel{min-height:clamp(260px,73vw,285px);padding:22px 28px 18px}
+  .signal-copy{max-width:58%;z-index:2}
+  .signal-title{margin-top:11px;font-size:clamp(31px,8.8vw,35px);line-height:1.02}
+  .signal-subtitle{max-width:230px;font-size:15px;line-height:1.45}
+  .signal-art{position:absolute;right:-7%;bottom:8px;width:57%;height:100%;margin:0;place-items:center}
+  .signal-orbits{transform:translateX(13px)}
+  .orbit-dot{top:13%;right:31%}
+  .signal-orbits{width:190px;height:255px}
+  .illusWrap{width:clamp(128px,35vw,145px);height:clamp(190px,50vw,210px)}
+  .status-badge{position:absolute;left:28px;bottom:18px;margin:0;font-size:11px}
+}
+@media (max-width:380px){
+  .auth-shell{padding-left:14px;padding-right:14px}
+  .signal-panel{min-height:260px;padding:21px 16px 18px}
+  .signal-copy{max-width:58%}
+  .signal-title{font-size:31px}
+  .signal-subtitle{font-size:12px}
+  .signal-art{right:-7%;bottom:5px;width:58%;height:100%}
+  .signal-orbits{transform:translateX(11px)}
+  .orbit-dot{top:13%;right:29%}
+  .signal-orbits{width:165px;height:230px}
+  .illusWrap{width:122px;height:184px}
+  .status-badge{left:16px;bottom:17px;font-size:10px}
+  .form-panel{padding:16px 13px 14px}
+  .form-heading{font-size:18px}
+  .inputBox{min-height:50px}
+  .submitBtn,.socialBtn{min-height:52px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div id="app">
-  <div class="ambient"></div>
-
-  <div class="heroZone">
-    <div class="illusWrap">
-      <img class="illusImg" alt="Lexora character in Ankara-print top, waving in greeting" src="assets/characters/auth-01.png" onerror="this.classList.add('imgFallback');this.removeAttribute('src')">
-      <span class="sparkle sp1"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></span>
-      <span class="sparkle sp2"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></span>
-      <span class="sparkle sp3"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></span>
-    </div>
-
-    <div class="wordmarkRow">
-      <span class="wmStar"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></span>
-      <span class="wordmark">Lexora</span>
-    </div>
-    <p class="tagline" id="tagline">Good to see you again. Let's keep going.</p>
-  </div>
-
-  <div class="switchZone">
-    <div class="switchTrack">
-      <div class="switchSlider" id="switchSlider"></div>
-      <button type="button" class="switchBtn active" id="loginTab">Log in</button>
-      <button type="button" class="switchBtn" id="signupTab">Sign up</button>
-    </div>
-  </div>
-
-  <main class="formZone">
-    <div class="fieldGroup">
-      <div class="field" id="nameField">
-        <label class="fieldLabel" for="nameInput">Full name</label>
-        <div class="inputWrap"><input class="inputBox" id="nameInput" type="text" placeholder="Michael O." autocomplete="name"></div>
-      </div>
-
-      <div class="field show" id="emailField">
-        <label class="fieldLabel" for="emailInput">Email</label>
-        <div class="inputWrap"><input class="inputBox" id="emailInput" type="email" placeholder="you@email.com" autocomplete="email"></div>
-      </div>
-
-      <div class="field show" id="pwField">
-        <label class="fieldLabel" for="pwInput">Password</label>
-        <div class="inputWrap">
-          <input class="inputBox pw" type="password" placeholder="Enter your password" id="pwInput">
-          <button type="button" class="eyeBtn" id="eyeBtn" aria-label="Show password">
-            <svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
+<div class="auth-page">
+  <div class="auth-shell">
+    <header class="brand-bar">
+      <div class="brand-lockup"><span class="brand-mark" aria-hidden="true">L</span><span>LEXORA</span></div>
+      <span class="brand-note">A little progress, every day</span>
+    </header>
+    <main class="auth-content">
+      <section class="signal-panel" aria-label="Lexora introduction">
+        <div class="signal-copy">
+          <p class="signal-kicker">Your learning signal</p>
+          <h1 class="signal-title">Keep your <em>curiosity</em> switched on.</h1>
+          <p class="signal-subtitle" id="tagline">A calm place to build language, confidence and momentum.</p>
         </div>
-      </div>
-    </div>
-
-    <div class="forgotRow" id="forgotRow">
-      <button type="button" class="forgotLink">Forgot password?</button>
-    </div>
-
-    <button type="button" class="submitBtn" id="submitBtn">Log in</button>
-    <div class="status" id="status" role="status" aria-live="polite"></div>
-
-    <div class="dividerRow"><span class="dividerLine"></span><span class="dividerText">OR</span><span class="dividerLine"></span></div>
-
-    <button type="button" class="socialBtn" id="googleBtn">
-      <svg viewBox="0 0 24 24"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.24 1.4-1.7 4.1-5.5 4.1-3.3 0-6-2.7-6-6.2s2.7-6.2 6-6.2c1.9 0 3.1.8 3.9 1.5l2.6-2.5C16.9 3.2 14.7 2.2 12 2.2 6.9 2.2 2.7 6.4 2.7 12s4.2 9.8 9.3 9.8c5.4 0 8.9-3.8 8.9-9.1 0-.6-.07-1.1-.16-1.6H12z"/></svg>
-      Continue with Google
-    </button>
-  </main>
-
-  <p class="footNote" id="footNote">By continuing, you agree to Lexora's <b>Terms</b> and <b>Privacy Policy</b>.</p>
+        <div class="signal-art" aria-hidden="true">
+          <svg class="signal-orbits" viewBox="0 0 200 280" preserveAspectRatio="xMidYMid meet">
+            <ellipse class="orbit-ring outer" cx="100" cy="140" rx="70" ry="112"></ellipse>
+            <ellipse class="orbit-ring inner" cx="100" cy="140" rx="88" ry="62"></ellipse>
+          </svg>
+          <span class="orbit-dot"></span>
+          <div class="illusWrap"><img class="illusImg" alt="Lexora character in Ankara-print top, waving in greeting" src="assets/characters/auth-01.png" onerror="this.classList.add('imgFallback');this.removeAttribute('src')"></div>
+        </div>
+        <span class="status-badge">Built for every kind of learner</span>
+      </section>
+      <section class="form-panel" aria-labelledby="authTitle">
+        <h2 class="form-heading" id="authTitle">Welcome back<span>Pick up where you left off.</span></h2>
+        <div class="switchTrack">
+          <div class="switchSlider" id="switchSlider"></div>
+          <button class="switchBtn active" id="loginTab" type="button">Log in</button>
+          <button class="switchBtn" id="signupTab" type="button">Sign up</button>
+        </div>
+        <div class="formZone">
+          <div class="fieldGroup">
+            <div class="field" id="nameField"><label class="fieldLabel" for="nameInput">Full name</label><div class="inputWrap"><input class="inputBox" id="nameInput" type="text" placeholder="Michael O." autocomplete="name"></div></div>
+            <div class="field show" id="emailField"><label class="fieldLabel" for="emailInput">Email</label><div class="inputWrap"><input class="inputBox" id="emailInput" type="email" placeholder="you@email.com" autocomplete="email"></div></div>
+            <div class="field show" id="pwField"><label class="fieldLabel" for="pwInput">Password</label><div class="inputWrap"><input class="inputBox pw" type="password" placeholder="Enter your password" id="pwInput" autocomplete="current-password"><button class="eyeBtn" id="eyeBtn" type="button" aria-label="Show password"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+          </div>
+          <div class="forgotRow" id="forgotRow"><button class="forgotLink" type="button">Forgot password?</button></div>
+          <button class="submitBtn" id="submitBtn" type="button">Log in</button>
+          <div class="status" id="status" role="status" aria-live="polite"></div>
+          <div class="dividerRow"><span class="dividerLine"></span><span class="dividerText">OR</span><span class="dividerLine"></span></div>
+          <button class="socialBtn" id="googleBtn" type="button"><svg viewBox="0 0 24 24"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.24 1.4-1.7 4.1-5.5 4.1-3.3 0-6-2.7-6-6.2s2.7-6.2 6-6.2c1.9 0 3.1.8 3.9 1.5l2.6-2.5C16.9 3.2 14.7 2.2 12 2.2 6.9 2.2 2.7 6.4 2.7 12s4.2 9.8 9.3 9.8c5.4 0 8.9-3.8 8.9-9.1 0-.6-.07-1.1-.16-1.6H12z"/></svg>Continue with Google</button>
+        </div>
+      </section>
+    </main>
+    <p class="footNote" id="footNote">By continuing, you agree to Lexora's <b>Terms</b> and <b>Privacy Policy</b>.</p>
+  </div>
 </div>
-
 <script>
 var API_BASE = 'https://lexora-web.onrender.com';
 var loginTab = document.getElementById('loginTab');
