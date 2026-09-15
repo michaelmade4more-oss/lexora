@@ -50,6 +50,14 @@ export function buildApp(options: AppOptions = {}): { app: FastifyInstance; stor
   const frontendOrigin = () => process.env.LEXORA_ALLOWED_ORIGIN || 'https://lexora-15qy.onrender.com';
   function googleErrorRedirect(code: string) { return `${frontendOrigin()}/auth.html?oauth_error=${encodeURIComponent(code)}`; }
   function oauthDiagnostic(stage: string, category?: string) { console.info(JSON.stringify({ event: stage, ...(category ? { category } : {}) })); }
+  function identityLookupErrorCategory(error: unknown) {
+    const code = typeof error === 'object' && error !== null && 'code' in error ? String((error as { code?: unknown }).code) : '';
+    if (['ECONNREFUSED', 'ECONNRESET', 'ETIMEDOUT', '57P01', '08000', '08001', '08003', '08004', '08006'].includes(code)) return 'connection_error';
+    if (['42P01', '42703', '42883', '42704'].includes(code)) return 'schema_error';
+    if (['22P02', '22023'].includes(code)) return 'query_error';
+    if (code) return 'database_error';
+    return error instanceof Error ? 'repository_error' : 'unexpected_error';
+  }
   function oauthErrorCategory(error: unknown) {
     const known = ['missing_id_token', 'invalid_google_identity', 'invalid_google_issuer', 'invalid_google_audience', 'expired_google_identity', 'invalid_google_nonce'];
     return error instanceof Error && known.includes(error.message) ? error.message : error instanceof Error ? error.name : typeof error;
@@ -91,7 +99,14 @@ export function buildApp(options: AppOptions = {}): { app: FastifyInstance; stor
     try {
       const identity = await exchangeAndVerifyGoogleCode(query.code, stateResult.nonce, oauthDiagnostic);
       oauthDiagnostic('GOOGLE_IDENTITY_LOOKUP');
-      let account = await repo.findAccountByIdentity('google', identity.subject);
+      let account;
+      try {
+        account = await repo.findAccountByIdentity('google', identity.subject);
+        oauthDiagnostic(account ? 'GOOGLE_IDENTITY_LOOKUP_SUCCESS' : 'GOOGLE_IDENTITY_LOOKUP_NOT_FOUND');
+      } catch (error) {
+        oauthDiagnostic('GOOGLE_IDENTITY_LOOKUP_FAILED', identityLookupErrorCategory(error));
+        throw error;
+      }
       if (!account) {
         const existing = await repo.findAccountByEmail(identity.email);
         if (existing) {
