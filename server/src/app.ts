@@ -8,7 +8,7 @@ import { authorizeChildRead, canCreateClass, canDeleteChild, canRemoveClassMembe
 import { createHash, randomUUID, timingSafeEqual } from 'node:crypto';
 import { createRecoveryToken, hashRecoveryToken, hashPassword, normalizeEmail, validatePasswordPolicy, verifyPassword } from './security/credentials.js';
 import { createRecoveryDeliveryProvider, deliverRecoveryWithRetry, type RecoveryDeliveryProvider } from './recovery/delivery.js';
-import { createGoogleAuthorizationUrl, exchangeAndVerifyGoogleCode, createOAuthState, googleConfig, randomOAuthNonce, verifyOAuthState } from './security/google.js';
+import { createGoogleAuthorizationUrl, exchangeAndVerifyGoogleCode, createOAuthState, googleConfig, randomOAuthNonce, validateOAuthState } from './security/google.js';
 
 export interface AppOptions { store?: MemoryStore; repository?: FoundationRepository; testAuth?: boolean; recoveryProvider?: RecoveryDeliveryProvider; }
 type Body = Record<string, unknown>; type Params = Record<string, string>;
@@ -49,6 +49,11 @@ export function buildApp(options: AppOptions = {}): { app: FastifyInstance; stor
   function authCookie(reply: any, session: { id: string }) { const production = String(process.env.NODE_ENV) === 'production'; reply.setCookie('lexora_session', session.id, { httpOnly: true, sameSite: production ? 'none' : 'lax', path: '/', secure: production }); }
   const frontendOrigin = () => process.env.LEXORA_ALLOWED_ORIGIN || 'https://lexora-15qy.onrender.com';
   function googleErrorRedirect(code: string) { return `${frontendOrigin()}/auth.html?oauth_error=${encodeURIComponent(code)}`; }
+  function oauthDiagnostic(stage: string, category?: string) { console.info(JSON.stringify({ event: stage, ...(category ? { category } : {}) })); }
+  function oauthErrorCategory(error: unknown) {
+    const known = ['missing_id_token', 'invalid_google_identity', 'invalid_google_issuer', 'invalid_google_audience', 'expired_google_identity', 'invalid_google_nonce'];
+    return error instanceof Error && known.includes(error.message) ? error.message : error instanceof Error ? error.name : typeof error;
+  }
   function webhookAuthorized(request: FastifyRequest) { const header = String(request.headers.authorization || ''); if (!header.startsWith('Basic ') || !process.env.POSTMARK_WEBHOOK_USERNAME || !process.env.POSTMARK_WEBHOOK_PASSWORD) return false; const expected = Buffer.from(`${process.env.POSTMARK_WEBHOOK_USERNAME}:${process.env.POSTMARK_WEBHOOK_PASSWORD}`).toString('base64'); const actual = Buffer.from(header.slice(6)); const wanted = Buffer.from(expected); return actual.length === wanted.length && timingSafeEqual(actual, wanted); }
 
   app.get('/health', async () => ({ status: 'ok', service: 'lexora-foundation-api' }));
@@ -63,13 +68,29 @@ export function buildApp(options: AppOptions = {}): { app: FastifyInstance; stor
     } catch { return reply.redirect(googleErrorRedirect('google_unavailable')); }
   });
   app.get('/v1/auth/google/callback', async (request, reply) => {
+    oauthDiagnostic('GOOGLE_OAUTH_CALLBACK_STARTED');
     const query = request.query as { code?: string; state?: string; error?: string };
     const stateCookie = request.cookies.lexora_oauth_state;
+    oauthDiagnostic('STATE_COOKIE_CHECK', stateCookie ? 'present' : 'missing');
     reply.clearCookie('lexora_oauth_state', { path: '/v1/auth/google' });
-    const state = stateCookie && query.state && stateCookie === query.state ? verifyOAuthState(query.state) : null;
-    if (!state || !query.code || query.error) return reply.redirect(googleErrorRedirect(query.error === 'access_denied' ? 'google_cancelled' : 'google_failed'));
+    oauthDiagnostic('STATE_PARAMETER_CHECK', query.state ? 'present' : 'missing');
+    if (!stateCookie || !query.state || stateCookie !== query.state) {
+      oauthDiagnostic('STATE_SIGNATURE_VALIDATION', 'cookie_mismatch');
+      return reply.redirect(googleErrorRedirect(query.error === 'access_denied' ? 'google_cancelled' : 'google_failed'));
+    }
+    const stateResult = validateOAuthState(query.state);
+    if ('failure' in stateResult) {
+      oauthDiagnostic('STATE_SIGNATURE_VALIDATION', stateResult.failure === 'signature' ? 'invalid_signature' : 'failed');
+      oauthDiagnostic('STATE_EXPIRATION_VALIDATION', stateResult.failure === 'expired' ? 'expired' : 'not_reached');
+      return reply.redirect(googleErrorRedirect(query.error === 'access_denied' ? 'google_cancelled' : 'google_failed'));
+    }
+    oauthDiagnostic('STATE_SIGNATURE_VALIDATION', 'success');
+    oauthDiagnostic('STATE_EXPIRATION_VALIDATION', 'success');
+    oauthDiagnostic('AUTHORIZATION_CODE_PRESENT', query.code ? 'present' : 'missing');
+    if (!query.code || query.error) return reply.redirect(googleErrorRedirect(query.error === 'access_denied' ? 'google_cancelled' : 'google_failed'));
     try {
-      const identity = await exchangeAndVerifyGoogleCode(query.code, state.nonce);
+      const identity = await exchangeAndVerifyGoogleCode(query.code, stateResult.nonce, oauthDiagnostic);
+      oauthDiagnostic('GOOGLE_IDENTITY_LOOKUP');
       let account = await repo.findAccountByIdentity('google', identity.subject);
       if (!account) {
         const existing = await repo.findAccountByEmail(identity.email);
@@ -82,17 +103,23 @@ export function buildApp(options: AppOptions = {}): { app: FastifyInstance; stor
           await tx.createAudit({ actorAccountId: created.id, eventType: 'google_account_created', targetType: 'adult_account', targetId: created.id, result: 'success', scope: 'google' });
           return created;
         });
+        oauthDiagnostic('ACCOUNT_CREATION_OR_REUSE', 'created');
+      } else {
+        oauthDiagnostic('ACCOUNT_CREATION_OR_REUSE', 'reused');
       }
       if (account.status !== 'active') {
         await repo.createAudit({ actorAccountId: account.id, eventType: 'google_authentication_failed', targetType: 'adult_account', targetId: account.id, result: 'failure', scope: 'google' });
         return reply.redirect(googleErrorRedirect('google_account_unavailable'));
       }
       const existingSession = await auth(request);
+      oauthDiagnostic('SESSION_CREATION');
       const session = existingSession ? await repo.rotateSession(existingSession.session.id, account.id, Number(process.env.SESSION_TTL_SECONDS || 28800) * 1000) : await repo.createSession(account.id, Number(process.env.SESSION_TTL_SECONDS || 28800) * 1000);
       authCookie(reply, session);
       await repo.createAudit({ actorAccountId: account.id, eventType: 'google_authentication_succeeded', targetType: 'adult_account', targetId: account.id, result: 'success', scope: 'google' });
+      oauthDiagnostic('OAUTH_CALLBACK_SUCCESS');
       return reply.redirect(`${frontendOrigin()}/profile-picker.html`);
-    } catch {
+    } catch (error) {
+      oauthDiagnostic('GOOGLE_OAUTH_CALLBACK_FAILED', oauthErrorCategory(error));
       return reply.redirect(googleErrorRedirect('google_failed'));
     }
   });
