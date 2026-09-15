@@ -14,6 +14,7 @@ This document describes the first-milestone command/query boundaries. It is not 
 - `POST /v1/auth/test-login` — test-only account session bootstrap; unavailable in normal runtime.
 - `POST /v1/auth/logout` — revokes the current server-side session.
 - `GET /v1/me` — returns the authenticated account context.
+- `POST /v1/presence/heartbeat` — refreshes the authenticated session last-seen timestamp; presence is considered online only after a successful heartbeat and expires naturally when stale.
 - `POST /v1/step-up/complete` — creates an action-bound Verification Event through password re-authentication; unknown actions fail closed.
 
 The current production verification mechanism is password re-authentication. Recovery delivery uses a provider-neutral interface with a Postmark adapter; production sending remains explicitly configuration-gated.

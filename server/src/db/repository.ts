@@ -26,6 +26,7 @@ export interface FoundationRepository {
   recordRecoveryMetric(metricKey: string): Promise<void>;
   createSession(accountId: string, ttlMs?: number): Promise<Session>;
   findSession(id: string): Promise<Session | null>;
+  touchSession(id: string): Promise<void>;
   revokeSession(id: string): Promise<void>;
   rotateSession(id: string, accountId: string, ttlMs?: number): Promise<Session>;
   createChild(accountId: string, displayName: string, learningLevel: string, avatar: string): Promise<ChildProfile>;
@@ -73,6 +74,7 @@ export class MemoryRepository implements FoundationRepository {
   async recordRecoveryMetric(_metricKey: string) {}
   async createSession(accountId: string, ttlMs = 60 * 60 * 1000) { return this.store.session(accountId, ttlMs); }
   async findSession(id: string) { const s = this.store.sessions.get(id); return s && !s.revoked && s.expiresAt > Date.now() ? s : null; }
+  async touchSession(id: string) { const s = this.store.sessions.get(id); if (s) s.lastSeenAt = Date.now(); }
   async revokeSession(id: string) { const s = this.store.sessions.get(id); if (s) s.revoked = true; }
   async rotateSession(id: string, accountId: string, ttlMs = 60 * 60 * 1000) { await this.revokeSession(id); return this.createSession(accountId, ttlMs); }
   async createChild(accountId: string, displayName: string, learningLevel: string, avatar: string) { return this.store.child(accountId, displayName, learningLevel, avatar); }
@@ -119,8 +121,9 @@ export class PostgresRepository implements FoundationRepository {
   async recordRecoveryWebhook(provider: string, eventKey: string, messageId: string, recordType: string, payloadHash: string) { const r = await this.query(`INSERT INTO recovery_webhook_events(provider,event_key,message_id,record_type,payload_hash,processed_at) VALUES($1,$2,$3,$4,$5,now()) ON CONFLICT (provider,event_key) DO NOTHING RETURNING id`, [provider,eventKey,messageId,recordType,payloadHash]); return r.rowCount === 1; }
   async addRecoverySuppression(email: string, reason: 'bounce' | 'complaint', provider: string, eventId?: string) { await this.query(`INSERT INTO recovery_suppressions(email,reason,provider,provider_event_id) VALUES($1,$2,$3,$4) ON CONFLICT (email) DO UPDATE SET reason=EXCLUDED.reason, provider=EXCLUDED.provider, provider_event_id=EXCLUDED.provider_event_id`, [email,reason,provider,eventId || null]); }
   async recordRecoveryMetric(metricKey: string) { await this.query(`INSERT INTO recovery_operational_metrics(metric_key,bucket_start,count) VALUES($1,date_trunc('minute',now()),1) ON CONFLICT(metric_key,bucket_start) DO UPDATE SET count=recovery_operational_metrics.count+1, updated_at=now()`, [metricKey]); }
-  async createSession(accountId: string, ttlMs = 60 * 60 * 1000) { const id = randomUUID(); const r = await this.query<Session>(`INSERT INTO sessions(id,account_id,expires_at) VALUES($1,$2,now()+($3::bigint * interval '1 millisecond')) RETURNING id, account_id as "accountId", extract(epoch from expires_at)*1000 as "expiresAt", (revoked_at IS NOT NULL) as revoked`, [id, accountId, ttlMs]); return r.rows[0]; }
-  async findSession(id: string) { const r = await this.query<Session>(`SELECT id, account_id as "accountId", extract(epoch from expires_at)*1000 as "expiresAt", (revoked_at IS NOT NULL) as revoked FROM sessions WHERE id=$1 AND revoked_at IS NULL AND expires_at>now()`, [id]); return r.rows[0] ?? null; }
+  async createSession(accountId: string, ttlMs = 60 * 60 * 1000) { const id = randomUUID(); const r = await this.query<Session>(`INSERT INTO sessions(id,account_id,expires_at) VALUES($1,$2,now()+($3::bigint * interval '1 millisecond')) RETURNING id, account_id as "accountId", extract(epoch from expires_at)*1000 as "expiresAt", (revoked_at IS NOT NULL) as revoked, extract(epoch from last_seen_at)*1000 as "lastSeenAt"`, [id, accountId, ttlMs]); return r.rows[0]; }
+  async findSession(id: string) { const r = await this.query<Session>(`SELECT id, account_id as "accountId", extract(epoch from expires_at)*1000 as "expiresAt", (revoked_at IS NOT NULL) as revoked, extract(epoch from last_seen_at)*1000 as "lastSeenAt" FROM sessions WHERE id=$1 AND revoked_at IS NULL AND expires_at>now()`, [id]); return r.rows[0] ?? null; }
+  async touchSession(id: string) { await this.query('UPDATE sessions SET last_seen_at=now() WHERE id=$1 AND revoked_at IS NULL AND expires_at>now()', [id]); }
   async revokeSession(id: string) { await this.query('UPDATE sessions SET revoked_at=now() WHERE id=$1', [id]); }
   async rotateSession(id: string, accountId: string, ttlMs = 60 * 60 * 1000) { await this.revokeSession(id); const next = await this.createSession(accountId, ttlMs); await this.query(`UPDATE sessions SET rotated_from=$2 WHERE id=$1`, [next.id, id]); return next; }
   async createChild(a: string, n: string, l: string, avatar: string) { const r = await this.query<ChildProfile>(`INSERT INTO child_profiles(primary_guardian_account_id,display_name,learning_level,avatar) VALUES($1,$2,$3,$4) RETURNING id, primary_guardian_account_id as "primaryGuardianAccountId", display_name as "displayName", learning_level as "learningLevel", avatar, status`, [a,n,l,avatar]); return r.rows[0]; }

@@ -60,6 +60,19 @@ test('unknown accounts and cross-account recovery tokens fail closed', async () 
   const account = await repo.findAccountByEmail('signup@example.test'); const recovery = createRecoveryToken(); await repo.createRecoveryToken(account!.id, recovery.hash, 30 * 60 * 1000); assert.equal(await repo.consumeRecoveryToken('not-the-token'), null);
 });
 
+test('presence heartbeat requires authentication and refreshes the active session timestamp', async () => {
+  const signup = await app.inject({ method: 'POST', url: '/v1/auth/signup', payload: { email: 'presence@example.test', password: 'PresenceStrong9', displayName: 'Presence Adult' } });
+  const cookie = cookieOf(signup);
+  const account = await repo.findAccountByEmail('presence@example.test'); assert.ok(account);
+  const sessionCookie = cookie.split('=')[1];
+  const before = await repo.findSession(sessionCookie); assert.ok(before);
+  const response = await app.inject({ method: 'POST', url: '/v1/presence/heartbeat', headers: { cookie } });
+  assert.equal(response.statusCode, 200); assert.equal(response.json().online, true);
+  const after = await repo.findSession(sessionCookie); assert.ok(after);
+  assert.equal(after!.lastSeenAt >= before!.lastSeenAt, true);
+  assert.equal((await app.inject({ method: 'POST', url: '/v1/presence/heartbeat' })).statusCode, 401);
+});
+
 test('expired sessions are rejected while concurrent sessions remain independently revocable', async () => {
   const account = await repo.createAdultAccount('sessions@example.test', 'Sessions Adult', await hashPassword('SessionsStrong9')); const expired = await repo.createSession(account.id, -1); const live = await repo.createSession(account.id, 60_000);
   assert.equal((await app.inject({ method: 'GET', url: '/v1/me', headers: { cookie: `lexora_session=${expired.id}` } })).statusCode, 401);

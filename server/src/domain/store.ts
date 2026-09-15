@@ -14,7 +14,7 @@ export interface TeacherWorkspace { id: string; name: string; status: 'active' |
 export interface WorkspaceMembership { id: string; workspaceId: string; accountId: string; status: RelationshipStatus; role: string; }
 export interface ClassGroup { id: string; workspaceId: string; name: string; status: 'active' | 'archived'; }
 export interface ClassMembership { id: string; classId: string; childProfileId: string; status: RelationshipStatus | 'removed'; }
-export interface Session { id: string; accountId: string; expiresAt: number; revoked: boolean; }
+export interface Session { id: string; accountId: string; expiresAt: number; revoked: boolean; lastSeenAt: number; }
 export interface VerificationEvent { id: string; actorAccountId: string; targetId: string; action: string; expiresAt: number; consumed: boolean; }
 export interface AuditEvent { id: string; actorAccountId: string | null; eventType: string; targetType: string; targetId: string; result: 'success' | 'denied' | 'failure'; scope?: string; }
 export interface DeletionRequest { id: string; requesterAccountId: string; targetType: 'child_profile' | 'adult_account'; targetId: string; status: 'requested' | 'cancelled' | 'completed'; verificationEventId: string; }
@@ -43,7 +43,7 @@ export class MemoryStore {
   workspaceMember(workspaceId: string, accountId: string, role = 'teacher'): WorkspaceMembership { const value: WorkspaceMembership = { id: randomUUID(), workspaceId, accountId, role, status: 'active' }; this.workspaceMemberships.set(value.id, value); return value; }
   classGroup(workspaceId: string, name = 'Test Class') { const value = { id: randomUUID(), workspaceId, name, status: 'active' as const }; this.classes.set(value.id, value); return value; }
   classMember(classId: string, childProfileId: string): ClassMembership { const value: ClassMembership = { id: randomUUID(), classId, childProfileId, status: 'active' }; this.classMemberships.set(value.id, value); return value; }
-  session(accountId: string, ttlMs = 60 * 60 * 1000) { const value = { id: randomUUID(), accountId, expiresAt: Date.now() + ttlMs, revoked: false }; this.sessions.set(value.id, value); return value; }
+  session(accountId: string, ttlMs = 60 * 60 * 1000) { const value = { id: randomUUID(), accountId, expiresAt: Date.now() + ttlMs, revoked: false, lastSeenAt: Date.now() }; this.sessions.set(value.id, value); return value; }
   auditEvent(event: Omit<AuditEvent, 'id'>) { const value = { id: randomUUID(), ...event }; this.audit.set(value.id, value); return value; }
   verification(actorAccountId: string, targetId: string, action: string, ttlMs = 60_000) { const value = { id: randomUUID(), actorAccountId, targetId, action, expiresAt: Date.now() + ttlMs, consumed: false }; this.verifications.set(value.id, value); return value; }
 }

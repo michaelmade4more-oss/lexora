@@ -136,6 +136,7 @@ export function buildApp(options: AppOptions = {}): { app: FastifyInstance; stor
   });
   app.post('/v1/auth/logout', async (request, reply) => { const ctx = await auth(request); if (ctx) await repo.revokeSession(ctx.session.id); reply.clearCookie('lexora_session', { path: '/' }); return { ok: true }; });
   app.get('/v1/me', async (request, reply) => { const ctx = await auth(request); if (!ctx) return unauthorized(reply); return { account: ctx.account }; });
+  app.post('/v1/presence/heartbeat', async (request, reply) => { const ctx = await auth(request); if (!ctx) return unauthorized(reply); await repo.touchSession(ctx.session.id); return { online: true, lastSeenAt: new Date().toISOString() }; });
 
   app.post('/v1/step-up/complete', { config: { rateLimit: { max: 10, timeWindow: '15 minutes' } }, schema: { body: bodySchema({ targetId: { type: 'string', minLength: 1 }, action: { type: 'string', minLength: 1 }, proof: { type: 'string' }, password: { type: 'string', minLength: 1, maxLength: 128 } }) } }, async (request, reply) => {
     const ctx = await auth(request); if (!ctx) return unauthorized(reply);

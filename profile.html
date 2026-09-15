@@ -88,9 +88,25 @@ button{font:inherit;cursor:pointer;touch-action:manipulation;background:none;bor
     }
   }
   var avatar = document.querySelector('.avatarZone');
-  var runtimeUser = window.lexoraUser || window.currentUser || window.user || null;
-  var explicitlyOnline = runtimeUser && (runtimeUser.online === true || runtimeUser.isOnline === true || runtimeUser.presence === 'online');
-  if(avatar && explicitlyOnline){avatar.dataset.online = 'true';}
+  var API_BASE = 'https://lexora-web.onrender.com';
+  var presenceTimer = null;
+  var presenceTimeout = null;
+  var lastActivity = Date.now();
+  var presenceActive = true;
+  var activityEvents = ['pointerdown','keydown','touchstart','scroll'];
+  function setOnline(online){ if(avatar) avatar.dataset.online = online ? 'true' : 'false'; }
+  function clearPresence(){ clearTimeout(presenceTimeout); setOnline(false); }
+  function heartbeat(){
+    if(document.visibilityState !== 'visible' || Date.now() - lastActivity > 120000){ clearPresence(); return; }
+    fetch(API_BASE + '/v1/presence/heartbeat', {method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}})
+      .then(function(response){ if(!response.ok) throw new Error('presence_unavailable'); setOnline(true); clearTimeout(presenceTimeout); presenceTimeout=setTimeout(clearPresence, 75000); })
+      .catch(clearPresence);
+  }
+  function noteActivity(){ lastActivity=Date.now(); if(!presenceActive){presenceActive=true; heartbeat();} }
+  activityEvents.forEach(function(eventName){window.addEventListener(eventName, noteActivity, {passive:true});});
+  document.addEventListener('visibilitychange', function(){ if(document.visibilityState === 'visible'){lastActivity=Date.now(); heartbeat();}else{presenceActive=false; clearPresence();} });
+  heartbeat();
+  presenceTimer = window.setInterval(heartbeat, 30000);
   var navRoutes={Home:'home.html',Learn:'learn.html',Review:'review.html',Progress:'progress.html',Profile:'profile.html'};var actionRoutes={'edit-photo':'profile-photo.html',saved:'saved-words.html',history:'learning-history.html',goal:'daily-goal.html',reminders:'reminders.html',sound:'sound.html',appearance:'appearance.html',privacy:'privacy.html'};function go(route){window.location.href=route}document.querySelector('.backBtn').addEventListener('click',function(){if(window.history.length>1)window.history.back();else go('home.html')});document.querySelectorAll('[data-action]').forEach(function(btn){var route=actionRoutes[btn.getAttribute('data-action')];if(route)btn.addEventListener('click',function(){go(route)})});document.querySelectorAll('.navItem').forEach(function(btn){var route=navRoutes[btn.textContent.trim()];if(route)btn.addEventListener('click',function(){go(route)})})})();
 </script>
 </body>
