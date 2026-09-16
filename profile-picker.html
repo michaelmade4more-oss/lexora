@@ -9,6 +9,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;750&display=swap" rel="stylesheet">
+  <script>
+    (() => {
+      const shortSide = Math.min(screen.width, screen.height);
+      const longSide = Math.max(screen.width, screen.height);
+      const isTouchPhone = navigator.maxTouchPoints > 1 && shortSide <= 1400 && longSide / shortSide >= 1.35;
+      if (isTouchPhone) document.documentElement.classList.add('touch-phone');
+    })();
+  </script>
   <style>
     :root {
       color-scheme: dark;
@@ -165,6 +173,16 @@
       .profile-name { font-size: 13px; }
       .profile-meta { font-size: 9px; }
     }
+    .touch-phone .app-shell { max-width: 560px; }
+    .touch-phone main { padding-top: clamp(28px, 6vh, 54px); }
+    .touch-phone h1 { font-size: clamp(25px, 5.5vw, 32px); }
+    .touch-phone .intro { font-size: 12px; }
+    .touch-phone .profile-grid { max-width: 370px; gap: 10px; margin-top: clamp(22px, 4vh, 34px); }
+    .touch-phone .profile-card { min-height: 146px; gap: 9px; }
+    .touch-phone .avatar-ring { width: 68px; height: 68px; }
+    .touch-phone .avatar { font-size: 25px; }
+    .touch-phone .profile-name { font-size: 13px; }
+    .touch-phone .profile-meta { font-size: 9px; }
     @media (max-height: 620px) and (orientation: landscape) { main { padding-top: 26px; } .profile-card { min-height: 150px; } .avatar-ring { width: 70px; height: 70px; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
   </style>
