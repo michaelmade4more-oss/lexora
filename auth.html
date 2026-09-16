@@ -91,6 +91,7 @@ button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);o
 .form-panel{padding:20px 16px 16px;border:1px solid var(--line);border-radius:var(--radius-xl);background:rgba(18,18,22,.88);box-shadow:0 24px 65px -45px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.035)}
 .form-heading{margin:0 0 14px;font-size:var(--type-heading-size);line-height:var(--type-heading-line);letter-spacing:normal;font-weight:700}
 .form-heading span{display:block;margin-top:5px;color:var(--muted);font-size:var(--type-body-size);line-height:var(--type-body-line);font-weight:400;letter-spacing:normal}
+.form-heading .auth-heading-main{display:inline;margin:0;color:inherit;font-size:inherit;line-height:inherit;font-weight:inherit}
 .switchTrack{position:relative;display:flex;padding:4px;border:1px solid var(--line);border-radius:14px;background:var(--surface2)}
 .switchSlider{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold2));box-shadow:0 7px 18px -8px rgba(201,162,76,.8);transition:transform .3s var(--ease)}
 .switchBtn{position:relative;z-index:1;flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:var(--type-cta-size);line-height:var(--type-cta-line);font-weight:600;transition:color .2s}
@@ -136,7 +137,7 @@ button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);o
 @media (max-height:620px) and (orientation:landscape) and (max-width:1199px){.auth-content{padding-top:18px}.signal-panel{min-height:260px}.auth-shell{padding-top:12px;padding-bottom:14px}.brand-note{display:none}}
 @media (max-width:599px){
   .signal-panel{min-height:clamp(260px,73vw,285px);padding:22px 28px 18px}
-  .signal-copy{max-width:58%;z-index:2}
+  .signal-copy{position:absolute;left:28px;top:50%;width:210px;max-width:calc(100% - 60px);z-index:2;transform:translateY(-50%)}
   .signal-title{margin-top:11px}
   .signal-subtitle{max-width:230px;font-size:14px;line-height:20px}
   .signal-art{position:absolute;right:-7%;bottom:8px;width:57%;height:100%;margin:0;place-items:center}
@@ -144,21 +145,22 @@ button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);o
   .orbit-dot{top:13%;right:31%}
   .signal-orbits{width:190px;height:255px}
   .illusWrap{width:clamp(128px,35vw,145px);height:clamp(190px,50vw,210px)}
-  .status-badge{position:absolute;left:28px;bottom:8px;margin:0;font-size:10px;line-height:14px}
+  .status-badge{position:absolute;left:28px;bottom:16px;margin:0;font-size:10px;line-height:14px}
   .form-heading{font-size:20px;line-height:26px}
   .form-heading span{font-size:14px;line-height:20px}
+  .form-heading.signup-mode{font-size:18px;line-height:24px}
   .footNote{margin-left:0;margin-right:0;font-size:10px;line-height:14px;letter-spacing:-.02em;white-space:nowrap}
 }
 @media (max-width:380px){
   .auth-shell{padding-left:14px;padding-right:14px}
   .signal-panel{min-height:260px;padding:21px 16px 18px}
-  .signal-copy{max-width:58%}
+  .signal-copy{left:16px;max-width:calc(100% - 44px)}
   .signal-art{right:-7%;bottom:5px;width:58%;height:100%}
   .signal-orbits{transform:translateX(11px)}
   .orbit-dot{top:13%;right:29%}
   .signal-orbits{width:165px;height:230px}
   .illusWrap{width:122px;height:184px}
-  .status-badge{left:16px;bottom:8px;font-size:10px;line-height:14px}
+  .status-badge{left:16px;bottom:16px;font-size:10px;line-height:14px}
   .form-panel{padding:16px 13px 14px}
   .inputBox{min-height:50px}
   .submitBtn,.socialBtn{min-height:52px}
@@ -176,9 +178,8 @@ button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);o
     <main class="auth-content">
       <section class="signal-panel" aria-label="Lexora introduction">
         <div class="signal-copy">
-          <p class="signal-kicker">Your learning signal</p>
-          <h1 class="signal-title">Keep your <em>curiosity</em> switched on.</h1>
-          <p class="signal-subtitle" id="tagline">A calm place to build language, confidence and momentum.</p>
+          <h1 class="signal-title">Keep learning. <em>Keep growing.</em></h1>
+          <p class="signal-subtitle" id="tagline">A calm place to build language, confidence, and momentum.</p>
         </div>
         <div class="signal-art" aria-hidden="true">
           <svg class="signal-orbits" viewBox="0 0 200 280" preserveAspectRatio="xMidYMid meet">
@@ -191,7 +192,7 @@ button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);o
         <span class="status-badge">Built for every kind of learner</span>
       </section>
       <section class="form-panel" aria-labelledby="authTitle">
-        <h2 class="form-heading" id="authTitle">Welcome back<span>Pick up where you left off.</span></h2>
+        <h2 class="form-heading" id="authTitle"><span class="auth-heading-main" id="authHeading">Welcome back</span><span id="authSubtitle">Pick up where you left off.</span></h2>
         <div class="switchTrack">
           <div class="switchSlider" id="switchSlider"></div>
           <button class="switchBtn active" id="loginTab" type="button">Log in</button>
@@ -211,7 +212,7 @@ button:focus-visible,input:focus-visible{outline:3px solid rgba(201,162,76,.7);o
         </div>
       </section>
     </main>
-    <p class="footNote" id="footNote">By continuing, you agree to Lexora's <b>Terms</b> and <b>Privacy Policy</b>.</p>
+    <p class="footNote" id="footNote">By continuing, you agree to our <b>Terms</b> and <b>Privacy Policy</b>.</p>
   </div>
 </div>
 <script>
@@ -223,11 +224,14 @@ var nameField = document.getElementById('nameField');
 var forgotRow = document.getElementById('forgotRow');
 var submitBtn = document.getElementById('submitBtn');
 var tagline = document.getElementById('tagline');
+var authHeading = document.getElementById('authHeading');
+var authSubtitle = document.getElementById('authSubtitle');
 var nameInput = document.getElementById('nameInput');
 var emailInput = document.getElementById('emailInput');
 var pwInput = document.getElementById('pwInput');
 var statusEl = document.getElementById('status');
 var googleBtn = document.getElementById('googleBtn');
+var authTitle = document.getElementById('authTitle');
 var mode = 'login';
 function setMode(nextMode){
   mode = nextMode;
@@ -238,7 +242,10 @@ function setMode(nextMode){
   nameField.classList.toggle('show', !isLogin);
   forgotRow.style.display = isLogin ? 'block' : 'none';
   submitBtn.textContent = isLogin ? 'Log in' : 'Create account';
-  tagline.textContent = isLogin ? "Good to see you again. Let's keep going." : 'Five words a day. That\u2019s all it takes to start.';
+  authTitle.classList.toggle('signup-mode', !isLogin);
+  authHeading.textContent = isLogin ? 'Welcome back' : 'Start your Lexora journey';
+  authSubtitle.textContent = isLogin ? 'Pick up where you left off.' : 'Start small and build a habit that lasts.';
+  tagline.textContent = 'A calm place to build language, confidence, and momentum.';
   pwInput.autocomplete = isLogin ? 'current-password' : 'new-password';
   statusEl.textContent = '';
 }
