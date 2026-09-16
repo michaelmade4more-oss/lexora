@@ -153,6 +153,18 @@
       .profile-card { min-height: 132px; }
       .avatar-ring { width: 60px; height: 60px; }
     }
+    @media (pointer: coarse) and (hover: none) {
+      .app-shell { max-width: 760px; }
+      main { padding-top: clamp(30px, 6vh, 54px); }
+      h1 { font-size: clamp(28px, 5.5vw, 38px); }
+      .intro { font-size: 14px; }
+      .profile-grid { max-width: 640px; gap: 14px; margin-top: clamp(24px, 4vh, 36px); }
+      .profile-card { min-height: 180px; gap: 11px; }
+      .avatar-ring { width: 82px; height: 82px; }
+      .avatar { font-size: 30px; }
+      .profile-name { font-size: 15px; }
+      .profile-meta { font-size: 10px; }
+    }
     @media (max-height: 620px) and (orientation: landscape) { main { padding-top: 26px; } .profile-card { min-height: 150px; } .avatar-ring { width: 70px; height: 70px; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
   </style>
