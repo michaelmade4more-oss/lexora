@@ -8,6 +8,7 @@ export interface FoundationRepository {
   findAccount(id: string): Promise<Account | null>;
   findAccountByEmail(email: string): Promise<Account | null>;
   findAccountByIdentity(provider: string, providerSubject: string): Promise<Account | null>;
+  linkGoogleIdentity(accountId: string, providerSubject: string): Promise<void>;
   isRecoverySuppressed(email: string): Promise<boolean>;
   createAdultAccount(email: string, displayName: string, passwordHash: string): Promise<Account>;
   createGoogleAccount(email: string, displayName: string, providerSubject: string): Promise<Account>;
@@ -55,12 +56,13 @@ export class MemoryRepository implements FoundationRepository {
   constructor(public store: MemoryStore) {}
   async findAccount(id: string) { return this.store.accounts.get(id) ?? null; }
   async findAccountByEmail(email: string) { return [...this.store.accounts.values()].find(a => a.email === email) ?? null; }
-  async findAccountByIdentity(_provider: string, _providerSubject: string) { return null; }
+  async findAccountByIdentity(provider: string, providerSubject: string) { const accountId = provider === 'google' ? this.store.googleIdentities.get(providerSubject) : undefined; return accountId ? this.store.accounts.get(accountId) ?? null : null; }
+  async linkGoogleIdentity(accountId: string, providerSubject: string) { this.store.googleIdentities.set(providerSubject, accountId); }
   async isRecoverySuppressed(_email: string) { return false; }
-  async createAdultAccount(email: string, _displayName: string, _passwordHash: string) { return this.store.account('adult', email); }
-  async createGoogleAccount(email: string, displayName: string, _providerSubject: string) { const account = this.store.account('adult', email); this.store.adultProfile(account.id, displayName); return account; }
-  async getPasswordHash(_accountId: string) { return null; }
-  async updatePassword(_accountId: string, _passwordHash: string) {}
+  async createAdultAccount(email: string, displayName: string, passwordHash: string) { const account = this.store.account('adult', email); this.store.adultProfile(account.id, displayName); this.store.passwordHashes.set(account.id, passwordHash); return account; }
+  async createGoogleAccount(email: string, displayName: string, providerSubject: string) { const account = this.store.account('adult', email); this.store.adultProfile(account.id, displayName); this.store.googleIdentities.set(providerSubject, account.id); return account; }
+  async getPasswordHash(accountId: string) { return this.store.passwordHashes.get(accountId) ?? null; }
+  async updatePassword(accountId: string, passwordHash: string) { this.store.passwordHashes.set(accountId, passwordHash); }
   async setAccountStatus(accountId: string, status: Account['status']) { const account = this.store.accounts.get(accountId); if (account) account.status = status; }
   async createRecoveryToken(_accountId: string, _tokenHash: string, _ttlMs: number) { return randomUUID(); }
   async consumeRecoveryToken(_tokenHash: string) { return null; }
@@ -105,6 +107,7 @@ export class PostgresRepository implements FoundationRepository {
   async findAccount(id: string) { const r = await this.query<Account>('SELECT id, kind, email, status FROM accounts WHERE id=$1', [id]); return r.rows[0] ?? null; }
   async findAccountByEmail(email: string) { const r = await this.query<Account>('SELECT id, kind, email, status FROM accounts WHERE email=$1', [email]); return r.rows[0] ?? null; }
   async findAccountByIdentity(provider: string, providerSubject: string) { const r = await this.query<Account>('SELECT a.id, a.kind, a.email, a.status FROM accounts a JOIN authentication_identities i ON i.account_id=a.id WHERE i.provider=$1 AND i.provider_subject=$2 AND i.credential_state=\'active\'', [provider, providerSubject]); return r.rows[0] ?? null; }
+  async linkGoogleIdentity(accountId: string, providerSubject: string) { await this.query(`INSERT INTO authentication_identities(account_id,provider,provider_subject,verified_at) VALUES($1,'google',$2,now())`, [accountId, providerSubject]); }
   async isRecoverySuppressed(email: string) { const r = await this.query<{ exists: boolean }>('SELECT EXISTS(SELECT 1 FROM recovery_suppressions WHERE email=$1) as exists', [email]); return !!r.rows[0]?.exists; }
   async createAdultAccount(email: string, displayName: string, passwordHash: string) { const accountResult = await this.query<Account>(`INSERT INTO accounts(email,kind,status,activated_at) VALUES($1,'adult','active',now()) RETURNING id,kind,email,status`, [email]); const account = accountResult.rows[0]; await this.query(`INSERT INTO adult_profiles(account_id,display_name) VALUES($1,$2)`, [account.id, displayName]); await this.query(`INSERT INTO authentication_identities(account_id,provider,provider_subject,password_hash,verified_at) VALUES($1,'password',$2,$3,now())`, [account.id, email, passwordHash]); return account; }
   async createGoogleAccount(email: string, displayName: string, providerSubject: string) { const accountResult = await this.query<Account>(`INSERT INTO accounts(email,kind,status,activated_at) VALUES($1,'adult','active',now()) RETURNING id,kind,email,status`, [email]); const account = accountResult.rows[0]; await this.query(`INSERT INTO adult_profiles(account_id,display_name) VALUES($1,$2)`, [account.id, displayName]); await this.query(`INSERT INTO authentication_identities(account_id,provider,provider_subject,verified_at) VALUES($1,'google',$2,now())`, [account.id, providerSubject]); return account; }

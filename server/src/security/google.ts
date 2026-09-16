@@ -45,6 +45,27 @@ export function verifyOAuthState(value: string): { nonce: string } | null {
   return 'nonce' in result ? result : null;
 }
 
+export function createGoogleLinkToken(identity: GoogleIdentity): string {
+  const secret = Buffer.from(required('OAUTH_STATE_SECRET'));
+  const payload = Buffer.from(JSON.stringify({ ...identity, issuedAt: Date.now() })).toString('base64url');
+  const signature = createHmac('sha256', secret).update(payload).digest('base64url');
+  return `${payload}.${signature}`;
+}
+
+export function validateGoogleLinkToken(value: string): GoogleIdentity | null {
+  try {
+    const [payload, signature] = value.split('.');
+    if (!payload || !signature) return null;
+    const expected = createHmac('sha256', Buffer.from(required('OAUTH_STATE_SECRET'))).update(payload).digest();
+    const actual = Buffer.from(signature, 'base64url');
+    if (actual.length !== expected.length || !timingSafeEqual(actual, expected)) return null;
+    const decoded = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as Partial<GoogleIdentity> & { issuedAt?: unknown };
+    if (typeof decoded.subject !== 'string' || typeof decoded.email !== 'string' || typeof decoded.displayName !== 'string' || typeof decoded.issuedAt !== 'number') return null;
+    if (Date.now() - decoded.issuedAt > 10 * 60 * 1000) return null;
+    return { subject: decoded.subject, email: decoded.email, displayName: decoded.displayName };
+  } catch { return null; }
+}
+
 export async function createGoogleAuthorizationUrl(state: string, nonce: string): Promise<string> {
   const config = googleConfig();
   const client = new OAuth2Client(config.clientId, config.clientSecret, config.redirectUri);

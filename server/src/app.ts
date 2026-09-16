@@ -8,7 +8,7 @@ import { authorizeChildRead, canCreateClass, canDeleteChild, canRemoveClassMembe
 import { createHash, randomUUID, timingSafeEqual } from 'node:crypto';
 import { createRecoveryToken, hashRecoveryToken, hashPassword, normalizeEmail, validatePasswordPolicy, verifyPassword } from './security/credentials.js';
 import { createRecoveryDeliveryProvider, deliverRecoveryWithRetry, type RecoveryDeliveryProvider } from './recovery/delivery.js';
-import { createGoogleAuthorizationUrl, exchangeAndVerifyGoogleCode, createOAuthState, googleConfig, randomOAuthNonce, validateOAuthState } from './security/google.js';
+import { createGoogleAuthorizationUrl, exchangeAndVerifyGoogleCode, createGoogleLinkToken, createOAuthState, googleConfig, randomOAuthNonce, validateGoogleLinkToken, validateOAuthState } from './security/google.js';
 
 export interface AppOptions { store?: MemoryStore; repository?: FoundationRepository; testAuth?: boolean; recoveryProvider?: RecoveryDeliveryProvider; }
 type Body = Record<string, unknown>; type Params = Record<string, string>;
@@ -111,7 +111,8 @@ export function buildApp(options: AppOptions = {}): { app: FastifyInstance; stor
         const existing = await repo.findAccountByEmail(identity.email);
         if (existing) {
           await repo.createAudit({ actorAccountId: existing.id, eventType: 'google_authentication_rejected_existing_password_account', targetType: 'adult_account', targetId: existing.id, result: 'failure', scope: 'google' });
-          return reply.redirect(googleErrorRedirect('google_email_exists'));
+          reply.setCookie('lexora_google_link', createGoogleLinkToken(identity), { httpOnly: true, sameSite: 'lax', path: '/v1/auth/google/link', secure: String(process.env.NODE_ENV) === 'production', maxAge: 600 });
+          return reply.redirect(googleErrorRedirect('google_link_required'));
         }
         account = await repo.withTransaction(async tx => {
           const created = await tx.createGoogleAccount(identity.email, identity.displayName, identity.subject);
@@ -136,6 +137,30 @@ export function buildApp(options: AppOptions = {}): { app: FastifyInstance; stor
     } catch (error) {
       oauthDiagnostic('GOOGLE_OAUTH_CALLBACK_FAILED', oauthErrorCategory(error));
       return reply.redirect(googleErrorRedirect('google_failed'));
+    }
+  });
+  app.post('/v1/auth/google/link', { config: { rateLimit: { max: 5, timeWindow: '15 minutes' } }, schema: { body: bodySchema({ password: { type: 'string', minLength: 1, maxLength: 128 } }) } }, async (request, reply) => {
+    const token = request.cookies.lexora_google_link;
+    const identity = token ? validateGoogleLinkToken(token) : null;
+    if (!identity) return reply.code(400).send({ error: 'google_link_expired' });
+    const account = await repo.findAccountByEmail(identity.email);
+    const passwordHash = account ? await repo.getPasswordHash(account.id) : null;
+    const valid = !!account && !!passwordHash && account.status === 'active' && await verifyPassword(String((request.body as Body).password || ''), passwordHash);
+    if (!valid) {
+      if (account) await repo.createAudit({ actorAccountId: account.id, eventType: 'google_account_link_failed', targetType: 'adult_account', targetId: account.id, result: 'failure', scope: 'google' });
+      return reply.code(401).send({ error: 'invalid_credentials' });
+    }
+    try {
+      await repo.linkGoogleIdentity(account.id, identity.subject);
+      const existingSession = await auth(request);
+      const session = existingSession ? await repo.rotateSession(existingSession.session.id, account.id, Number(process.env.SESSION_TTL_SECONDS || 28800) * 1000) : await repo.createSession(account.id, Number(process.env.SESSION_TTL_SECONDS || 28800) * 1000);
+      authCookie(reply, session);
+      reply.clearCookie('lexora_google_link', { path: '/v1/auth/google/link' });
+      await repo.createAudit({ actorAccountId: account.id, eventType: 'google_account_linked', targetType: 'adult_account', targetId: account.id, result: 'success', scope: 'google' });
+      return { ok: true };
+    } catch (error) {
+      oauthDiagnostic('GOOGLE_ACCOUNT_LINK_FAILED', error instanceof Error ? error.name : 'unexpected_error');
+      return reply.code(409).send({ error: 'google_link_unavailable' });
     }
   });
   app.post('/v1/auth/signup', { config: { rateLimit: { max: 5, timeWindow: '15 minutes' } }, schema: { body: bodySchema({ email: { type: 'string', minLength: 3, maxLength: 320 }, password: { type: 'string', minLength: 12, maxLength: 128 }, displayName: { type: 'string', minLength: 1, maxLength: 120 } }) } }, async (request, reply) => {

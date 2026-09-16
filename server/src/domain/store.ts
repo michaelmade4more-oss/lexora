@@ -21,6 +21,8 @@ export interface DeletionRequest { id: string; requesterAccountId: string; targe
 
 export class MemoryStore {
   accounts = new Map<string, Account>();
+  googleIdentities = new Map<string, string>();
+  passwordHashes = new Map<string, string>();
   adultProfiles = new Map<string, AdultProfile>();
   childProfiles = new Map<string, ChildProfile>();
   guardians = new Map<string, GuardianRelationship>();

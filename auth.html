@@ -233,6 +233,7 @@ var statusEl = document.getElementById('status');
 var googleBtn = document.getElementById('googleBtn');
 var authTitle = document.getElementById('authTitle');
 var mode = 'login';
+var googleLinkPending = false;
 function setMode(nextMode){
   mode = nextMode;
   var isLogin = mode === 'login';
@@ -251,9 +252,24 @@ function setMode(nextMode){
 }
 function setStatus(message){ statusEl.textContent = message || ''; }
 var oauthError = new URLSearchParams(window.location.search).get('oauth_error');
-if(oauthError === 'google_email_exists') setStatus('That Google email already has a Lexora password account. Please log in with your existing password.');
+if(oauthError === 'google_link_required') { googleLinkPending = true; googleBtn.textContent = 'Connect Google to this account'; pwInput.placeholder = 'Confirm your Lexora password'; setStatus('This email already has a Lexora account. Confirm your password once to use Google next time.'); }
+else if(oauthError === 'google_email_exists') setStatus('That Google email already has a Lexora password account. Please try Google again to connect it.');
 else if(oauthError === 'google_cancelled') setStatus('Google sign-in was cancelled.');
 else if(oauthError) setStatus('Google sign-in could not be completed. Please try again.');
+async function linkGoogleAccount(){
+  var password = pwInput.value;
+  if(!password){ setStatus('Enter your Lexora password to connect Google.'); pwInput.focus(); return; }
+  googleBtn.disabled = true;
+  setStatus('Connecting Google to your Lexora account...');
+  try {
+    var response = await fetch(API_BASE + '/v1/auth/google/link', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: password }) });
+    var data = await response.json().catch(function(){ return {}; });
+    if(!response.ok) throw new Error(data.error === 'google_link_expired' ? 'This Google connection expired. Please start Google sign-in again.' : 'That password was not accepted. Please try again.');
+    setStatus('Google connected. Opening Lexora...');
+    window.location.href = 'profile-picker.html';
+  } catch(error){ setStatus(error.message || 'Google could not be connected. Please try again.'); }
+  finally { googleBtn.disabled = false; }
+}
 async function submitAuth(){
   var email = emailInput.value.trim();
   var password = pwInput.value;
@@ -282,7 +298,7 @@ async function submitAuth(){
 loginTab.addEventListener('click', function(){ setMode('login'); });
 signupTab.addEventListener('click', function(){ setMode('signup'); });
 submitBtn.addEventListener('click', submitAuth);
-googleBtn.addEventListener('click', function(){ window.location.href = API_BASE + '/v1/auth/google'; });
+googleBtn.addEventListener('click', function(){ if(googleLinkPending) linkGoogleAccount(); else window.location.href = API_BASE + '/v1/auth/google'; });
 [emailInput, pwInput, nameInput].forEach(function(input){ input.addEventListener('keydown', function(event){ if(event.key === 'Enter') submitAuth(); }); });
 eyeBtn.addEventListener('click', function(){ pwInput.type = pwInput.type === 'password' ? 'text' : 'password'; eyeBtn.setAttribute('aria-label', pwInput.type === 'password' ? 'Hide password' : 'Show password'); });
 </script>
