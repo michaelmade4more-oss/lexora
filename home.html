@@ -182,6 +182,7 @@ body{background:radial-gradient(ellipse 90% 34% at 50% -8%,rgba(201,162,76,.105)
 .trialBanner:active{transform:scale(.985);border-color:rgba(201,162,76,.52);background:rgba(23,23,28,.9)}
 .homeHeadline{order:1;margin-top:0;margin-bottom:8px;font-size:26px;letter-spacing:-.025em}
 .homeSub{order:2;font-size:12.5px}
+.lessonEyebrow{margin-bottom:11px;color:var(--gold);font-size:9px;font-weight:750;letter-spacing:.16em;text-transform:uppercase}
 .lessonCard{order:3;position:relative;isolation:isolate;margin-top:22px;padding:20px 18px 18px;border-color:rgba(201,162,76,.24);background:linear-gradient(145deg,rgba(34,29,21,.94),rgba(23,23,28,.96) 58%);box-shadow:0 22px 48px -30px rgba(201,162,76,.42),0 18px 34px -28px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.065)}
 .lessonCard:before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(ellipse 75% 90% at 8% 0%,rgba(240,215,149,.12),transparent 62%);pointer-events:none;z-index:-1}
 .lessonCard:active{transform:translateY(1px) scale(.992);border-color:rgba(240,215,149,.5);box-shadow:0 12px 28px -24px rgba(201,162,76,.7),inset 0 1px 0 rgba(255,255,255,.08)}
@@ -193,12 +194,13 @@ body{background:radial-gradient(ellipse 90% 34% at 50% -8%,rgba(201,162,76,.105)
 .seg.done{background:linear-gradient(90deg,var(--gold),var(--gold-pale));box-shadow:0 0 9px rgba(201,162,76,.2)}
 .lessonCta{margin-top:18px;box-shadow:0 11px 24px -12px rgba(201,162,76,.72)}
 .lessonCta:focus-visible{outline:2px solid var(--gold-pale);outline-offset:3px}
-.streakBanner{order:4;position:relative;min-height:62px;margin-top:24px;padding:13px 12px 11px 2px;gap:11px;border:1px solid rgba(201,162,76,.17);border-radius:18px;background:rgba(18,18,22,.55);text-align:left;transition:transform .15s,border-color .15s,background .15s}
-.streakBanner:before{content:"YOUR RHYTHM";position:absolute;top:8px;left:48px;color:var(--faint);font-size:8px;font-weight:750;letter-spacing:.14em}
+.streakBanner{order:4;position:relative;min-height:68px;margin-top:24px;padding:11px 12px 11px 10px;gap:11px;border:1px solid rgba(201,162,76,.17);border-radius:18px;background:rgba(18,18,22,.55);text-align:left;transition:transform .15s,border-color .15s,background .15s}
 .streakBanner:after{content:"›";margin-left:auto;padding-right:4px;color:var(--faint);font-size:22px;font-weight:300;line-height:1}
 .streakBanner:active{transform:scale(.985);border-color:rgba(201,162,76,.48);background:rgba(28,25,20,.72)}
-.streakBannerFlame{margin-top:7px;background:rgba(201,162,76,.18);box-shadow:0 0 0 5px rgba(201,162,76,.04)}
-.streakBannerText{padding-top:10px;font-size:11px}
+.streakBannerFlame{flex:0 0 34px;width:34px;height:34px;margin:0;background:rgba(201,162,76,.18);box-shadow:0 0 0 5px rgba(201,162,76,.04)}
+.streakBannerCopy{min-width:0;display:flex;flex-direction:column;gap:4px}
+.streakBannerLabel{color:var(--faint);font-size:8px;font-weight:750;letter-spacing:.14em;text-transform:uppercase}
+.streakBannerText{font-size:11px;line-height:1.3}
 .thoughtCard{order:5;margin-top:30px;border-color:rgba(255,255,255,.075);background:linear-gradient(145deg,rgba(23,23,28,.86),rgba(18,18,22,.82));box-shadow:0 18px 40px -30px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.035)}
 .thoughtEyebrow{color:var(--gold);letter-spacing:.14em}
 .thoughtQuote{font-size:15px;line-height:1.42}
@@ -210,7 +212,7 @@ body{background:radial-gradient(ellipse 90% 34% at 50% -8%,rgba(201,162,76,.105)
 .weekCaption{order:8;margin-top:11px}
 .navBar{margin-top:25px;box-shadow:0 -12px 28px -28px rgba(0,0,0,.9)}
 .navItem{min-height:40px}
-@media(max-width:380px){.lessonCard{padding-left:15px;padding-right:15px}.streakBanner:before{left:46px}.thoughtCard{gap:10px}.thoughtIllustration{flex-basis:82px;width:82px}}
+@media(max-width:380px){.lessonCard{padding-left:15px;padding-right:15px}.thoughtCard{gap:10px}.thoughtIllustration{flex-basis:82px;width:82px}}
 @media(prefers-reduced-motion:reduce){
   .greetRow,.homeHeadline,.homeSub,.lessonCard,.thoughtCard{animation:none}
   .btn,.navItem,.lessonCard,.streakBanner,.trialBanner{transition:none}
@@ -248,6 +250,7 @@ body{background:radial-gradient(ellipse 90% 34% at 50% -8%,rgba(201,162,76,.105)
     <p class="homeSub">Better communication, one word at a time.</p>
 
     <div class="lessonCard">
+      <div class="lessonEyebrow">Today’s lesson</div>
       <div class="lessonMetaRow">
         <span class="lessonMeta" id="lessonMeta">5 words &middot; 10 minutes</span>
         <span class="lessonTag" id="lessonTag">Communication</span>
@@ -260,7 +263,7 @@ body{background:radial-gradient(ellipse 90% 34% at 50% -8%,rgba(201,162,76,.105)
 
     <button class="streakBanner" id="streakBanner">
       <span class="streakBannerFlame"><svg viewBox="0 0 24 24"><path d="M12 2c1 4-3 5-3 9a3 3 0 0 0 6 0c0-2-1-3-1-3 2 1 3 3 3 5a5 5 0 0 1-10 0c0-6 5-6 5-11z"/></svg></span>
-      <span class="streakBannerText"><b>2 day streak.</b> Keep your rhythm, Michael.</span>
+      <span class="streakBannerCopy"><span class="streakBannerLabel">Your rhythm</span><span class="streakBannerText"><b>2 day streak.</b> Keep your rhythm, Michael.</span></span>
     </button>
 
     <div class="thoughtCard">
